@@ -345,6 +345,9 @@
     <Folder Include="AI\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Downloads\Nez-master\Nez.Portable\Nez.MG38.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="Steamworks.NET">
       <HintPath>..\..\..\..\Downloads\steam net Windows-x64\Steamworks.NET.dll</HintPath>
     </Reference>
