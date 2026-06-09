@@ -8,6 +8,7 @@ using ComfyJamSummer.Data;
 using ComfyJamSummer.Data.Jsons;
 using ComfyJamSummer.Entities;
 using ComfyJamSummer.Entities.Base;
+using ComfyJamSummer.Entities.Configs;
 using ComfyJamSummer.Entities.Debuffs;
 using ComfyJamSummer.Entities.TextureData;
 using ComfyJamSummer.Enums;
@@ -29,12 +30,23 @@ namespace ComfyJamSummer.Prefab
         {
             _mapper = AutoMapperConfig.RegisterMappings();
         }
-        public LogoData LogoData { get { return _dataLogo; } }
+
         #region data
+        public LogoData LogoData { get { return _dataLogo; } }
+
+        public PlayerData PlayerData { get { return _dataPlayer; } }
+
+        public PlayerConfig PlayerConfig => _playerConfig;
+
+        public EnemyConfig EnemyConfig => _enemyConfig;
+
         LogoData _dataLogo;
         PlayerData _dataPlayer;
         MapData _dataMap;
         UIData _dataUI;
+
+        PlayerConfig _playerConfig;
+        EnemyConfig _enemyConfig;
         #endregion
 
         #region objects
@@ -79,6 +91,9 @@ namespace ComfyJamSummer.Prefab
             _dataLogo = new LogoData(this, _mapper);
             _dataPlayer = new PlayerData(this, _mapper);
             _dataMap = new MapData(this, _mapper);
+
+            _playerConfig = new PlayerConfig();
+            _enemyConfig = new EnemyConfig();
         }
 
         private void CreateGameTexts()
@@ -105,12 +120,35 @@ namespace ComfyJamSummer.Prefab
 
         void CreateUIContent()
         {
-            _uiTextures = _dataUI.CreateAll();
+            _uiTextures = _dataUI?.CreateAll();
         }
 
         void CreateGeneral()
         {
             Achievements = new List<Achievement>();
+        }
+
+        public Player GetPlayer(Vector2 pos)
+        {
+            return Player?.ClonePlayer(_dataPlayer.InitializePlayer(pos));
+        }
+
+        public DebuffIcon GetDebuffIcon(Debuff debuff, Vector2 offset)
+        {
+            try
+            {
+                var selected = DebuffsIcons.FirstOrDefault(x => x.Type == debuff.Type);
+
+                if (selected != null)
+                {
+                    return selected.Clonar(debuff.Duration, offset);
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+
+            return null;
         }
 
         #region sound and music stuff
@@ -384,24 +422,8 @@ namespace ComfyJamSummer.Prefab
         }
         #endregion
 
-        public DebuffIcon GetDebuffIcon(Debuff debuff, Vector2 offset)
-        {
-            try
-            {
-                var selected = DebuffsIcons.FirstOrDefault(x => x.Type == debuff.Type);
 
-                if (selected != null)
-                {
-                    return selected.Clonar(debuff.Duration, offset);
-                }
-            }
-            catch (Exception ex)
-            {
-            }
-
-            return null;
-        }
-
+        #region texts and ui stuff
         public Texture2D GetUITexture(Enum spriteName)
         {
             var originalTexture = _uiTextures.FirstOrDefault(x => x.Name.ToLower() == spriteName.ToString().ToLower());
@@ -496,6 +518,7 @@ namespace ComfyJamSummer.Prefab
             }
 
             return result;
-        }
+        } 
+        #endregion
     }
 }

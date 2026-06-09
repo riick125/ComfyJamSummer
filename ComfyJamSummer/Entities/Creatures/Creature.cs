@@ -20,8 +20,6 @@ namespace ComfyJamSummer.Entities.Creatures
 
         public float PreviousHP { get; set; }
 
-        public float Speed { get; set; }
-
         public float Damage { get; set; }
 
         public float TimeLeftToNextAtk { get; set; }
@@ -35,8 +33,13 @@ namespace ComfyJamSummer.Entities.Creatures
         public Creature CloneCreature(Config config)
         {
             var clone = base.CloneAnimated(config.Position) as Creature;
+            clone.ActualHP = config.HP;
+            clone.MaxHP = config.HP;
+            clone.Damage = config.Damage;
+            clone.Speed = config.Speed;
+            clone.AtkSpeed = config.AtkSpeed;
             clone.DebuffsToGive = new List<Debuff>();
-            clone.AddComponent(new SimpleFlash(Game1.FlashMaterial, clone.Animator));
+            clone.AddComponent(new SimpleFlash(Game1.FlashMaterial, clone.Animator == null ? clone.Renderer : clone.Animator));
 
             return clone;
         }

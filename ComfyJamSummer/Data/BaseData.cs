@@ -127,7 +127,7 @@ namespace ComfyJamSummer.Data
 
                 var fileDirectory = $"{rootFolder}{textureData.ScreenName}/{textureData.Name}";
 
-                if (!FileExists(fileDirectory))
+                if (!FileExistsXnb(fileDirectory))
                     continue;
 
                 if (string.IsNullOrEmpty(textureData.Name))
@@ -161,9 +161,16 @@ namespace ComfyJamSummer.Data
             return File.Exists(realDir);
         }
 
+        protected bool FileExistsXnb(string directory, string extension = ".xnb")
+        {
+            var realDir = Path.Combine(Core.Content.RootDirectory, $"{directory}{extension}").Replace("/", "\\");
+
+            return File.Exists(realDir);
+        }
+
         protected bool FileExists(string directory)
         {
-            var realDir = Path.Combine(Core.Content.RootDirectory, $"{directory}.xnb").Replace("/", "\\");
+            var realDir = Path.Combine(directory.Contains("Content", StringComparison.InvariantCultureIgnoreCase) ? "" : Core.Content.RootDirectory, $"{directory}").Replace("/", "\\");
 
             return File.Exists(realDir);
         }
@@ -230,7 +237,7 @@ namespace ComfyJamSummer.Data
         {
             var textureData = Pool<CustomTextureData>.Obtain();
 
-            if (FileExists(dir))
+            if (FileExistsXnb(dir))
             {
                 var texture = Core.Content.LoadTexture(dir);
 

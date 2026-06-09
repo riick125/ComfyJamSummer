@@ -24,6 +24,12 @@ namespace ComfyJamSummer
         public const int GAME_WIDTH = 320;
         public const int GAME_HEIGHT = 180;
 
+        public const float MIN_GAME_ZOOM = 1.15f;
+
+        public const float GameZoom = 2;
+
+        public const float GameMaxZoom = 3;
+
         public static int SCREEN_SIZE_MULTIPLIER = 4;
 
         public static readonly Microsoft.Xna.Framework.Color BG_COLOR_LOGO = new Microsoft.Xna.Framework.Color(4, 16, 2);

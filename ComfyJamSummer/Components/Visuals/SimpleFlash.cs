@@ -13,7 +13,7 @@ namespace ComfyJamSummer.Components.Visuals
         private CoroutineManager _coroutineManager;
 
         // The SpriteRenderer that should flash.
-        private SpriteAnimator _spriteAnimator;
+        private SpriteRenderer _spriteAnimator;
 
         // The material that was in use, when the script started.
         private Material _originalMaterial;
@@ -21,7 +21,7 @@ namespace ComfyJamSummer.Components.Visuals
         #region Methods
 
         #region Unity Callbacks
-        public SimpleFlash(Material flashMaterial, SpriteAnimator spriteAnimator)
+        public SimpleFlash(Material flashMaterial, SpriteRenderer spriteRenderer)
         {
             _coroutineManager = new CoroutineManager();
 
@@ -29,11 +29,11 @@ namespace ComfyJamSummer.Components.Visuals
 
             // Get the SpriteRenderer to be used,
             // alternatively you could set it from the inspector.
-            _spriteAnimator = spriteAnimator;
+            _spriteAnimator = spriteRenderer;
 
             // Get the material that the SpriteRenderer uses, 
             // so we can switch back to it after the flash ended.
-            _originalMaterial = spriteAnimator.Material;
+            _originalMaterial = spriteRenderer.Material;
         }
 
         #endregion

@@ -8,7 +8,9 @@ namespace ComfyJamSummer.Helpers
         {
             if (Game1.SaveGameComponent != null)
             {
-                return Game1.SaveGameComponent.LoadLocalSave();
+                Game1.SaveData = Game1.SaveGameComponent.LoadLocalSave();
+
+                return Game1.SaveData;
             }
 
             return null;

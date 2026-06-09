@@ -20,6 +20,10 @@ namespace ComfyJamSummer.Components.General
         {
             base.Update();
 
+#if DEBUG
+            return;
+#endif
+
             var gameManager = UtilHelper.GameManager();
 
             if (gameManager != null && Core.Scene != null && Core.Scene is InGameScene)

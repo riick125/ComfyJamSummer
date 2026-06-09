@@ -1,11 +1,18 @@
 ﻿using ComfyJamSummer.Components.Extensions;
 using ComfyJamSummer.CustomPostProcessors;
+using ComfyJamSummer.Entities;
+using ComfyJamSummer.Helpers;
 using ComfyJamSummer.Scenes.Base;
+using Nez;
 
 namespace ComfyJamSummer.Scenes
 {
     public class InGameScene : CustomScene
     {
+        Island _island;
+
+        Player _player;
+
         private SaturationPostProcessor _saturationPostProcessor;
 
         public SaturationPostProcessor SaturationPostProcessor { get => _saturationPostProcessor; set => _saturationPostProcessor = value; }
@@ -18,6 +25,28 @@ namespace ComfyJamSummer.Scenes
             AddPostProcessor(_saturationPostProcessor);
 
             AddSceneComponent(new BesideTextRegistry());
+        }
+
+        public override void Begin()
+        {
+            base.Begin();
+
+            _island = _prefabs.Island.CloneIsland(Screen.Center);
+
+            if (_island != null)
+            {
+                AddEntity(_island);
+
+                Camera.SetPosition(_island.CenterPosition());
+
+                //Camera.SetMaximumZoom(Game1.GameMaxZoom);
+                //Camera.SetMinimumZoom(Game1.GameZoom);
+                Camera.SetZoom(Game1.GameZoom);
+
+                _player = AddEntity(_prefabs.GetPlayer(_island.CenterPosition()));
+
+                Camera.AddComponent(new FollowCamera(_player, Camera));
+            }
         }
     }
 }

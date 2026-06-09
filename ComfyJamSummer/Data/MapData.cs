@@ -15,10 +15,14 @@ namespace ComfyJamSummer.Data
         {
             var island = new Island();
 
-            var dir = _rootDir + "island.tmx";
+            var folder = "tmx/";
 
-            if (FileExists(dir))
+            var fileName = "island.tmx";
+
+            if (FileExists(folder + fileName))
             {
+                var dir = _rootDir + fileName;
+
                 island.TmxDirectory = dir;
 
                 var tmxMap = Core.Content.LoadTiledMap(dir);

@@ -74,6 +74,7 @@ namespace ComfyJamSummer.Save
             Fps = 120;
             MusicActualVolumePercentage = 0.5f;
             SoundFxActualVolumePercentage = 0.5f;
+            ChosenResolution = GameResolution._1600x900;
 #endif
         }
 

@@ -3,6 +3,7 @@ using ComfyJamSummer.Configs;
 using ComfyJamSummer.Helpers;
 using ComfyJamSummer.Manager;
 using ComfyJamSummer.Prefab;
+using ComfyJamSummer.Save;
 using ComfyJamSummer.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,6 +13,10 @@ namespace ComfyJamSummer.Scenes.Base
 {
     public class BaseScene : Scene, IFinalRenderDelegate
     {
+        protected GameManager _gameManager;
+
+        protected Prefabs _prefabs;
+
         ScreenSpaceRenderer _screenSpaceRenderer;
         int width = 1280, height = 720;
 
@@ -28,7 +33,7 @@ namespace ComfyJamSummer.Scenes.Base
 
             if (Game1.SaveData == null)
             {
-                SaveHelper.GetLocalSaveData();
+                SaveHelper.SaveGame(new SaveData());
 
                 SetDesignResolution(width, height, SceneResolutionPolicy.ShowAllPixelPerfect);
 
@@ -43,14 +48,14 @@ namespace ComfyJamSummer.Scenes.Base
 
             Game1.CursorInsideGame = AddSceneComponent(new CursorInsideGame(width, height));
 
-            var prefabs = AddSceneComponent(new Prefabs());
-            prefabs.FastLoad();
+            _prefabs = AddSceneComponent(new Prefabs());
+            _prefabs.FastLoad();
 
-            var gameManager = AddSceneComponent(new GameManager());
+            _gameManager = AddSceneComponent(new GameManager());
 
             AddSceneComponent(new CustomFont(new CustomFontConfig()));
 
-            CreateEntity(UINames.DEBUG).AddComponent(new DebugUI(gameManager, prefabs));
+            CreateEntity(UINames.DEBUG).AddComponent(new DebugUI(_gameManager, _prefabs));
         }
 
         private Scene _scene;

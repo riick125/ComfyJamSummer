@@ -90,6 +90,9 @@
     <None Remove="Content\nez\textures\textureWipeTransition\sawTooth.xnb" />
     <None Remove="Content\nez\textures\textureWipeTransition\spiral.xnb" />
     <None Remove="Content\nez\textures\textureWipeTransition\wink.xnb" />
+    <None Remove="Content\tmx\island.tmx" />
+    <None Remove="Content\tmx\island.tsx" />
+    <None Remove="Content\tmx\tiles.png" />
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
   </ItemGroup>
@@ -326,6 +329,15 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\nez\textures\textureWipeTransition\wink.xnb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\tmx\island.tmx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\tmx\island.tsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\tmx\tiles.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

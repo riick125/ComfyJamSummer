@@ -54,6 +54,7 @@ namespace ComfyJamSummer.Helpers
             {
                 var width = 0;
                 var height = 0;
+                splitResolution[0] = splitResolution[0].Replace("_", string.Empty);
 
                 if (int.TryParse(splitResolution[0], out width) && int.TryParse(splitResolution[1], out height))
                 {
@@ -68,6 +69,8 @@ namespace ComfyJamSummer.Helpers
                     if (Screen.Width != width || Screen.Height != height)
                     {
                         Screen.SetSize(width, height);
+
+                        scene.Camera.SetZoom(Game1.GameZoom);
 
                         Screen.ApplyChanges();
                     }
@@ -92,23 +95,18 @@ namespace ComfyJamSummer.Helpers
 
         public static void SetGameZoomByResolution()
         {
+            Game1.SetGameZoom(Constants.MIN_GAME_ZOOM);
+
             switch (Game1.SaveData.ChosenResolution)
             {
                 case GameResolution._1280x720:
-                    Game1.GameZoom = 1.15f;
-                    Game1.GameMaxZoom = 3f;
-                    break;
                 case GameResolution._1366x768:
-                    Game1.GameZoom = 1.15f;
-                    Game1.GameMaxZoom = 3f;
+                    Game1.SetGameMaxZoom(3f);
                     break;
+
                 case GameResolution._1600x900:
-                    Game1.GameZoom = 1.15f;
-                    Game1.GameMaxZoom = 4f;
-                    break;
                 case GameResolution._1920x1080:
-                    Game1.GameZoom = 1.15f;
-                    Game1.GameMaxZoom = 4f;
+                    Game1.SetGameMaxZoom(4f);
                     break;
             }
         }

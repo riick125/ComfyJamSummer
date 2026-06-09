@@ -4,8 +4,10 @@ using System.IO;
 using ComfyJamSummer.Components.Extensions;
 using ComfyJamSummer.Components.General;
 using ComfyJamSummer.Enums;
+using ComfyJamSummer.Helpers;
 using ComfyJamSummer.Manager;
 using ComfyJamSummer.Save;
+using ComfyJamSummer.Scenes;
 using ComfyJamSummer.Scenes.Base;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,7 +18,7 @@ namespace ComfyJamSummer
 {
     public class Game1 : Core
     {
-        public const int ScreenSpaceRenderLayer = 999;
+        public const int ScreenSpaceRenderLayer = -999;
 
         public static CustomScene CustomScene;
         public static SteamManager SteamManager;
@@ -36,9 +38,39 @@ namespace ComfyJamSummer
 
         public static GameResolution ChosenResolution;
 
-        public static float GameZoom = 2;
+        static float _minGameZoom = Constants.MIN_GAME_ZOOM;
 
-        public static float GameMaxZoom = 3;
+        static float _gameZoom = 2;
+
+        static float _gameMaxZoom = 3;
+
+        public static float GameZoom { get; private set; }
+        public static float GameMaxZoom { get; private set; }
+
+        public static void SetGameZoom(float value)
+        {
+            if (value < _minGameZoom)
+            {
+                return;
+            }
+
+            if (GameMaxZoom != 0 && value >= GameMaxZoom)
+            {
+                return;
+            }
+
+            GameZoom = value;
+        }
+
+        public static void SetGameMaxZoom(float value)
+        {
+            if (value <= GameZoom)
+            {
+                return;
+            }
+
+            GameMaxZoom = value;
+        }
 
         private uint _fps = 60;
         private Stopwatch stopwatch;
@@ -48,6 +80,8 @@ namespace ComfyJamSummer
         {
             try
             {
+                SaveGameComponent = new SaveGameComponent();
+
                 CreateDefaultProperties(chosenResolution, width, height, fps, isFullScreen);
             }
             catch (Exception ex)
@@ -71,9 +105,11 @@ namespace ComfyJamSummer
 
                 LoadEffect();
 
+                SaveHelper.GetLocalSaveData();
+
                 //DebugRenderEnabled = true;
 
-                Core.Scene = new BaseScene();
+                Core.Scene = new InGameScene();
             }
             catch (Exception ex)
             {
