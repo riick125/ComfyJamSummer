@@ -1,0 +1,36 @@
+﻿using System;
+using Nez.Textures;
+
+namespace ComfyJamSummer.UI.Animations.Base
+{
+    public class SpriteUIAtlas : IDisposable
+    {
+        public string[] Names;
+        public Sprite[] Sprites;
+
+        public string[] AnimationNames;
+        public SpriteUIAnimation[] SpriteAnimations;
+
+        public Sprite GetSprite(string name)
+        {
+            var index = Array.IndexOf(Names, name);
+            return Sprites[index];
+        }
+
+        public SpriteUIAnimation GetAnimation(string name)
+        {
+            var index = Array.IndexOf(AnimationNames, name);
+            return SpriteAnimations[index];
+        }
+
+        void IDisposable.Dispose()
+        {
+            // all our Sprites use the same Texture so we only need to dispose one of them
+            if (Sprites != null)
+            {
+                Sprites[0].Texture2D.Dispose();
+                Sprites = null;
+            }
+        }
+    }
+}

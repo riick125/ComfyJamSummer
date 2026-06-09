@@ -1,0 +1,367 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+	  <TargetFramework>net8.0-windows10.0.17763.0</TargetFramework>
+    <RollForward>Major</RollForward>
+    <PublishReadyToRun>false</PublishReadyToRun>
+    <TieredCompilation>false</TieredCompilation>
+	  <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+	<ItemGroup>
+    <None Remove="Content\bit_rick_idle.xnb" />
+    <None Remove="Content\effects\IncreaseSaturationEffect.mgfxo" />
+    <None Remove="Content\Fonts\big\nice_font_big.fnt" />
+    <None Remove="Content\Fonts\big\nice_font_big_0.png" />
+    <None Remove="Content\Fonts\big\nice_font_big_1.png" />
+    <None Remove="Content\Fonts\big\nice_font_big_2.png" />
+    <None Remove="Content\Fonts\big\nice_font_big_3.png" />
+    <None Remove="Content\Fonts\big\nice_font_big_4.png" />
+    <None Remove="Content\Fonts\big\nice_font_big_5.png" />
+    <None Remove="Content\Fonts\giant\nice_font_giant.fnt" />
+    <None Remove="Content\Fonts\giant\nice_font_giant_00.png" />
+    <None Remove="Content\Fonts\giant\nice_font_giant_01.png" />
+    <None Remove="Content\Fonts\giant\nice_font_giant_02.png" />
+    <None Remove="Content\Fonts\giant\nice_font_giant_03.png" />
+    <None Remove="Content\Fonts\giant\nice_font_giant_04.png" />
+    <None Remove="Content\Fonts\giant\nice_font_giant_05.png" />
+    <None Remove="Content\Fonts\giant\nice_font_giant_06.png" />
+    <None Remove="Content\Fonts\giant\nice_font_giant_07.png" />
+    <None Remove="Content\Fonts\giant\nice_font_giant_08.png" />
+    <None Remove="Content\Fonts\giant\nice_font_giant_09.png" />
+    <None Remove="Content\Fonts\giant\nice_font_giant_10.png" />
+    <None Remove="Content\Fonts\giant\nice_font_giant_11.png" />
+    <None Remove="Content\Fonts\giant\nice_font_giant_12.png" />
+    <None Remove="Content\Fonts\giant\nice_font_giant_13.png" />
+    <None Remove="Content\Fonts\in_game\nice_font_in_game.fnt" />
+    <None Remove="Content\Fonts\in_game\nice_font_in_game_0.png" />
+    <None Remove="Content\Fonts\in_game\nice_font_in_game_1.png" />
+    <None Remove="Content\Fonts\normal\nice_font.fnt" />
+    <None Remove="Content\Fonts\normal\nice_font_0.png" />
+    <None Remove="Content\Fonts\normal\nice_font_1.png" />
+    <None Remove="Content\Fonts\normal\nice_font_2.png" />
+    <None Remove="Content\Fonts\smallest\nice_font_smallest.fnt" />
+    <None Remove="Content\Fonts\smallest\nice_font_smallest_0.png" />
+    <None Remove="Content\Fonts\smallest\nice_font_smallest_2.fnt" />
+    <None Remove="Content\Fonts\smallest\nice_font_smallest_2_0.png" />
+    <None Remove="Content\Fonts\small\nice_font_small.fnt" />
+    <None Remove="Content\Fonts\small\nice_font_small_0.png" />
+    <None Remove="Content\nez\effects\Bevels.mgfxo" />
+    <None Remove="Content\nez\effects\BloomCombine.mgfxo" />
+    <None Remove="Content\nez\effects\BloomExtract.mgfxo" />
+    <None Remove="Content\nez\effects\Crosshatch.mgfxo" />
+    <None Remove="Content\nez\effects\DeferredLighting.mgfxo" />
+    <None Remove="Content\nez\effects\DeferredSprite.mgfxo" />
+    <None Remove="Content\nez\effects\Dissolve.mgfxo" />
+    <None Remove="Content\nez\effects\Dots.mgfxo" />
+    <None Remove="Content\nez\effects\ForwardLighting.mgfxo" />
+    <None Remove="Content\nez\effects\GaussianBlur.mgfxo" />
+    <None Remove="Content\nez\effects\Grayscale.mgfxo" />
+    <None Remove="Content\nez\effects\HeatDistortion.mgfxo" />
+    <None Remove="Content\nez\effects\Invert.mgfxo" />
+    <None Remove="Content\nez\effects\Letterbox.mgfxo" />
+    <None Remove="Content\nez\effects\MultiTexture.mgfxo" />
+    <None Remove="Content\nez\effects\MultiTextureOverlay.mgfxo" />
+    <None Remove="Content\nez\effects\Noise.mgfxo" />
+    <None Remove="Content\nez\effects\PaletteCycler.mgfxo" />
+    <None Remove="Content\nez\effects\PixelGlitch.mgfxo" />
+    <None Remove="Content\nez\effects\PolygonLight.mgfxo" />
+    <None Remove="Content\nez\effects\Reflection.mgfxo" />
+    <None Remove="Content\nez\effects\Scanlines.mgfxo" />
+    <None Remove="Content\nez\effects\Sepia.mgfxo" />
+    <None Remove="Content\nez\effects\SpriteAlphaTest.mgfxo" />
+    <None Remove="Content\nez\effects\SpriteBlinkEffect.mgfxo" />
+    <None Remove="Content\nez\effects\SpriteEffect.mgfxo" />
+    <None Remove="Content\nez\effects\SpriteLightMultiply.mgfxo" />
+    <None Remove="Content\nez\effects\SpriteLines.mgfxo" />
+    <None Remove="Content\nez\effects\StencilLight.mgfxo" />
+    <None Remove="Content\nez\effects\Twist.mgfxo" />
+    <None Remove="Content\nez\effects\Vignette.mgfxo" />
+    <None Remove="Content\nez\textures\heatDistortionNoise.xnb" />
+    <None Remove="Content\nez\textures\textureWipeTransition\angular.xnb" />
+    <None Remove="Content\nez\textures\textureWipeTransition\crissCross.xnb" />
+    <None Remove="Content\nez\textures\textureWipeTransition\diagonalDistort.xnb" />
+    <None Remove="Content\nez\textures\textureWipeTransition\horizontal.xnb" />
+    <None Remove="Content\nez\textures\textureWipeTransition\noise.xnb" />
+    <None Remove="Content\nez\textures\textureWipeTransition\pokemon.xnb" />
+    <None Remove="Content\nez\textures\textureWipeTransition\sawTooth.xnb" />
+    <None Remove="Content\nez\textures\textureWipeTransition\spiral.xnb" />
+    <None Remove="Content\nez\textures\textureWipeTransition\wink.xnb" />
+    <None Remove="Icon.ico" />
+    <None Remove="Icon.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bit_rick_idle.xnb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\effects\IncreaseSaturationEffect.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\big\nice_font_big.fnt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\big\nice_font_big_0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\big\nice_font_big_1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\big\nice_font_big_2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\big\nice_font_big_3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\big\nice_font_big_4.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\big\nice_font_big_5.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\giant\nice_font_giant.fnt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\giant\nice_font_giant_00.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\giant\nice_font_giant_01.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\giant\nice_font_giant_02.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\giant\nice_font_giant_03.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\giant\nice_font_giant_04.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\giant\nice_font_giant_05.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\giant\nice_font_giant_06.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\giant\nice_font_giant_07.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\giant\nice_font_giant_08.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\giant\nice_font_giant_09.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\giant\nice_font_giant_10.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\giant\nice_font_giant_11.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\giant\nice_font_giant_12.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\giant\nice_font_giant_13.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\in_game\nice_font_in_game.fnt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\in_game\nice_font_in_game_0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\in_game\nice_font_in_game_1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\normal\nice_font.fnt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\normal\nice_font_0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\normal\nice_font_1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\normal\nice_font_2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\smallest\nice_font_smallest.fnt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\smallest\nice_font_smallest_0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\tiny\nice_font_tiny.fnt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\tiny\nice_font_tiny_0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\small\nice_font_small.fnt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Fonts\small\nice_font_small_0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\Bevels.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\BloomCombine.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\BloomExtract.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\Crosshatch.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\DeferredLighting.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\DeferredSprite.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\Dissolve.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\Dots.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\ForwardLighting.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\GaussianBlur.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\Grayscale.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\HeatDistortion.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\Invert.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\Letterbox.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\MultiTexture.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\MultiTextureOverlay.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\Noise.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\PaletteCycler.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\PixelGlitch.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\PolygonLight.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\Reflection.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\Scanlines.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\Sepia.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\SpriteAlphaTest.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\SpriteBlinkEffect.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\SpriteEffect.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\SpriteLightMultiply.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\SpriteLines.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\StencilLight.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\Twist.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\effects\Vignette.mgfxo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\textures\heatDistortionNoise.xnb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\textures\textureWipeTransition\angular.xnb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\textures\textureWipeTransition\crissCross.xnb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\textures\textureWipeTransition\diagonalDistort.xnb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\textures\textureWipeTransition\horizontal.xnb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\textures\textureWipeTransition\noise.xnb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\textures\textureWipeTransition\pokemon.xnb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\textures\textureWipeTransition\sawTooth.xnb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\textures\textureWipeTransition\spiral.xnb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nez\textures\textureWipeTransition\wink.xnb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Icon.ico" />
+    <EmbeddedResource Include="Icon.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="16.1.1" />
+    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
+    <PackageReference Include="MonoGame.Extended.Content.Pipeline" Version="4.0.0" />
+    <PackageReference Include="MonoGame.Framework.Content.Pipeline" Version="3.8.0.1641" />
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AI\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Steamworks.NET">
+      <HintPath>..\..\..\..\Downloads\steam net Windows-x64\Steamworks.NET.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Content\MonoGame.Extended.Content.Pipeline.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Content\MonoGame.Extended.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="steam_api64.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
+    <Message Text="Restoring dotnet tools" Importance="High" />
+    <Exec Command="dotnet tool restore" />
+  </Target>
+</Project>

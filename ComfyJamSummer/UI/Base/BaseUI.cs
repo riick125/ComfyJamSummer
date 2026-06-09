@@ -1,0 +1,45 @@
+﻿using ComfyJamSummer.Helpers;
+using ComfyJamSummer.Manager;
+using ComfyJamSummer.Prefab;
+using Nez;
+using Nez.UI;
+
+namespace ComfyJamSummer.UI.Base
+{
+    public class BaseUI : UICanvas
+    {
+        protected LabelStyle _lblStyleSmall, _lblStyleNormal,
+            lblStyleBig, _lblStyleGiant;
+
+        protected Container _container;
+
+        protected Prefabs _prefabs;
+
+        protected GameManager _manager;
+
+        public BaseUI(GameManager manager, Prefabs prefabs)
+        {
+            IsFullScreen = true;
+            RenderLayer = Game1.ScreenSpaceRenderLayer;
+
+            var customFont = UtilHelper.CustomFont();
+
+            _container = Stage.AddElement(new Container() { FillParent = true });
+
+            _prefabs = prefabs;
+
+            _manager = manager;
+
+            if (customFont != null)
+            {
+                _lblStyleSmall = new LabelStyle(customFont.FontSmall, Constants.SPRITE_COLOR);
+
+                _lblStyleNormal = new LabelStyle(customFont.FontNormal, Constants.SPRITE_COLOR);
+
+                lblStyleBig = new LabelStyle(customFont.FontBig, Constants.SPRITE_COLOR);
+
+                _lblStyleGiant = new LabelStyle(customFont.FontGiant, Constants.SPRITE_COLOR);
+            }
+        }
+    }
+}
