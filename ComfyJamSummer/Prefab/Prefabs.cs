@@ -24,7 +24,7 @@ namespace ComfyJamSummer.Prefab
 {
     public class Prefabs : SceneComponent
     {
-        private readonly IMapper _mapper;
+        readonly IMapper _mapper;
 
         public Prefabs()
         {
@@ -42,6 +42,7 @@ namespace ComfyJamSummer.Prefab
 
         LogoData _dataLogo;
         PlayerData _dataPlayer;
+        EnemyData _dataEnemy;
         MapData _dataMap;
         UIData _dataUI;
 
@@ -52,13 +53,16 @@ namespace ComfyJamSummer.Prefab
         #region objects
         public List<GameTextJsonXnbData<GameTextJsonData>> GameTextJsonData;
         GameTextJsonXnbData<GameTextJsonData> _uiGameTextJsonData;
-        private Player Player;
+        Player Player;
+        Gun Gun;
         public Bullet Bullet;
         public Island Island;
+        Enemy Enemy;
+        Bullet BulletEnemy;
         public Shadow Shadow;
-        private List<DebuffIcon> DebuffsIcons;
-        private List<CustomTextureData> _uiTextures;
-        private List<CustomTextureData> UITextures;
+        List<DebuffIcon> DebuffsIcons;
+        List<CustomTextureData> _uiTextures;
+        List<CustomTextureData> UITextures;
 
         public List<Achievement> Achievements;
         #endregion
@@ -90,13 +94,14 @@ namespace ComfyJamSummer.Prefab
         {
             _dataLogo = new LogoData(this, _mapper);
             _dataPlayer = new PlayerData(this, _mapper);
+            _dataEnemy = new EnemyData(this, _mapper);
             _dataMap = new MapData(this, _mapper);
 
             _playerConfig = new PlayerConfig();
             _enemyConfig = new EnemyConfig();
         }
 
-        private void CreateGameTexts()
+        void CreateGameTexts()
         {
             //GameTextJsonData = _textData.CreateAllTexts();
 
@@ -106,11 +111,15 @@ namespace ComfyJamSummer.Prefab
         void CreatePlayer()
         {
             Player = _dataPlayer.Create();
+            Gun = _dataPlayer.CreateGun();
+            Bullet = _dataPlayer.CreateBullet();
             Shadow = new Shadow();
         }
 
         void CreateEnemies()
         {
+            Enemy = _dataEnemy.Create();
+            BulletEnemy = _dataEnemy.CreateBullet();
         }
 
         void CreateMap()
@@ -130,7 +139,28 @@ namespace ComfyJamSummer.Prefab
 
         public Player GetPlayer(Vector2 pos)
         {
-            return Player?.ClonePlayer(_dataPlayer.InitializePlayer(pos));
+            if (Gun == null)
+            {
+                return null;
+            }
+
+            var player = Player?.ClonePlayer(_dataPlayer.InitializePlayer(pos));
+
+            if (player != null)
+            {
+                var gun = Gun.CloneGun(player, player.Position);
+
+                player.Gun = gun;
+            }
+
+            return player;
+        }
+
+        public Enemy GetEnemy(EnemyType type, Vector2 pos)
+        {
+            var player = Enemy?.CloneEnemy(_dataEnemy.InitializeEnemy(type, pos));
+
+            return player;
         }
 
         public DebuffIcon GetDebuffIcon(Debuff debuff, Vector2 offset)

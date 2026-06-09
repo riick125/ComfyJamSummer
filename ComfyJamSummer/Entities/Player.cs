@@ -7,6 +7,8 @@ namespace ComfyJamSummer.Entities
 {
     public class Player : Creature
     {
+        public Gun Gun { get; set; }
+
         public Player ClonePlayer(PlayerConfig config)
         {
             var clone = base.CloneCreature(config) as Player;
@@ -14,6 +16,16 @@ namespace ComfyJamSummer.Entities
             clone.AddComponent(new PlayerController(UtilHelper.GameManager(), UtilHelper.Prefabs()));
 
             return clone;
+        }
+
+        public override void OnAddedToScene()
+        {
+            base.OnAddedToScene();
+
+            if (Gun != null && Gun.Scene == null)
+            {
+                this.Scene.AddEntity(Gun);
+            }
         }
     }
 }

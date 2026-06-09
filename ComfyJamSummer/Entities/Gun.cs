@@ -1,6 +1,8 @@
-﻿using ComfyJamSummer.Components.Visuals;
+﻿using ComfyJamSummer.Components.Gameplay;
+using ComfyJamSummer.Components.Visuals;
 using ComfyJamSummer.Entities.Base;
 using ComfyJamSummer.Entities.Creatures;
+using ComfyJamSummer.Helpers;
 using Microsoft.Xna.Framework;
 
 namespace ComfyJamSummer.Entities
@@ -45,9 +47,11 @@ namespace ComfyJamSummer.Entities
         {
             var clone = base.CloneAnimated(pos) as Gun;
             clone.Creature = creature;
-            clone.Offset = Offset;
+            clone.Offset = creature != null ? new Vector2(creature.SpriteWidth / 4, 0) : Vector2.Zero;
             clone.ActualAmmo = ActualAmmo;
             clone.ReloadTime = ReloadTime;
+            clone.ActualAngleSpread = ActualAngleSpread;
+            clone.MaxAngleSpread = MaxAngleSpread;
 
             clone.Damage = Damage;
 
@@ -60,7 +64,16 @@ namespace ComfyJamSummer.Entities
 
             clone.BulletSpeed = BulletSpeed;
 
-            clone.Animator.SetLocalOffset(new Vector2(0, SpriteHeight / 8));
+            clone.AddComponent(new GunController(UtilHelper.GameManager(), UtilHelper.Prefabs()));
+
+            if (clone.Animator != null)
+            {
+                clone.Animator.SetLocalOffset(new Vector2(0, SpriteHeight / 8));
+            }
+            else
+            {
+                clone.Renderer.SetLocalOffset(new Vector2(0, SpriteHeight / 8));
+            }
 
             clone.AddComponent(new LittleShake(clone.FireRate));
 

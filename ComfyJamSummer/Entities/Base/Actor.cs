@@ -7,7 +7,7 @@ namespace ComfyJamSummer.Entities.Base
 {
     public class Actor : Animated
     {
-        public Mover Mover { get { return this.GetComponent<Mover>(); } }
+        public RickMover Mover { get { return this.GetComponent<RickMover>(); } }
 
         public CircleCollider BodyCollider { get { return this.GetComponents<CircleCollider>().FirstOrDefault(x => x.Tag == CreatureCollider.Body.ToString()); } }
 

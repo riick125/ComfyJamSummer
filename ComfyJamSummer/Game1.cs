@@ -18,7 +18,7 @@ namespace ComfyJamSummer
 {
     public class Game1 : Core
     {
-        public const int ScreenSpaceRenderLayer = -999;
+        public const int ScreenSpaceRenderLayer = 999;
 
         public static CustomScene CustomScene;
         public static SteamManager SteamManager;

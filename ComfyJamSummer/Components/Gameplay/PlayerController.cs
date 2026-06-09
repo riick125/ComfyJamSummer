@@ -72,7 +72,9 @@ namespace ComfyJamSummer.Components.Gameplay
 
             if (DirectionHelper.ValidateVelocity(direction, vel))
             {
-                _player.Position += vel;
+                CollisionResult collisionResult;
+
+                _player.Mover.Move(vel, out collisionResult);
             }
         }
     }

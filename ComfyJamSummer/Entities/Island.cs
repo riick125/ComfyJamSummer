@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using ComfyJamSummer.Enums;
+using Microsoft.Xna.Framework;
+using MonoGame.Extended.Tiled;
 using Nez;
 
 namespace ComfyJamSummer.Entities
@@ -46,7 +48,22 @@ namespace ComfyJamSummer.Entities
 
             clone.RemoveComponent<TiledMapRenderer>();
 
-            clone.AddComponent(new TiledMapRenderer(clonedTiledMap, TiledLayerNames.WALLS) { RenderLayer = Constants.MAP_RENDER_LAYER });
+            var renderer = clone.AddComponent(new TiledMapRenderer(clonedTiledMap) { RenderLayer = Constants.MAP_RENDER_LAYER });
+
+            renderer.CollisionLayer = renderer.TiledMap?.TileLayers[TiledLayerNames.WALLS];
+
+            renderer.AddColliders();
+
+            var colliders = renderer.GetColliders();
+
+            if (colliders != null)
+            {
+                foreach (var item in colliders)
+                {
+                    item.CollidesWithLayers = (int)CollisionLayer.Player | (int)CollisionLayer.Enemy;
+                    item.PhysicsLayer = (int)CollisionLayer.Map;
+                }
+            }
 
             return clone;
         }

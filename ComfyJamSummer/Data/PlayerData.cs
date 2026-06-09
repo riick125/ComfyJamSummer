@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using ComfyJamSummer.Components.Gameplay;
 using ComfyJamSummer.Entities;
 using ComfyJamSummer.Entities.Configs;
 using ComfyJamSummer.Enums;
@@ -17,16 +16,9 @@ namespace ComfyJamSummer.Data
 
         public Player Create()
         {
-            var width = 16;
-            var height = 16;
+            var player = CreateDummyRenderer<Player>(width: 16, height: 16, Color.CornflowerBlue, Constants.CREATURE_RENDER_LAYER);
 
-            var player = new Player()
-            {
-                SpriteWidth = width,
-                SpriteHeight = height
-            };
-
-            var circleCollider = new CircleCollider(16)
+            var circleCollider = new CircleCollider(10)
             {
                 CollidesWithLayers = (int)CollisionLayer.Map | (int)CollisionLayer.Enemy,
                 PhysicsLayer = (int)CollisionLayer.Player
@@ -36,9 +28,35 @@ namespace ComfyJamSummer.Data
 
             player.AddMover();
 
-            CreateSingleColorSpriteRenderer(player, Color.CornflowerBlue, Constants.CREATURE_RENDER_LAYER);
-
             return player;
+        }
+
+        public Gun CreateGun()
+        {
+            var gun = CreateDummyRenderer<Gun>(width: 7, height: 7, Color.Gray, Constants.CREATURE_RENDER_LAYER - 1);
+
+            gun.Damage = 50;
+            gun.ReloadTime = 1.05f;
+            gun.BulletSpeed = 400;
+
+            gun.FireRate = 0.12f;
+            gun.ShootAnimationDuration = gun.FireRate;
+
+            gun.MagSize = 32;
+            gun.ActualAmmo = gun.MagSize;
+            gun.ActualAngleSpread = 5f;
+            gun.MaxAngleSpread = 10f;
+
+            return gun;
+        }
+
+        public Bullet CreateBullet()
+        {
+            var bullet = CreateDummyRenderer<Bullet>(width: 4, height: 4, Color.Yellow, Constants.CREATURE_RENDER_LAYER - 1);
+
+            bullet.LifeTime = 7f;
+
+            return bullet;
         }
 
         public PlayerConfig InitializePlayer(Vector2 pos)

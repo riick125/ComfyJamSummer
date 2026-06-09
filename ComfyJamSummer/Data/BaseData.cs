@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.Json;
-using AutoMapper;
+﻿using AutoMapper;
+using ComfyJamSummer.Entities;
 using ComfyJamSummer.Entities.Base;
 using ComfyJamSummer.Entities.TextureData;
 using ComfyJamSummer.Helpers;
@@ -16,6 +12,11 @@ using Microsoft.Xna.Framework.Graphics;
 using Nez;
 using Nez.Sprites;
 using Nez.Textures;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.Json;
 
 namespace ComfyJamSummer.Data
 {
@@ -251,6 +252,20 @@ namespace ComfyJamSummer.Data
         {
             var sprites = Sprite.SpritesFromAtlas(texture, width, height).ToArray();
             animator.AddAnimation(animation.ToString(), sprites);
+        }
+
+
+        protected T CreateDummyRenderer<T>(int width, int height, Color color, int renderLayer) where T : Animated, new()
+        {
+            var animated = new T()
+            {
+                SpriteWidth = width,
+                SpriteHeight = height
+            };
+
+            CreateSingleColorSpriteRenderer(animated, color, renderLayer);
+
+            return animated;
         }
     }
 }

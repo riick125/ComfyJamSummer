@@ -47,7 +47,7 @@ namespace ComfyJamSummer.UI
 
             if (Core.Scene != null && Core.Scene.Camera != null)
             {
-                this.Transform.SetPosition(Core.Scene.Camera.Position);
+                this.Entity.SetPosition(Core.Scene.Camera.Position);
             }
 
             if (Input.IsKeyPressed(Keys.F9))

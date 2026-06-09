@@ -19,6 +19,19 @@ namespace ComfyJamSummer
     {
     }
 
+    public static class StaticStuff
+    {
+        static int _uiLayer = -1;
+
+        public static int UILayer
+        {
+            get
+            {
+                return _uiLayer--;
+            }
+        }
+    }
+
     public class Constants
     {
         public const int GAME_WIDTH = 320;
@@ -49,6 +62,8 @@ namespace ComfyJamSummer
         public const string JSON_DATA_REAL_PATH = "jsons\\data\\";
 
         public const string PLAYER_DATA_PATH = "sprites/gameplay/player/";
+
+        public const string ENEMY_DATA_PATH = "sprites/gameplay/enemy/";
 
         public const string MAP_DATA_PATH = "Content/tmx/";
 

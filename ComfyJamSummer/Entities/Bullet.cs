@@ -3,6 +3,7 @@ using ComfyJamSummer.Enums;
 using ComfyJamSummer.Helpers;
 using Microsoft.Xna.Framework;
 using Nez;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ComfyJamSummer.Entities
@@ -21,16 +22,23 @@ namespace ComfyJamSummer.Entities
 
         public Vector2 Direction { get; set; }
 
-        public Bullet CloneBullet(Gun gun, OffensiveEffectCollisionEnum target, Vector2 direction, float rotation)
+        public List<uint> ObjectsHittedByBullet { get; set; }
+        public bool CreateImpactEffect { get; set; }
+
+        public Bullet CloneBullet(Gun gun, OffensiveEffectCollisionEnum target, Vector2 direction, float rotation, bool createImpactEffect = true)
         {
             var clone = base.CloneAnimated(gun.MuzzlePosition) as Bullet;
 
+            clone.ObjectsHittedByBullet = new List<uint>();
             clone.Target = target;
             clone.Speed = gun.BulletSpeed;
             clone.Damage = gun.Damage;
-            clone.LifeTime = 7f;
+            clone.LifeTime = LifeTime;
             clone.Rotation = rotation;
-            clone.Direction = direction;
+            clone.ObjectsHittedByBullet = new List<uint>();
+            clone.Direction = SpreadBullet(direction, gun.MaxAngleSpread);
+
+            clone.CreateImpactEffect = createImpactEffect;
 
             return clone;
         }
@@ -74,12 +82,19 @@ namespace ComfyJamSummer.Entities
 
                     var hits = new Collider[8];
 
-                    Physics.OverlapCircleAll(this.Position, 10, hits);
+                    Physics.OverlapCircleAll(this.Position, 5, hits);
 
                     hits = hits.Where(x => x != null && x.Entity != null && x.Entity.Id != Id).ToArray();
 
                     foreach (var hit in hits)
                     {
+                        if (ObjectsHittedByBullet.Contains(hit.Entity.Id))
+                        {
+                            continue;
+                        }
+
+                        ObjectsHittedByBullet.Add(hit.Entity.Id);
+
                         switch (hit.Entity)
                         {
                             case Player player:
@@ -103,6 +118,17 @@ namespace ComfyJamSummer.Entities
                     }
                 }
             }
+        }
+        Vector2 SpreadBullet(Vector2 dir, float maxAngle)
+        {
+            float spreadAngle = Random.Range(-maxAngle, maxAngle);
+
+            float rotateAngle = spreadAngle + Mathf.Atan2(dir.Y, dir.X) * Mathf.Rad2Deg;
+
+            var newDirection = new Vector2(Mathf.Cos(rotateAngle * Mathf.Deg2Rad), Mathf.Sin(rotateAngle * Mathf.Deg2Rad));
+            newDirection.Normalize();
+
+            return newDirection;
         }
     }
 }

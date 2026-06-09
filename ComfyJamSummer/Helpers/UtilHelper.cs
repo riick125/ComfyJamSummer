@@ -70,8 +70,6 @@ namespace ComfyJamSummer.Helpers
                     {
                         Screen.SetSize(width, height);
 
-                        scene.Camera.SetZoom(Game1.GameZoom);
-
                         Screen.ApplyChanges();
                     }
                 }

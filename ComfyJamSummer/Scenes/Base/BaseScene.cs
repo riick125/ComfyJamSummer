@@ -23,6 +23,12 @@ namespace ComfyJamSummer.Scenes.Base
         public BaseScene()
         {
             CreateWithDefaultRenderer();
+
+            _screenSpaceRenderer = new ScreenSpaceRenderer(100, Game1.ScreenSpaceRenderLayer);
+            _screenSpaceRenderer.ShouldDebugRender = false;
+            FinalRenderDelegate = this;
+
+            AddRenderer(new RenderLayerExcludeRenderer(0, Game1.ScreenSpaceRenderLayer));
         }
 
         public override void Initialize()
@@ -43,8 +49,6 @@ namespace ComfyJamSummer.Scenes.Base
             {
                 UtilHelper.SetResolution(this);
             }
-
-            Screen.ApplyChanges();
 
             Game1.CursorInsideGame = AddSceneComponent(new CursorInsideGame(width, height));
 

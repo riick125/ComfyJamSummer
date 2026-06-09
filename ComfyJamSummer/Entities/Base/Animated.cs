@@ -17,6 +17,11 @@ namespace ComfyJamSummer.Entities.Base
 
         public SpriteAnimator Animator { get { return this.GetComponent<SpriteAnimator>(); } }
 
+        public SpriteRenderer GetAnyRenderer()
+        {
+            return Animator != null ? Animator : Renderer;
+        }
+
         public UICanvas Canvas { get { return this.GetComponent<UICanvas>(); } }
 
         public CrazyScaleComponent CrazyScaleComponent { get { return this.GetComponent<CrazyScaleComponent>(); } }
@@ -66,6 +71,8 @@ namespace ComfyJamSummer.Entities.Base
         public Animated CloneAnimated(Vector2 pos)
         {
             var clone = base.Clone(pos) as Animated;
+            clone.SpriteWidth = SpriteWidth;
+            clone.SpriteHeight = SpriteHeight;
             clone.Alpha = 1f;
             clone.AlmostDisappearingAlpha = 0.05f;
             clone.Shadow = new Shadow();

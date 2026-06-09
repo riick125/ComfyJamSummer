@@ -38,8 +38,11 @@ namespace ComfyJamSummer.Components.Gameplay
                 return;
             }
 
-            var offsetX = _creature.Animator.FlipX ? _gun.Offset.X * -1 : _gun.Offset.X;
-            float circleRadius = _creature.Animator.FlipX ? -10 : 10;
+            var rendererCreature = _creature.GetAnyRenderer();
+            var rendererGun = _gun.GetAnyRenderer();
+
+            var offsetX = rendererCreature.FlipX ? _gun.Offset.X * -1 : _gun.Offset.X;
+            float circleRadius = rendererCreature.FlipX ? -10 : 10;
             float circleSpeed = 2.0f;
 
             var angle = (deltaTime * circleSpeed);
@@ -66,21 +69,58 @@ namespace ComfyJamSummer.Components.Gameplay
                 _gun.Position = new Vector2(_creature.Position.X + circleRadius, _creature.Position.Y) + new Vector2(0, _creature.SpriteHeight / 8);
 
                 _gun.RotationDegrees += _gunRotationSpeed * deltaTime;
+
+                Reload();
             }
 
-            if (_gun.Animator.CurrentAnimationName != GunAnim.Idle.ToString())
-            {
-                if (_gun.TimeLeftToEndShootAnimation > 0)
-                {
-                    _gun.TimeLeftToEndShootAnimation -= deltaTime;
-                }
-                else
-                {
-                    _gun.Animator.Play(GunAnim.Idle.ToString(), Nez.Sprites.SpriteAnimator.LoopMode.Loop);
-                }
-            }
+            //if (_gun.Animator.CurrentAnimationName != GunAnim.Idle.ToString())
+            //{
+            //    if (_gun.TimeLeftToEndShootAnimation > 0)
+            //    {
+            //        _gun.TimeLeftToEndShootAnimation -= deltaTime;
+            //    }
+            //    else
+            //    {
+            //        _gun.Animator.Play(GunAnim.Idle.ToString(), Nez.Sprites.SpriteAnimator.LoopMode.Loop);
+            //    }
+            //}
 
             ProcessShoot(direction, angle2);
+        }
+
+        void Reload()
+        {
+            var gun = this.Entity as Gun;
+
+            if (gun == null)
+            {
+                return;
+            }
+
+            var prefabs = gun.Prefabs;
+
+            if (prefabs == null)
+            {
+                return;
+            }
+
+            gun.TimeLeftToEndReload -= Time.DeltaTime;
+
+            if (gun.TimeLeftToEndReload <= 0)
+            {
+                //prefabs.StopSound(SoundFxName.Reloading);
+
+                gun.ActualAmmo += gun.MagSize;
+                gun.IsReloading = false;
+
+                gun.ActualAmmo = Math.Clamp(gun.ActualAmmo, 0, gun.MagSize);
+
+                // PlayerUI.Emitter?.Emit(UIEventEnums.UpdateAmmo, new UIEventData() { BitRick = _creature });
+            }
+            else if (gun.TimeLeftToEndReload <= (gun.ReloadTime / 2.4f))
+            {
+                //prefabs.FadeOutSound(SoundFxName.Reloading, 1.5f * Time.DeltaTime);
+            }
         }
 
         void SetPosition(Gun gun, float offsetX, Vector2 gunPosition, Vector2 aimPosition, float angle)
@@ -88,7 +128,7 @@ namespace ComfyJamSummer.Components.Gameplay
             gun.Position = gunPosition + new Vector2(offsetX, gun.Offset.Y);
             gun.Transform.Rotation = angle;
 
-            gun.Animator.FlipY = aimPosition.X < _creature.Position.X;
+            gun.GetAnyRenderer().FlipY = aimPosition.X < _creature.Position.X;
 
             if (_lastPos != gun.Position)
             {
@@ -98,7 +138,7 @@ namespace ComfyJamSummer.Components.Gameplay
 
         void StartReload()
         {
-            _prefabs.PlaySoundRandomPitch(SoundFxName.Reloading, 0.13f);
+            //_prefabs.PlaySoundRandomPitch(SoundFxName.Reloading, 0.13f);
             _gun.TimeLeftToEndReload = _gun.ReloadTime;
             _gun.IsReloading = true;
         }
@@ -111,7 +151,7 @@ namespace ComfyJamSummer.Components.Gameplay
             {
                 if (Input.LeftMouseButtonDown)
                 {
-                    if (!_gun.IsReloading && _creature.IsAlive)
+                    if (_gun.TimeLeftToNextShot <= 0 && !_gun.IsReloading && _creature.IsAlive)
                     {
                         if (_gun.ActualAmmo > 0)
                         {
@@ -121,9 +161,9 @@ namespace ComfyJamSummer.Components.Gameplay
 
                             _gun.LittleShake.Shake();
 
-                            _prefabs.PlaySoundRandomPitch(SoundFxName.Smg_Shot, 0.075f);
+                            //_prefabs.PlaySoundRandomPitch(SoundFxName.Smg_Shot, 0.075f);
 
-                            _gun.Animator.Play(GunAnim.Shoot.ToString(), Nez.Sprites.SpriteAnimator.LoopMode.Once);
+                            //_gun.Animator.Play(GunAnim.Shoot.ToString(), Nez.Sprites.SpriteAnimator.LoopMode.Once);
                             _gun.TimeLeftToEndShootAnimation = _gun.ShootAnimationDuration;
 
                             direction.Normalize();
@@ -165,6 +205,11 @@ namespace ComfyJamSummer.Components.Gameplay
 
                     _gun.ActualAngleSpread = Mathf.Clamp(_gun.ActualAngleSpread, _gun.MinAngleSpread, _gun.MaxAngleSpread);
                 }
+
+                if (_gun.TimeLeftToNextShot > 0)
+                {
+                    _gun.TimeLeftToNextShot -= deltaTime;
+                }
             }
         }
 
@@ -180,7 +225,7 @@ namespace ComfyJamSummer.Components.Gameplay
                 return false;
             }
 
-            if (_gun.Animator == null)
+            if (_gun.Animator == null && _gun.Renderer == null)
             {
                 return false;
             }
