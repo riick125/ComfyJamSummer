@@ -44,6 +44,11 @@ namespace ComfyJamSummer.Components.Gameplay
             }
             else
             {
+                if (entity.IsDestroyed)
+                {
+                    return false;
+                }
+
                 switch (entity)
                 {
                     case Creature creature:

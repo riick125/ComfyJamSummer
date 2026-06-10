@@ -27,7 +27,7 @@ namespace ComfyJamSummer.UI
         {
             base.OnAddedToEntity();
 
-            this.Entity.AddComponent(new DebugComponent());
+            this.Entity.AddComponent(new DebugComponent(_manager, _prefabs));
 
             _customFont = UtilHelper.CustomFont();
 

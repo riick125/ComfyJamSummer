@@ -32,6 +32,21 @@ namespace ComfyJamSummer
         }
     }
 
+    public class WaveDefaultValues
+    {
+        public const int ALIVE_ENEMIES_QTY_LIMIT = 15;
+
+        public const float ALIVE_ENEMIES_GROW_PERCENT = 1f;
+
+        public const float ALIVE_ENEMIES_MODIFIER_VALUE = 0.15f;
+
+        public const float START_COOLDOWN = 5f;
+
+        public const float DURATION = 20f;
+
+        public const float MAX_DURATION = 60f;
+    }
+
     public class Constants
     {
         public const int GAME_WIDTH = 320;

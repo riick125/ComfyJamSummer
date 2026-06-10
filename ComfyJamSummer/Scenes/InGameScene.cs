@@ -1,4 +1,5 @@
 ﻿using ComfyJamSummer.Components.Extensions;
+using ComfyJamSummer.Components.Gameplay;
 using ComfyJamSummer.CustomPostProcessors;
 using ComfyJamSummer.Entities;
 using ComfyJamSummer.Helpers;
@@ -31,7 +32,7 @@ namespace ComfyJamSummer.Scenes
         {
             base.Begin();
 
-            _island = _prefabs.Island.CloneIsland(Screen.Center);
+            _island = _prefabs.Island.CloneIsland(15, Screen.Center);
 
             if (_island != null)
             {
@@ -39,13 +40,13 @@ namespace ComfyJamSummer.Scenes
 
                 Camera.SetPosition(_island.CenterPosition());
 
-                //Camera.SetMaximumZoom(Game1.GameMaxZoom);
-                //Camera.SetMinimumZoom(Game1.GameZoom);
                 Camera.SetZoom(Game1.GameZoom);
 
                 _player = AddEntity(_prefabs.GetPlayer(_island.CenterPosition()));
 
                 Camera.AddComponent(new FollowCamera(_player, Camera));
+
+                CreateEntity("Battle").AddComponent(new BattleComponent(_island, _gameManager, _prefabs));
             }
         }
     }
