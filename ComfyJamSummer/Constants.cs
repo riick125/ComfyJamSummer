@@ -18,6 +18,7 @@ namespace ComfyJamSummer
     public class EntityNames
     {
         public const string PLAYER = "Player";
+        public const string ISLAND = "Island";
     }
 
     public static class StaticStuff
@@ -53,7 +54,7 @@ namespace ComfyJamSummer
         public const int GAME_WIDTH = 320;
         public const int GAME_HEIGHT = 180;
 
-        public const float MIN_GAME_ZOOM = 1.15f;
+        public const float MIN_GAME_ZOOM = 0.75f;
 
         public const float GameZoom = 2;
 
@@ -122,19 +123,19 @@ namespace ComfyJamSummer
 
         public const float DMG = 38;
 
-        public const float SPEED = 120;
+        public const float SPEED = 87;
 
-        public const float ATK_SPEED = 0.75f;
+        public const float BULLET_SPEED = 115;
+
+        public const float ATK_SPEED = 2f;
 
         public const float IDLE_TIME_STATE = 1f;
 
-        public const float MOVE_TIME_STATE = 4f;
+        public const float MOVE_TIME_STATE = 10f;
 
         public const float PATROL_TIME_STATE = 2.1f;
 
-        public const float ATK_TIME_STATE = 3f;
-
-        public const float RADIUS_ALERT_AREA = 30f;
+        public const float ATK_TIME_STATE = 4f;
     }
 
     public static class BuffEnemyModifierValues

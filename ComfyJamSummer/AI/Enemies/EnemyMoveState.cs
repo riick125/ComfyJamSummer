@@ -1,6 +1,8 @@
 ﻿using ComfyJamSummer.Entities;
+using ComfyJamSummer.Helpers;
 using ComfyJamSummer.Manager;
 using ComfyJamSummer.Prefab;
+using Microsoft.Xna.Framework;
 
 namespace ComfyJamSummer.AI.Enemies
 {
@@ -17,13 +19,20 @@ namespace ComfyJamSummer.AI.Enemies
                 return;
             }
 
-            if (_machine.ElapsedTimeInState >= _context.IdleTimeState)
+            var player = UtilHelper.GetEntity<Player>();
+
+            if (player == null)
+            {
+                return;
+            }
+
+            if (Vector2.Distance(_context.Position, player.Position) <= player.SpriteHeight * 14)
             {
                 _machine.ChangeState<EnemyAttackState>();
             }
             else
             {
-                _context?.Stalk(_context.Player, _context.RadiusAlertArea);
+                _context?.Stalk(_context.Player);
             }
         }
     }

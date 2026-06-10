@@ -15,7 +15,9 @@ namespace ComfyJamSummer.Entities.Configs
 
         public float AtkTimeState { get; set; }
 
-        public float RadiusAlertArea { get; set; }
+        public float BulletSpeed { get; set; }
+
+        public float MaxAngleSpread { get; set; }
 
         public EnemyConfig CloneEnemy(Vector2 pos)
         {
@@ -25,7 +27,8 @@ namespace ComfyJamSummer.Entities.Configs
             clone.MoveTimeState = MoveTimeState;
             clone.PatrolTimeState = PatrolTimeState;
             clone.AtkTimeState = AtkTimeState;
-            clone.RadiusAlertArea = RadiusAlertArea;
+            clone.BulletSpeed = BulletSpeed;
+            clone.MaxAngleSpread = MaxAngleSpread;
 
             return clone;
         }

@@ -17,5 +17,15 @@ namespace ComfyJamSummer.Helpers
 
             return true;
         }
+
+        public static bool Validate(Vector2 direction)
+        {
+            if (float.IsNaN(direction.X) || float.IsNaN(direction.Y))
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

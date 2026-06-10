@@ -23,7 +23,7 @@ namespace ComfyJamSummer.Components.General
             base.OnAddedToEntity();
 
             _processes.Add(new SqueezeProcess(this.Entity, SqueezeDirection.Vertical, 36));
-            _processes.Add(new SqueezeProcess(this.Entity, SqueezeDirection.Horizontal, 44, 0.11f));
+            _processes.Add(new SqueezeProcess(this.Entity, SqueezeDirection.Horizontal, Nez.Random.Range(35f, 49f), Nez.Random.Range(0.001f, 0.005f)));
         }
 
         public void Squeeze()

@@ -1,4 +1,5 @@
 ﻿using ComfyJamSummer.Entities.Base;
+using ComfyJamSummer.Entities.Configs;
 using ComfyJamSummer.Enums;
 using ComfyJamSummer.Helpers;
 using Microsoft.Xna.Framework;
@@ -25,36 +26,70 @@ namespace ComfyJamSummer.Entities
         public List<uint> ObjectsHittedByBullet { get; set; }
         public bool CreateImpactEffect { get; set; }
 
-        public Bullet CloneBullet(Gun gun, OffensiveEffectCollisionEnum target, Vector2 direction, float rotation, bool createImpactEffect = true)
+        float _losingColorSpeed = 4f;
+
+        public Bullet CloneBullet(BulletConfig config)
         {
-            var clone = base.CloneAnimated(gun.MuzzlePosition) as Bullet;
+            if (config == null)
+            {
+                return null;
+            }
 
-            clone.ObjectsHittedByBullet = new List<uint>();
-            clone.Target = target;
-            clone.Speed = gun.BulletSpeed;
-            clone.Damage = gun.Damage;
-            clone.LifeTime = LifeTime;
-            clone.Rotation = rotation;
-            clone.ObjectsHittedByBullet = new List<uint>();
-            clone.Direction = SpreadBullet(direction, gun.MaxAngleSpread);
+            var clone = base.CloneAnimated(config.Position) as Bullet;
 
-            clone.CreateImpactEffect = createImpactEffect;
+            HydrateValues(clone, config);
 
             return clone;
+        }
+
+        public Bullet CloneBulletEnemy(BulletConfig config)
+        {
+            if (config == null)
+            {
+                return null;
+            }
+
+            var clone = base.CloneAnimated(config.Position) as Bullet;
+
+            HydrateValues(clone, config);
+
+            clone.Speed *= Nez.Random.Range(0.91f, 1.02f);
+
+            return clone;
+        }
+
+        private void HydrateValues(Bullet clone, BulletConfig config)
+        {
+            clone._losingColorSpeed = _losingColorSpeed;
+            clone.Target = config.Target;
+            clone.Speed = config.Speed;
+            clone.Damage = config.Damage;
+            clone.LifeTime = config.LifeTime;
+            clone.Rotation = config.Rotation;
+            clone.ObjectsHittedByBullet = new List<uint>();
+            clone.Direction = SpreadBullet(config.Direction, config.MaxAngleSpread);
+
+            clone.CreateImpactEffect = config.CreateImpactEffect;
         }
 
         public override void Update()
         {
             base.Update();
 
+            if (!Validate())
+                return;
+
+            var deltaTime = Time.DeltaTime;
+
             if (Collided)
             {
                 AnimHelper.Play(Animator, BulletAnim.Collision);
 
+                Alpha -= _losingColorSpeed * deltaTime;
+
+                GetAnyRenderer().SetColor(Color.White * Alpha);
                 return;
             }
-
-            var deltaTime = Time.DeltaTime;
 
             LifeTime -= deltaTime;
 

@@ -1,4 +1,5 @@
 ﻿using ComfyJamSummer.Entities;
+using ComfyJamSummer.Helpers;
 using ComfyJamSummer.Manager;
 using ComfyJamSummer.Prefab;
 
@@ -23,7 +24,9 @@ namespace ComfyJamSummer.AI.Enemies
             }
             else
             {
-                _context?.Attack();
+                var player = UtilHelper.GetEntity<Player>();
+
+                _context?.Attack(player);
             }
         }
     }

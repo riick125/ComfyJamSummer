@@ -27,9 +27,9 @@ namespace ComfyJamSummer.Components.Gameplay
 
             if (_enemy != null)
             {
-                _machine = new StateMachine<Enemy>(_enemy, new EnemyIdleState(_prefabs, _manager));
+                _machine = new StateMachine<Enemy>(_enemy, new EnemyMoveState(_prefabs, _manager));
 
-                _machine.AddState(new EnemyMoveState(_prefabs, _manager));
+                _machine.AddState(new EnemyIdleState(_prefabs, _manager));
                 _machine.AddState(new EnemyAttackState(_prefabs, _manager));
             }
         }

@@ -49,12 +49,12 @@ namespace ComfyJamSummer.Data
                     HP = EnemyValues.HP,
                     Damage = EnemyValues.DMG,
                     Speed = EnemyValues.SPEED,
+                    BulletSpeed = EnemyValues.BULLET_SPEED,
                     AtkSpeed = EnemyValues.ATK_SPEED,
                     IdleTimeState = EnemyValues.IDLE_TIME_STATE,
                     MoveTimeState = EnemyValues.MOVE_TIME_STATE,
                     PatrolTimeState = EnemyValues.PATROL_TIME_STATE,
                     AtkTimeState = EnemyValues.ATK_TIME_STATE,
-                    RadiusAlertArea = EnemyValues.RADIUS_ALERT_AREA,
                     ColliderType = ColliderType.Enemy
                 };
 

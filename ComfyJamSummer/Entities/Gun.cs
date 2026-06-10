@@ -9,7 +9,7 @@ namespace ComfyJamSummer.Entities
 {
     public class Gun : Animated
     {
-        public Creature Creature { get; set; }
+        public Player Player { get; set; }
 
         public bool IsReloading { get; set; }
 
@@ -33,6 +33,8 @@ namespace ComfyJamSummer.Entities
 
         public Vector2 MuzzlePosition { get; set; }
 
+        public float PointingAngle { get; set; }
+
         public float MinAngleSpread { get; set; }
 
         public float ActualAngleSpread { get; set; }
@@ -43,11 +45,11 @@ namespace ComfyJamSummer.Entities
 
         public float ShootAnimationDuration { get; set; }
 
-        public Gun CloneGun(Creature creature, Vector2 pos = default)
+        public Gun CloneGun(Player player, Vector2 pos = default)
         {
             var clone = base.CloneAnimated(pos) as Gun;
-            clone.Creature = creature;
-            clone.Offset = creature != null ? new Vector2(creature.SpriteWidth / 4, 0) : Vector2.Zero;
+            clone.Player = player;
+            clone.Offset = player != null ? new Vector2(player.SpriteWidth / 4, 0) : Vector2.Zero;
             clone.ActualAmmo = ActualAmmo;
             clone.ReloadTime = ReloadTime;
             clone.ActualAngleSpread = ActualAngleSpread;

@@ -45,8 +45,8 @@ namespace ComfyJamSummer.Data
 
             gun.MagSize = 32;
             gun.ActualAmmo = gun.MagSize;
-            gun.ActualAngleSpread = 3.2f;
-            gun.MaxAngleSpread = 5.5f;
+            gun.ActualAngleSpread = 2.2f;
+            gun.MaxAngleSpread = 4f;
 
             return gun;
         }
@@ -54,8 +54,6 @@ namespace ComfyJamSummer.Data
         public Bullet CreateBullet()
         {
             var bullet = CreateDummyRenderer<Bullet>(width: 4, height: 4, Color.Yellow, Constants.CREATURE_RENDER_LAYER - 1);
-
-            bullet.LifeTime = 7f;
 
             return bullet;
         }

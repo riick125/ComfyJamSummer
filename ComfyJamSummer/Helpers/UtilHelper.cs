@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ComfyJamSummer.Components.Extensions;
 using ComfyJamSummer.Components.Gameplay;
 using ComfyJamSummer.Entities;
@@ -174,6 +175,23 @@ namespace ComfyJamSummer.Helpers
             }
 
             var entity = Core.Scene.FindEntity(name);
+
+            if (entity == null)
+            {
+                return null;
+            }
+
+            return entity as T;
+        }
+
+        public static T GetEntity<T>() where T : Entity, new()
+        {
+            if (Core.Scene == null)
+            {
+                return null;
+            }
+
+            var entity = Core.Scene.EntitiesOfType<T>().FirstOrDefault();
 
             if (entity == null)
             {

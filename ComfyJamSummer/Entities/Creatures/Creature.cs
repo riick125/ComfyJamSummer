@@ -1,4 +1,6 @@
-﻿using ComfyJamSummer.Components.Visuals;
+﻿using ComfyJamSummer.Components.Gameplay;
+using ComfyJamSummer.Components.General;
+using ComfyJamSummer.Components.Visuals;
 using ComfyJamSummer.Configs;
 using ComfyJamSummer.Entities.Base;
 using ComfyJamSummer.Entities.Configs;
@@ -35,27 +37,77 @@ namespace ComfyJamSummer.Entities.Creatures
 
         public List<Debuff> DebuffsToGive { get; set; }
 
-        Collider[] _collidersForAlertArea;
-
-        public Creature CloneCreature(CreatureConfig config)
-        {
-            var clone = base.CloneAnimated(config.Position) as Creature;
-            clone.ActualHP = config.HP;
-            clone.MaxHP = config.HP;
-            clone.Damage = config.Damage;
-            clone.Speed = config.Speed;
-            clone.AtkSpeed = config.AtkSpeed;
-            clone.DebuffsToGive = new List<Debuff>();
-            clone.AddComponent(new SimpleFlash(Game1.FlashMaterial, clone.Animator == null ? clone.Renderer : clone.Animator));
-
-            return clone;
-        }
+        float _dyingRotationSpeed = 1300f, _losingScaleSpeed = 2.7f, _losingColorSpeed = 4f;
 
         public enum CreatureStates
         {
             Idle,
             Walking,
             Attacking
+        }
+
+        public Creature CloneCreature(CreatureConfig config)
+        {
+            var clone = base.CloneAnimated(config.Position) as Creature;
+            clone._dyingRotationSpeed = _dyingRotationSpeed * Nez.Random.Range(0.85f, 1.25f);
+            clone._losingScaleSpeed = _losingScaleSpeed * Nez.Random.Range(0.95f, 1.5f);
+            clone._losingColorSpeed = _losingColorSpeed;
+            clone.ActualHP = config.HP;
+            clone.MaxHP = config.HP;
+            clone.Damage = config.Damage;
+            clone.Speed = config.Speed * Nez.Random.Range(0.91f, 1.04f);
+            clone.AtkSpeed = config.AtkSpeed * Nez.Random.Range(0.95f, 1.15f);
+            clone.DebuffsToGive = new List<Debuff>();
+            clone.AddComponent(new SimpleFlash(Game1.FlashMaterial, clone.Animator == null ? clone.Renderer : clone.Animator));
+
+            return clone;
+        }
+
+        public override void Update()
+        {
+            base.Update();
+
+            if (!Validate())
+            {
+                return;
+            }
+
+            var deltaTime = Time.DeltaTime;
+
+            if (!IsAlive)
+            {
+
+                this.RotationDegrees += _dyingRotationSpeed * deltaTime;
+
+                var scale = this.Scale.X;
+
+                scale -= _losingScaleSpeed * deltaTime;
+
+                scale = Mathf.Clamp01(scale);
+
+                this.SetScale(scale);
+
+                if (scale < 0.4f)
+                {
+                    Alpha -= _losingColorSpeed * deltaTime;
+
+                    Alpha = Mathf.Clamp01(Alpha);
+
+                    this.GetAnyRenderer().SetColor(Color.White * Alpha);
+
+                    if (scale <= 0)
+                    {
+                        this.Destroy();
+                    }
+                }
+            }
+            else
+            {
+                if (TimeLeftToNextAtk > 0)
+                {
+                    TimeLeftToNextAtk -= deltaTime;
+                }
+            }
         }
 
         public virtual void Buff(BuffConfig config)
@@ -77,30 +129,20 @@ namespace ComfyJamSummer.Entities.Creatures
         public void Patrol()
         {
             AnimHelper.Play(Animator, CreatureAnim.Move);
+
+
         }
 
-        public virtual void Stalk(Creature target, float radiusAreaAlert = 120f)
+        public virtual Vector2 Stalk(Creature target)
         {
             if (target == null)
-                return;
+                return this.Position;
 
             if (target.BodyCollider == null)
-                return;
+                return this.Position;
 
             if (target.Id == this.Id || !target.IsAlive)
-                return;
-
-            if (_collidersForAlertArea == null)
-            {
-                _collidersForAlertArea = new Collider[5];
-            }
-
-            var targetCollider = Physics.OverlapCircle(this.Position, radiusAreaAlert, target.BodyCollider.PhysicsLayer);
-
-            if (targetCollider != null && targetCollider.Entity?.Id == target.Id)
-            {
-                return;
-            }
+                return this.Position;
 
             var direction = target.Position - this.Position;
             direction.Normalize();
@@ -113,20 +155,51 @@ namespace ComfyJamSummer.Entities.Creatures
             {
                 AnimHelper.Play(Animator, CreatureAnim.Move);
 
-                this.Position += vel;
-            }
-        }
+                var pos = this.Position;
+                pos += vel;
 
-        public void Attack()
-        {
-            AnimHelper.Play(Animator, CreatureAnim.Atk);
+                pos += vel;
+
+                return pos;
+            }
+
+            return this.Position;
         }
 
         public bool TakeDamage(float dmg)
         {
-            var hurted = false;
+            if (!Validate() || !IsAlive)
+            {
+                return false;
+            }
 
-            return hurted;
+            if (dmg < 1)
+            {
+                dmg = 1;
+            }
+
+            dmg = float.Round(dmg);
+
+            ActualHP -= dmg;
+            ActualHP = Mathf.Clamp(ActualHP, 0, MaxHP);
+
+            var textOffset = new Vector2(SpriteWidth * (Nez.Random.Chance(50) ? 1 : -1), -SpriteHeight / 4);
+
+            var config = new BesideTextConfig(this, $"-{dmg}", offset: textOffset, color: Color.Red);
+            TextHelper.CreateGoingUpBesideText(config);
+
+            AnimHelper.Play(Animator, CreatureAnim.Dying);
+
+            CrazyScaleComponent?.SqueezeByDirection(ComfyJamSummer.Components.General.CrazyScaleComponent.SqueezeDirection.Horizontal);
+
+            SimpleFlash?.Flash(0.25f);
+
+            if (!IsAlive)
+            {
+                RemoveComponent<CrazyScaleComponent>();
+            }
+
+            return true;
         }
     }
 }

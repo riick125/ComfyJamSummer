@@ -1,6 +1,7 @@
 ﻿using ComfyJamSummer.Entities;
 using ComfyJamSummer.Entities.Creatures;
 using ComfyJamSummer.Enums;
+using ComfyJamSummer.Helpers;
 using ComfyJamSummer.Manager;
 using ComfyJamSummer.Prefab;
 using Microsoft.Xna.Framework;
@@ -12,7 +13,7 @@ namespace ComfyJamSummer.Components.Gameplay
     public class GunController : BaseComponent, IUpdatable
     {
         Gun _gun;
-        Creature _creature;
+        Player _player;
         Vector2 _lastPos;
         float _gunRotationSpeed = 1200;
 
@@ -26,7 +27,7 @@ namespace ComfyJamSummer.Components.Gameplay
 
             _gun = this.Entity as Gun;
 
-            _creature = _gun.Creature;
+            _player = _gun.Player;
         }
 
         public void Update()
@@ -38,7 +39,7 @@ namespace ComfyJamSummer.Components.Gameplay
                 return;
             }
 
-            var rendererCreature = _creature.GetAnyRenderer();
+            var rendererCreature = _player.GetAnyRenderer();
             var rendererGun = _gun.GetAnyRenderer();
 
             var offsetX = rendererCreature.FlipX ? _gun.Offset.X * -1 : _gun.Offset.X;
@@ -48,8 +49,8 @@ namespace ComfyJamSummer.Components.Gameplay
             var angle = (deltaTime * circleSpeed);
 
             var gunPosition = new Vector2(
-                _creature.Position.X + circleRadius * (float)Math.Cos(angle),
-                _creature.Position.Y + circleRadius * (float)Math.Sin(angle)
+                _player.Position.X + circleRadius * (float)Math.Cos(angle),
+                _player.Position.Y + circleRadius * (float)Math.Sin(angle)
             );
 
             var mousePos = Core.Scene.Camera.ScreenToWorldPoint(Input.RawMousePosition);
@@ -71,7 +72,7 @@ namespace ComfyJamSummer.Components.Gameplay
             }
             else
             {
-                _gun.Position = new Vector2(_creature.Position.X + circleRadius, _creature.Position.Y) + new Vector2(0, _creature.SpriteHeight / 8);
+                _gun.Position = new Vector2(_player.Position.X + circleRadius, _player.Position.Y) + new Vector2(0, _player.SpriteHeight / 8);
 
                 _gun.RotationDegrees += _gunRotationSpeed * deltaTime;
 
@@ -133,7 +134,7 @@ namespace ComfyJamSummer.Components.Gameplay
             gun.Position = gunPosition + new Vector2(offsetX, gun.Offset.Y);
             gun.Transform.Rotation = angle;
 
-            gun.GetAnyRenderer().FlipY = aimPosition.X < _creature.Position.X;
+            gun.GetAnyRenderer().FlipY = aimPosition.X < _player.Position.X;
 
             if (_lastPos != gun.Position)
             {
@@ -156,7 +157,7 @@ namespace ComfyJamSummer.Components.Gameplay
             {
                 if (Input.LeftMouseButtonDown)
                 {
-                    if (_gun.TimeLeftToNextShot <= 0 && !_gun.IsReloading && _creature.IsAlive)
+                    if (_gun.TimeLeftToNextShot <= 0 && !_gun.IsReloading && _player.IsAlive)
                     {
                         if (_gun.ActualAmmo > 0)
                         {
@@ -180,13 +181,11 @@ namespace ComfyJamSummer.Components.Gameplay
                                 (float)Math.Sin(angle) * shootOffset
                             );
 
-                            Bullet bullet = null;
-
                             _gun.MuzzlePosition = (_gun.Position - new Vector2(0, 1.5f)) + muzzleOffset;
 
-                            bullet = _prefabs.Bullet.CloneBullet(_gun, OffensiveEffectCollisionEnum.Enemy, direction, angle);
+                            _gun.PointingAngle = angle;
 
-                            Core.Scene.AddEntity(bullet);
+                            BulletHelper.Create(_player, direction);
 
                             _gun.ActualAmmo--;
 
@@ -240,7 +239,7 @@ namespace ComfyJamSummer.Components.Gameplay
                 return false;
             }
 
-            if (!_creature.IsAlive)
+            if (!_player.IsAlive)
             {
                 return false;
             }

@@ -43,6 +43,8 @@ namespace ComfyJamSummer.Prefab
 
         public CreatureConfig CreatureConfig => _creatureConfig;
 
+        public BulletConfig BulletConfig => _bulletConfig;
+
         LogoData _dataLogo;
         PlayerData _dataPlayer;
         EnemyData _dataEnemy;
@@ -52,6 +54,7 @@ namespace ComfyJamSummer.Prefab
 
         WaveConfig _waveConfig;
         CreatureConfig _creatureConfig;
+        BulletConfig _bulletConfig;
         PlayerConfig _playerConfig;
         List<EnemyConfig> _enemyConfigs;
         #endregion
@@ -77,7 +80,7 @@ namespace ComfyJamSummer.Prefab
 
         Wave Wave;
         Enemy Enemy;
-        Bullet BulletEnemy;
+        public Bullet BulletEnemy { get; private set; }
         public Shadow Shadow;
         List<DebuffIcon> DebuffsIcons;
         List<CustomTextureData> _uiTextures;
@@ -118,6 +121,7 @@ namespace ComfyJamSummer.Prefab
 
             _creatureConfig = new CreatureConfig();
             _waveConfig = new WaveConfig();
+            _bulletConfig = new BulletConfig();
         }
 
         void CreateGameTexts()

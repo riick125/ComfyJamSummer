@@ -2,7 +2,6 @@
 {
     public enum EnemyType
     {
-        None = 0,
         Birb
     }
 }
