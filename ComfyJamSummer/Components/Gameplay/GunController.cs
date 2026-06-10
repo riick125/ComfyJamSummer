@@ -63,6 +63,11 @@ namespace ComfyJamSummer.Components.Gameplay
             if (!_gun.IsReloading)
             {
                 SetPosition(_gun, offsetX, gunPosition, aimPos, angle2);
+
+                if (Input.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.R))
+                {
+                    StartReload();
+                }
             }
             else
             {

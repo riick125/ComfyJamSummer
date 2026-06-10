@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 
 namespace ComfyJamSummer.Entities.Configs
 {
-    public class Config
+    public class CreatureConfig
     {
         public ColliderType ColliderType { get; set; }
 
@@ -18,9 +18,9 @@ namespace ComfyJamSummer.Entities.Configs
 
         public float Speed { get; set; }
 
-        public Config Clone(float hp, float dmg, float speed, float atkSpeed, Vector2 pos, ColliderType colliderType)
+        public CreatureConfig Clone(float hp, float dmg, float speed, float atkSpeed, Vector2 pos, ColliderType colliderType)
         {
-            var clone = Activator.CreateInstance(GetType()) as Config;
+            var clone = Activator.CreateInstance(GetType()) as CreatureConfig;
 
             clone.ColliderType = colliderType;
             clone.HP = hp;

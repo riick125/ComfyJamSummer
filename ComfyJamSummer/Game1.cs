@@ -24,7 +24,6 @@ namespace ComfyJamSummer
         public static SteamManager SteamManager;
         public static SteamScript SteamScript;
         public static CursorInsideGame CursorInsideGame;
-        public static AchievementManager AchievementManager;
 
         public static GameManager GameManager;
         public static SoundManager SoundManager;

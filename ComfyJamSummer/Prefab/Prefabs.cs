@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
-using ComfyJamSummer.Achievements;
+﻿using AutoMapper;
 using ComfyJamSummer.AutoMapper;
 using ComfyJamSummer.Data;
 using ComfyJamSummer.Data.Jsons;
@@ -19,6 +15,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Nez;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ComfyJamSummer.Prefab
 {
@@ -40,31 +39,45 @@ namespace ComfyJamSummer.Prefab
 
         public EnemyConfig EnemyConfig => _enemyConfig;
 
+        public CreatureConfig CreatureConfig => _creatureConfig;
+
         LogoData _dataLogo;
         PlayerData _dataPlayer;
         EnemyData _dataEnemy;
+        NpcObjectData _dataNpc;
         MapData _dataMap;
         UIData _dataUI;
 
+        CreatureConfig _creatureConfig;
         PlayerConfig _playerConfig;
         EnemyConfig _enemyConfig;
         #endregion
 
         #region objects
         public List<GameTextJsonXnbData<GameTextJsonData>> GameTextJsonData;
+
         GameTextJsonXnbData<GameTextJsonData> _uiGameTextJsonData;
+
+        public StarFish StarFish { get; private set; }
+
+        public Rocket Rocket { get; private set; }
+
+        public Crab Crab { get; private set; }
+
         Player Player;
+
         Gun Gun;
-        public Bullet Bullet;
-        public Island Island;
+
+        public Bullet Bullet { get; private set; }
+
+        public Island Island { get; private set; }
+
         Enemy Enemy;
         Bullet BulletEnemy;
         public Shadow Shadow;
         List<DebuffIcon> DebuffsIcons;
         List<CustomTextureData> _uiTextures;
         List<CustomTextureData> UITextures;
-
-        public List<Achievement> Achievements;
         #endregion
 
         #region music and sound fxs
@@ -72,6 +85,7 @@ namespace ComfyJamSummer.Prefab
 
         private List<SoundPrefab> Musics;
         #endregion
+
         public void FastLoad()
         {
             CreateDatas();
@@ -93,6 +107,7 @@ namespace ComfyJamSummer.Prefab
         void CreateDatas()
         {
             _dataLogo = new LogoData(this, _mapper);
+            _dataNpc = new NpcObjectData(this, _mapper);
             _dataPlayer = new PlayerData(this, _mapper);
             _dataEnemy = new EnemyData(this, _mapper);
             _dataMap = new MapData(this, _mapper);
@@ -125,6 +140,10 @@ namespace ComfyJamSummer.Prefab
         void CreateMap()
         {
             Island = _dataMap.Create();
+
+            Crab = _dataNpc.CreateCrab();
+            Rocket = _dataNpc.CreateRocket();
+            StarFish = _dataNpc.CreateStarFish();
         }
 
         void CreateUIContent()
@@ -134,7 +153,6 @@ namespace ComfyJamSummer.Prefab
 
         void CreateGeneral()
         {
-            Achievements = new List<Achievement>();
         }
 
         public Player GetPlayer(Vector2 pos)
@@ -548,7 +566,7 @@ namespace ComfyJamSummer.Prefab
             }
 
             return result;
-        } 
+        }
         #endregion
     }
 }

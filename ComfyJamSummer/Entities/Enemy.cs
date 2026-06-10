@@ -8,7 +8,7 @@ namespace ComfyJamSummer.Entities
     {
         public EnemyType Type { get; set; }
 
-        public Enemy CloneEnemy(Config config)
+        public Enemy CloneEnemy(CreatureConfig config)
         {
             var clone = base.CloneCreature(config) as Enemy;
 

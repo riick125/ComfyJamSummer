@@ -20,7 +20,6 @@ namespace ComfyJamSummer.Components.Extensions
 
         public AchievementManager()
         {
-            _achievements = _prefabs.Achievements;
         }
 
         public override void OnEnabled()
@@ -31,8 +30,6 @@ namespace ComfyJamSummer.Components.Extensions
             {
                 gameManager = UtilHelper.GameManager();
             }
-
-            Game1.AchievementManager = this;
 
             ProcessInitialAchievements(Game1.SaveData);
 

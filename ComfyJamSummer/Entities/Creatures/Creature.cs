@@ -30,7 +30,7 @@ namespace ComfyJamSummer.Entities.Creatures
 
         public List<Debuff> DebuffsToGive { get; set; }
 
-        public Creature CloneCreature(Config config)
+        public Creature CloneCreature(CreatureConfig config)
         {
             var clone = base.CloneAnimated(config.Position) as Creature;
             clone.ActualHP = config.HP;

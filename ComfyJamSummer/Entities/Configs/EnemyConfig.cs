@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 
 namespace ComfyJamSummer.Entities.Configs
 {
-    public class EnemyConfig : Config
+    public class EnemyConfig : CreatureConfig
     {
         public EnemyType Type { get; set; }
 

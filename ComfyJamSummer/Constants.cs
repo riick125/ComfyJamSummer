@@ -61,6 +61,8 @@ namespace ComfyJamSummer
 
         public const string JSON_DATA_REAL_PATH = "jsons\\data\\";
 
+        public const string NPC_DATA_PATH = "sprites/gameplay/npc/";
+
         public const string PLAYER_DATA_PATH = "sprites/gameplay/player/";
 
         public const string ENEMY_DATA_PATH = "sprites/gameplay/enemy/";
