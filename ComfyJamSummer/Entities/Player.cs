@@ -12,6 +12,7 @@ namespace ComfyJamSummer.Entities
         public Player ClonePlayer(PlayerConfig config)
         {
             var clone = base.CloneCreature(config) as Player;
+            clone.Name = EntityNames.PLAYER;
 
             clone.AddComponent(new PlayerController(UtilHelper.GameManager(), UtilHelper.Prefabs()));
 

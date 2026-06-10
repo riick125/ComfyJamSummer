@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ComfyJamSummer.Components.Extensions;
 using ComfyJamSummer.Components.Gameplay;
+using ComfyJamSummer.Entities;
 using ComfyJamSummer.Enums;
 using ComfyJamSummer.Extensions;
 using ComfyJamSummer.Manager;

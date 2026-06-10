@@ -18,15 +18,14 @@ namespace ComfyJamSummer.Entities.Configs
 
         public float Speed { get; set; }
 
-        public CreatureConfig Clone(float hp, float dmg, float speed, float atkSpeed, Vector2 pos, ColliderType colliderType)
+        public CreatureConfig Clone(Vector2 pos)
         {
             var clone = Activator.CreateInstance(GetType()) as CreatureConfig;
-
-            clone.ColliderType = colliderType;
-            clone.HP = hp;
-            clone.Damage = dmg;
-            clone.Speed = speed;
-            clone.AtkSpeed = atkSpeed;
+            clone.HP = HP;
+            clone.Damage = Damage;
+            clone.AtkSpeed = AtkSpeed;
+            clone.Speed = Speed;
+            clone.ColliderType = ColliderType;
             clone.Position = pos;
 
             return clone;

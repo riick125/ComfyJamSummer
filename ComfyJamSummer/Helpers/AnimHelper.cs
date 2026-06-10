@@ -11,6 +11,9 @@ namespace ComfyJamSummer.Helpers
 
             var animation = name.ToString();
 
+            if (!animator.Animations.ContainsKey(animation))
+                return;
+
             if (animator.CurrentAnimationName != animation)
             {
                 animator.Play(animation);

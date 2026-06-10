@@ -1,7 +1,12 @@
 ﻿using ComfyJamSummer.Components.Visuals;
+using ComfyJamSummer.Configs;
 using ComfyJamSummer.Entities.Base;
 using ComfyJamSummer.Entities.Configs;
 using ComfyJamSummer.Entities.Debuffs;
+using ComfyJamSummer.Enums;
+using ComfyJamSummer.Helpers;
+using Microsoft.Xna.Framework;
+using Nez;
 using System.Collections.Generic;
 
 namespace ComfyJamSummer.Entities.Creatures
@@ -30,6 +35,8 @@ namespace ComfyJamSummer.Entities.Creatures
 
         public List<Debuff> DebuffsToGive { get; set; }
 
+        Collider[] _collidersForAlertArea;
+
         public Creature CloneCreature(CreatureConfig config)
         {
             var clone = base.CloneAnimated(config.Position) as Creature;
@@ -49,6 +56,70 @@ namespace ComfyJamSummer.Entities.Creatures
             Idle,
             Walking,
             Attacking
+        }
+
+        public virtual void Buff(BuffConfig config)
+        {
+            if (config != null)
+            {
+                MaxHP *= config.HpModifier;
+                Damage *= config.DamageModifier;
+                Speed *= config.SpeedModifier;
+                AtkSpeed *= config.AtkSpeedModifier;
+            }
+        }
+
+        public void Idle()
+        {
+            AnimHelper.Play(Animator, CreatureAnim.Idle);
+        }
+
+        public void Patrol()
+        {
+            AnimHelper.Play(Animator, CreatureAnim.Move);
+        }
+
+        public virtual void Stalk(Creature target, float radiusAreaAlert = 120f)
+        {
+            if (target == null)
+                return;
+
+            if (target.BodyCollider == null)
+                return;
+
+            if (target.Id == this.Id || !target.IsAlive)
+                return;
+
+            if (_collidersForAlertArea == null)
+            {
+                _collidersForAlertArea = new Collider[5];
+            }
+
+            var targetCollider = Physics.OverlapCircle(this.Position, radiusAreaAlert, target.BodyCollider.PhysicsLayer);
+
+            if (targetCollider != null && targetCollider.Entity?.Id == target.Id)
+            {
+                return;
+            }
+
+            var direction = target.Position - this.Position;
+            direction.Normalize();
+
+            var vel = Vector2.Zero;
+
+            vel += direction * Speed * Time.DeltaTime;
+
+            if (DirectionHelper.ValidateVelocity(direction, vel))
+            {
+                AnimHelper.Play(Animator, CreatureAnim.Move);
+
+                this.Position += vel;
+            }
+        }
+
+        public void Attack()
+        {
+            AnimHelper.Play(Animator, CreatureAnim.Atk);
         }
 
         public bool TakeDamage(float dmg)

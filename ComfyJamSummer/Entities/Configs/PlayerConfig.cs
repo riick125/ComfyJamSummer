@@ -1,15 +1,12 @@
-﻿using ComfyJamSummer.Enums;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace ComfyJamSummer.Entities.Configs
 {
     public class PlayerConfig : CreatureConfig
     {
-        public PlayerConfig ClonePlayer(float hp, float dmg, float speed, float atkSpeed, Vector2 pos, ColliderType colliderType)
+        public PlayerConfig ClonePlayer(Vector2 pos)
         {
-            var clone = base.Clone(hp, dmg, speed, atkSpeed, pos, colliderType) as PlayerConfig;
-
-            return clone;
+            return base.Clone(pos) as PlayerConfig;
         }
     }
 }

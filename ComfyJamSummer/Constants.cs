@@ -17,6 +17,7 @@ namespace ComfyJamSummer
 
     public class EntityNames
     {
+        public const string PLAYER = "Player";
     }
 
     public static class StaticStuff
@@ -110,12 +111,40 @@ namespace ComfyJamSummer
 
     public static class PlayerValues
     {
-        public static float HP = 100;
-
-        public static float DMG = 38;
+        public static float HP = 350;
 
         public static float SPEED = 120;
+    }
 
-        public static float ATK_SPEED = 0.75f;
+    public static class EnemyValues
+    {
+        public const float HP = 100;
+
+        public const float DMG = 38;
+
+        public const float SPEED = 120;
+
+        public const float ATK_SPEED = 0.75f;
+
+        public const float IDLE_TIME_STATE = 1f;
+
+        public const float MOVE_TIME_STATE = 4f;
+
+        public const float PATROL_TIME_STATE = 2.1f;
+
+        public const float ATK_TIME_STATE = 3f;
+
+        public const float RADIUS_ALERT_AREA = 30f;
+    }
+
+    public static class BuffEnemyModifierValues
+    {
+        public const float HP = 0.025f;
+
+        public const float DMG = 0.04f;
+
+        public const float SPEED = 0.0025f;
+
+        public const float ATK_SPEED = 0.001f;
     }
 }

@@ -21,7 +21,8 @@ namespace ComfyJamSummer.Data
             var circleCollider = new CircleCollider(10)
             {
                 CollidesWithLayers = (int)CollisionLayer.Map | (int)CollisionLayer.Enemy,
-                PhysicsLayer = (int)CollisionLayer.Player
+                PhysicsLayer = (int)CollisionLayer.Player,
+                Tag = CreatureCollider.Body.ToString()
             };
 
             player.AddComponent(circleCollider);
@@ -35,7 +36,7 @@ namespace ComfyJamSummer.Data
         {
             var gun = CreateDummyRenderer<Gun>(width: 7, height: 7, Color.Gray, Constants.CREATURE_RENDER_LAYER - 1);
 
-            gun.Damage = 50;
+            gun.Damage = 33.3f;
             gun.ReloadTime = 1.05f;
             gun.BulletSpeed = 400;
 
@@ -44,8 +45,8 @@ namespace ComfyJamSummer.Data
 
             gun.MagSize = 32;
             gun.ActualAmmo = gun.MagSize;
-            gun.ActualAngleSpread = 5f;
-            gun.MaxAngleSpread = 10f;
+            gun.ActualAngleSpread = 3.2f;
+            gun.MaxAngleSpread = 5.5f;
 
             return gun;
         }
@@ -59,12 +60,19 @@ namespace ComfyJamSummer.Data
             return bullet;
         }
 
+        public PlayerConfig CreateBaseConfig()
+        {
+            return new PlayerConfig()
+            {
+                HP = PlayerValues.HP,
+                Speed = PlayerValues.SPEED,
+                ColliderType = ColliderType.Player
+            };
+        }
+
         public PlayerConfig InitializePlayer(Vector2 pos)
         {
-            var maxHp = PlayerValues.HP;
-            var speed = PlayerValues.SPEED;
-
-            return _prefabs.PlayerConfig.ClonePlayer(maxHp, 0, speed, 0, pos, ColliderType.Player);
+            return _prefabs?.PlayerConfig?.ClonePlayer(pos);
         }
     }
 }

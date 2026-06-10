@@ -3,7 +3,7 @@
     public enum CreatureAnim
     {
         Idle,
-        Walk,
+        Move,
         Atk,
         Dying
     }

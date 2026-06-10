@@ -2,8 +2,12 @@
 using ComfyJamSummer.Entities;
 using ComfyJamSummer.Entities.Configs;
 using ComfyJamSummer.Enums;
+using ComfyJamSummer.Helpers;
 using ComfyJamSummer.Prefab;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ComfyJamSummer.Data
 {
@@ -27,12 +31,62 @@ namespace ComfyJamSummer.Data
             return bullet;
         }
 
-        public EnemyConfig InitializeEnemy(EnemyType type, Vector2 pos)
+        /// <summary>
+        /// base values for enemies
+        /// </summary>
+        /// <returns></returns>
+        public List<EnemyConfig> CreateAllBaseConfigs()
         {
-            var maxHp = PlayerValues.HP;
-            var speed = PlayerValues.SPEED;
+            var result = new List<EnemyConfig>();
 
-            return _prefabs.EnemyConfig.CloneEnemy(type, maxHp, 0, speed, 0, pos, ColliderType.Player);
+            var allEnemies = Enum.GetValues<EnemyType>();
+
+            foreach (var type in allEnemies)
+            {
+                var config = new EnemyConfig()
+                {
+                    Type = type,
+                    HP = EnemyValues.HP,
+                    Damage = EnemyValues.DMG,
+                    Speed = EnemyValues.SPEED,
+                    AtkSpeed = EnemyValues.ATK_SPEED,
+                    IdleTimeState = EnemyValues.IDLE_TIME_STATE,
+                    MoveTimeState = EnemyValues.MOVE_TIME_STATE,
+                    PatrolTimeState = EnemyValues.PATROL_TIME_STATE,
+                    AtkTimeState = EnemyValues.ATK_TIME_STATE,
+                    RadiusAlertArea = EnemyValues.RADIUS_ALERT_AREA,
+                    ColliderType = ColliderType.Enemy
+                };
+
+                result.Add(config);
+            }
+
+            return result;
+        }
+
+        public EnemyConfig InitializeEnemy(EnemyType type,
+            Vector2 pos)
+        {
+            var manager = UtilHelper.GameManager();
+
+            if (manager == null)
+            {
+                return null;
+            }
+
+            if (_prefabs == null)
+            {
+                return null;
+            }
+
+            var selectedConfig = _prefabs.ListEnemyConfig?.FirstOrDefault(x=> x.Type == type);
+
+            if (selectedConfig == null)
+            {
+                return null;
+            }
+
+            return selectedConfig.CloneEnemy(pos);
         }
     }
 }

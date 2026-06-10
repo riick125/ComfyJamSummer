@@ -34,12 +34,12 @@ namespace ComfyJamSummer.Data
             return starFish;
         }
 
-        public CreatureConfig InitializeCrab(Vector2 pos)
-        {
-            var maxHp = PlayerValues.HP;
-            var speed = PlayerValues.SPEED;
+        //public CreatureConfig InitializeCrab(Vector2 pos)
+        //{
+        //    var maxHp = PlayerValues.HP;
+        //    var speed = PlayerValues.SPEED;
 
-            return _prefabs.CreatureConfig.Clone(maxHp, 0, speed, 0, pos, ColliderType.Player);
-        }
+        //    return _prefabs.CreatureConfig.Clone(maxHp, 0, speed, 0, pos, ColliderType.Player);
+        //}
     }
 }

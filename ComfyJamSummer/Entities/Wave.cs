@@ -102,6 +102,19 @@ namespace ComfyJamSummer.Entities
             }
         }
 
+        public void BuffEnemies()
+        {
+            if (!ValidateWave())
+                return;
+
+            var buff = GameManager.GetBuffConfig();
+
+            foreach (var enemy in Enemies)
+            {
+                enemy.Buff(buff);
+            }
+        }
+
         public override void Update()
         {
             base.Update();

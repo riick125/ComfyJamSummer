@@ -354,9 +354,6 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="AI\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\..\..\Downloads\Nez-master\Nez.Portable\Nez.MG38.csproj" />
   </ItemGroup>
   <ItemGroup>

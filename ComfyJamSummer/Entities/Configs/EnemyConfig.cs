@@ -7,11 +7,25 @@ namespace ComfyJamSummer.Entities.Configs
     {
         public EnemyType Type { get; set; }
 
-        public EnemyConfig CloneEnemy(EnemyType type, float hp, float dmg, float speed, float atkSpeed, Vector2 pos, ColliderType colliderType)
-        {
-            var clone = base.Clone(hp, dmg, speed, atkSpeed, pos, colliderType) as EnemyConfig;
+        public float IdleTimeState { get; set; }
 
-            clone.Type = type;
+        public float MoveTimeState { get; set; }
+
+        public float PatrolTimeState { get; set; }
+
+        public float AtkTimeState { get; set; }
+
+        public float RadiusAlertArea { get; set; }
+
+        public EnemyConfig CloneEnemy(Vector2 pos)
+        {
+            var clone = base.Clone(pos) as EnemyConfig;
+
+            clone.IdleTimeState = IdleTimeState;
+            clone.MoveTimeState = MoveTimeState;
+            clone.PatrolTimeState = PatrolTimeState;
+            clone.AtkTimeState = AtkTimeState;
+            clone.RadiusAlertArea = RadiusAlertArea;
 
             return clone;
         }

@@ -13,7 +13,11 @@ namespace ComfyJamSummer.Components.Gameplay
 
         float _timeLeftToNextSpawn, _spawnCooldown;
 
+        float _timeLeftToNextBuff, _buffCooldown;
+
         public bool CanSpawn { get { return _timeLeftToNextSpawn <= 0; } }
+
+        public bool CanBuff { get { return _timeLeftToNextBuff <= 0; } }
 
         public WaveController(GameManager manager, Prefabs prefabs) : base(manager, prefabs)
         {
@@ -28,6 +32,12 @@ namespace ComfyJamSummer.Components.Gameplay
             base.OnAddedToEntity();
 
             _wave = this.Entity as Wave;
+
+            if (_wave != null)
+            {
+                _buffCooldown = _wave.Duration / 8;
+                _timeLeftToNextBuff = _buffCooldown;
+            }
         }
 
         public void Process()
@@ -65,6 +75,17 @@ namespace ComfyJamSummer.Components.Gameplay
                     else
                     {
                         _timeLeftToNextSpawn -= deltaTime;
+                    }
+
+                    if (CanBuff)
+                    {
+                        _wave.BuffEnemies();
+
+                        _timeLeftToNextBuff = _buffCooldown;
+                    }
+                    else
+                    {
+                        _timeLeftToNextBuff -= deltaTime;
                     }
                 }
                 else

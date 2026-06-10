@@ -121,7 +121,7 @@ namespace ComfyJamSummer.Entities
         }
         Vector2 SpreadBullet(Vector2 dir, float maxAngle)
         {
-            float spreadAngle = Random.Range(-maxAngle, maxAngle);
+            float spreadAngle = Random.Range(-(maxAngle + Nez.Random.Range(1.35f, 2.5f)), (maxAngle + Nez.Random.Range(1.35f, 2.75f)));
 
             float rotateAngle = spreadAngle + Mathf.Atan2(dir.Y, dir.X) * Mathf.Rad2Deg;
 

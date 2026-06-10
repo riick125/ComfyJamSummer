@@ -37,7 +37,7 @@ namespace ComfyJamSummer.Prefab
 
         public PlayerConfig PlayerConfig => _playerConfig;
 
-        public EnemyConfig EnemyConfig => _enemyConfig;
+        public List<EnemyConfig> ListEnemyConfig => _enemyConfigs;
 
         public WaveConfig WaveConfig => _waveConfig;
 
@@ -53,7 +53,7 @@ namespace ComfyJamSummer.Prefab
         WaveConfig _waveConfig;
         CreatureConfig _creatureConfig;
         PlayerConfig _playerConfig;
-        EnemyConfig _enemyConfig;
+        List<EnemyConfig> _enemyConfigs;
         #endregion
 
         #region objects
@@ -117,8 +117,6 @@ namespace ComfyJamSummer.Prefab
             _dataMap = new MapData(this, _mapper);
 
             _creatureConfig = new CreatureConfig();
-            _playerConfig = new PlayerConfig();
-            _enemyConfig = new EnemyConfig();
             _waveConfig = new WaveConfig();
         }
 
@@ -131,6 +129,7 @@ namespace ComfyJamSummer.Prefab
 
         void CreatePlayer()
         {
+            _playerConfig = _dataPlayer.CreateBaseConfig();
             Player = _dataPlayer.Create();
             Gun = _dataPlayer.CreateGun();
             Bullet = _dataPlayer.CreateBullet();
@@ -141,6 +140,7 @@ namespace ComfyJamSummer.Prefab
         {
             Enemy = _dataEnemy.Create();
             BulletEnemy = _dataEnemy.CreateBullet();
+            _enemyConfigs = _dataEnemy.CreateAllBaseConfigs();
         }
 
         void CreateMap()
