@@ -27,6 +27,8 @@ namespace ComfyJamSummer.AI.Enemies
                 var player = UtilHelper.GetEntity<Player>();
 
                 _context?.Attack(player);
+
+                _context.Patrol();
             }
         }
     }

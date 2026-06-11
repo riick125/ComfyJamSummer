@@ -12,6 +12,15 @@ namespace ComfyJamSummer.AI.Enemies
         {
         }
 
+        float _stalkDistanceLimit;
+
+        public override void Begin()
+        {
+            base.Begin();
+
+            _stalkDistanceLimit = _context.SpriteWidth * 20;
+        }
+
         public override void Update(float deltaTime)
         {
             if (!Validate())
@@ -26,7 +35,7 @@ namespace ComfyJamSummer.AI.Enemies
                 return;
             }
 
-            if (Vector2.Distance(_context.Position, player.Position) <= player.SpriteHeight * 14)
+            if (Vector2.Distance(_context.Position, player.Position) <= _stalkDistanceLimit)
             {
                 _machine.ChangeState<EnemyAttackState>();
             }

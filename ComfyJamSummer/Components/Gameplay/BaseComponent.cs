@@ -48,16 +48,6 @@ namespace ComfyJamSummer.Components.Gameplay
                 {
                     return false;
                 }
-
-                switch (entity)
-                {
-                    case Creature creature:
-                        if (!creature.IsAlive)
-                        {
-                            return false;
-                        }
-                        break;
-                }
             }
 
             return !_manager.CantDoAnyAction;

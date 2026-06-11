@@ -127,13 +127,15 @@ namespace ComfyJamSummer
 
         public const float BULLET_SPEED = 115;
 
-        public const float ATK_SPEED = 2f;
+        public const float ATK_SPEED = 3.5f;
 
         public const float IDLE_TIME_STATE = 1f;
 
         public const float MOVE_TIME_STATE = 10f;
 
         public const float PATROL_TIME_STATE = 2.1f;
+
+        public const float PATROL_COOLDOWN = 1f;
 
         public const float ATK_TIME_STATE = 4f;
     }

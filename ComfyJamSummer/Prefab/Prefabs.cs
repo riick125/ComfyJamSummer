@@ -167,14 +167,14 @@ namespace ComfyJamSummer.Prefab
         {
         }
 
-        public Player GetPlayer(Vector2 pos)
+        public Player GetPlayer(uint islandId, Vector2 pos)
         {
             if (Gun == null)
             {
                 return null;
             }
 
-            var player = Player?.ClonePlayer(_dataPlayer.InitializePlayer(pos));
+            var player = Player?.ClonePlayer(_dataPlayer.InitializePlayer(islandId, pos));
 
             if (player != null)
             {
@@ -186,9 +186,9 @@ namespace ComfyJamSummer.Prefab
             return player;
         }
 
-        public Enemy GetEnemy(EnemyType type, Vector2 pos)
+        public Enemy GetEnemy(uint islandId, EnemyType type, Vector2 pos)
         {
-            return Enemy?.CloneEnemy(_dataEnemy.InitializeEnemy(type, pos));
+            return Enemy?.CloneEnemy(_dataEnemy.InitializeEnemy(islandId, type, pos));
         }
 
         public Wave GetWave(WaveConfig config)

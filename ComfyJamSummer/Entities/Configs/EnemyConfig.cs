@@ -19,9 +19,9 @@ namespace ComfyJamSummer.Entities.Configs
 
         public float MaxAngleSpread { get; set; }
 
-        public EnemyConfig CloneEnemy(Vector2 pos)
+        public EnemyConfig CloneEnemy(uint islandId, Vector2 pos)
         {
-            var clone = base.Clone(pos) as EnemyConfig;
+            var clone = base.Clone(islandId, pos) as EnemyConfig;
 
             clone.IdleTimeState = IdleTimeState;
             clone.MoveTimeState = MoveTimeState;

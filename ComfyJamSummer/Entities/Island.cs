@@ -64,7 +64,7 @@ namespace ComfyJamSummer.Entities
             {
                 foreach (var item in colliders)
                 {
-                    item.CollidesWithLayers = (int)CollisionLayer.Player | (int)CollisionLayer.Enemy;
+                    item.CollidesWithLayers = (int)CollisionLayer.Player;
                     item.PhysicsLayer = (int)CollisionLayer.Map;
                 }
             }

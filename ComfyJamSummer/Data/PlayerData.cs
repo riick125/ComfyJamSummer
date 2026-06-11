@@ -68,9 +68,9 @@ namespace ComfyJamSummer.Data
             };
         }
 
-        public PlayerConfig InitializePlayer(Vector2 pos)
+        public PlayerConfig InitializePlayer(uint islandId, Vector2 pos)
         {
-            return _prefabs?.PlayerConfig?.ClonePlayer(pos);
+            return _prefabs?.PlayerConfig?.ClonePlayer(islandId, pos);
         }
     }
 }

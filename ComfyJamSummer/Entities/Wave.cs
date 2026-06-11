@@ -96,7 +96,7 @@ namespace ComfyJamSummer.Entities
 
                 var spawnPosition = isWest ? _island.GetRandomWestPosition() : _island.GetRandomEastPosition();
 
-                var enemy = _prefabs.GetEnemy(EnemyType.Birb, spawnPosition);
+                var enemy = _prefabs.GetEnemy(_island.Id, EnemyType.Birb, spawnPosition);
 
                 Enemies.Add(this.Scene.AddEntity(enemy));
             }

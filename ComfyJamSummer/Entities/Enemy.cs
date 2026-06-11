@@ -37,7 +37,6 @@ namespace ComfyJamSummer.Entities
         public Enemy CloneEnemy(EnemyConfig config)
         {
             var clone = base.CloneCreature(config) as Enemy;
-
             clone.Type = Type;
             clone.IdleTimeState = config.IdleTimeState;
             clone.MoveTimeState = config.MoveTimeState;

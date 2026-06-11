@@ -54,8 +54,9 @@ namespace ComfyJamSummer.Data
                     IdleTimeState = EnemyValues.IDLE_TIME_STATE,
                     MoveTimeState = EnemyValues.MOVE_TIME_STATE,
                     PatrolTimeState = EnemyValues.PATROL_TIME_STATE,
+                    PatrolCooldown = EnemyValues.PATROL_COOLDOWN,
                     AtkTimeState = EnemyValues.ATK_TIME_STATE,
-                    ColliderType = ColliderType.Enemy
+                    ColliderType = ColliderType.Enemy,
                 };
 
                 result.Add(config);
@@ -64,7 +65,7 @@ namespace ComfyJamSummer.Data
             return result;
         }
 
-        public EnemyConfig InitializeEnemy(EnemyType type,
+        public EnemyConfig InitializeEnemy(uint islandId, EnemyType type,
             Vector2 pos)
         {
             var manager = UtilHelper.GameManager();
@@ -86,7 +87,7 @@ namespace ComfyJamSummer.Data
                 return null;
             }
 
-            return selectedConfig.CloneEnemy(pos);
+            return selectedConfig.CloneEnemy(islandId, pos);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace ComfyJamSummer.Entities
         public List<uint> ObjectsHittedByBullet { get; set; }
         public bool CreateImpactEffect { get; set; }
 
-        float _losingColorSpeed = 4f;
+        float _losingColorSpeed = 8f;
 
         public Bullet CloneBullet(BulletConfig config)
         {
@@ -88,6 +88,11 @@ namespace ComfyJamSummer.Entities
                 Alpha -= _losingColorSpeed * deltaTime;
 
                 GetAnyRenderer().SetColor(Color.White * Alpha);
+
+                if (Alpha <= 0)
+                {
+                    this.Destroy();
+                }
                 return;
             }
 
@@ -130,6 +135,8 @@ namespace ComfyJamSummer.Entities
 
                         ObjectsHittedByBullet.Add(hit.Entity.Id);
 
+                        var wasHit = false;
+
                         switch (hit.Entity)
                         {
                             case Player player:
@@ -138,7 +145,7 @@ namespace ComfyJamSummer.Entities
                                     continue;
                                 }
 
-                                player.TakeDamage(Damage);
+                                wasHit = player.TakeDamage(Damage);
                                 break;
 
                             case Enemy enemy:
@@ -147,9 +154,11 @@ namespace ComfyJamSummer.Entities
                                     continue;
                                 }
 
-                                enemy.TakeDamage(Damage);
+                                wasHit = enemy.TakeDamage(Damage);
                                 break;
                         }
+
+                        Collided = wasHit;
                     }
                 }
             }

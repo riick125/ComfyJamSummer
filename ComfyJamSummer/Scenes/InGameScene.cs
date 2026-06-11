@@ -42,7 +42,7 @@ namespace ComfyJamSummer.Scenes
 
                 Camera.SetZoom(Game1.GameZoom);
 
-                _player = AddEntity(_prefabs.GetPlayer(_island.CenterPosition()));
+                _player = AddEntity(_prefabs.GetPlayer(_island.Id, _island.CenterPosition()));
 
                 Camera.AddComponent(new FollowCamera(_player, Camera));
 

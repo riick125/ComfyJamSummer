@@ -28,6 +28,10 @@ namespace ComfyJamSummer.AI.Enemies
             {
                 _machine.ChangeState<EnemyMoveState>();
             }
+            else
+            {
+                _context.Patrol();
+            }
         }
     }
 }

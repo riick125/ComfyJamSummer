@@ -4,9 +4,9 @@ namespace ComfyJamSummer.Entities.Configs
 {
     public class PlayerConfig : CreatureConfig
     {
-        public PlayerConfig ClonePlayer(Vector2 pos)
+        public PlayerConfig ClonePlayer(uint islandId, Vector2 pos)
         {
-            return base.Clone(pos) as PlayerConfig;
+            return base.Clone(islandId, pos) as PlayerConfig;
         }
     }
 }
