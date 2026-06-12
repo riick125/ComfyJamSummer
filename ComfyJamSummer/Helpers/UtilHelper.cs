@@ -306,21 +306,6 @@ namespace ComfyJamSummer.Helpers
             Core.Scene.EntitiesOfType<T>().ForEach(x => { x.Destroy(); });
         }
 
-        public static Vector2 PerpendicularDirection(Vector2 source, Vector2 destination, float force = 32)
-        {
-            var perpendicularDirection = destination - source;
-            perpendicularDirection.Normalize();
-
-            perpendicularDirection = new Vector2(-perpendicularDirection.Y, perpendicularDirection.X);
-
-            var surroundingPosition = destination + perpendicularDirection * force;
-
-            var destinationDirection = surroundingPosition - source;
-            destinationDirection.Normalize();
-
-            return destinationDirection;
-        }
-
         public static Texture2D CreatePixelCircle(GraphicsDevice graphicsDevice, int radius, Color color = default, float alpha = 0.09f)
         {
             var selectedColor = Constants.SPRITE_COLOR;

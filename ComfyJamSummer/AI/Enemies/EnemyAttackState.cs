@@ -11,6 +11,13 @@ namespace ComfyJamSummer.AI.Enemies
         {
         }
 
+        public override void Begin()
+        {
+            base.Begin();
+
+            _context.AtkTimeState = _context.AtkSpeed;
+        }
+
         public override void Update(float deltaTime)
         {
             if (!Validate())
@@ -27,8 +34,6 @@ namespace ComfyJamSummer.AI.Enemies
                 var player = UtilHelper.GetEntity<Player>();
 
                 _context?.Attack(player);
-
-                _context.Patrol();
             }
         }
     }

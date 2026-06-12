@@ -49,6 +49,7 @@ namespace ComfyJamSummer.Entities.Creatures
 
         public bool GoingToDestination { get; set; }
         public Vector2 GoingDirection { get; set; }
+        public Vector2 PerpendicularDirection { get; set; }
         public Vector2 GoingDestination { get; set; }
         public float TimeLeftToNextPatrol { get; set; }
 
@@ -231,6 +232,7 @@ namespace ComfyJamSummer.Entities.Creatures
                         if (GoingDirection != default)
                         {
                             GoingDestination = this.Position + new Vector2(SpriteWidth * Nez.Random.Range(2.1f, 3.8f)) * GoingDirection;
+                            PerpendicularDirection = DirectionHelper.PerpendicularDirection(this.Position, GoingDestination);
 
                             GoingToDestination = true;
                         }
@@ -269,6 +271,7 @@ namespace ComfyJamSummer.Entities.Creatures
 
         void ResetPatrol()
         {
+            PerpendicularDirection = default;
             GoingDirection = default;
             GoingToDestination = false;
 
@@ -283,7 +286,7 @@ namespace ComfyJamSummer.Entities.Creatures
 
             var vel = Vector2.Zero;
 
-            vel += GoingDirection * Speed * deltaTime;
+            vel += PerpendicularDirection * Speed * deltaTime;
 
             pos += vel;
 

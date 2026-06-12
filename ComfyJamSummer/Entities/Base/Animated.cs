@@ -6,6 +6,7 @@ using ComfyJamSummer.Prefab;
 using Microsoft.Xna.Framework;
 using Nez;
 using Nez.Sprites;
+using System.Collections.Generic;
 
 namespace ComfyJamSummer.Entities.Base
 {
@@ -66,7 +67,25 @@ namespace ComfyJamSummer.Entities.Base
         public int SpriteHeight { get; set; }
 
         public float Alpha { get; set; }
+
         public float AlmostDisappearingAlpha { get; private set; }
+
+        public List<SoundPerFrame> WalkSoundPerFrame { get; set; }
+
+        public class SoundPerFrame
+        {
+            public int ActualFrame { get; set; }
+
+            public bool ShouldPlay { get; set; }
+
+            public bool AlreadyPlayed { get; set; }
+
+            public string SoundName { get; set; }
+
+            public string AnimationName { get; set; }
+
+            public bool AllowPitchChange { get; set; }
+        }
 
         public Animated CloneAnimated(Vector2 pos)
         {

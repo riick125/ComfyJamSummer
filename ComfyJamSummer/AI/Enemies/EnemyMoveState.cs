@@ -37,7 +37,14 @@ namespace ComfyJamSummer.AI.Enemies
 
             if (Vector2.Distance(_context.Position, player.Position) <= _stalkDistanceLimit)
             {
-                _machine.ChangeState<EnemyAttackState>();
+                if (Nez.Random.Chance(0.42f))
+                {
+                    _machine.ChangeState<EnemyAttackState>();
+                }
+                else
+                {
+                    _machine.ChangeState<EnemyPatrolState>();
+                }
             }
             else
             {

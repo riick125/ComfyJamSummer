@@ -19,6 +19,8 @@ namespace ComfyJamSummer
     {
         public const string PLAYER = "Player";
         public const string ISLAND = "Island";
+        public const string BATTLE = "Battle";
+        public const string COLLECTIBLE_SPAWNER = "CollectibleSpawner";
     }
 
     public static class StaticStuff
@@ -119,7 +121,7 @@ namespace ComfyJamSummer
 
     public static class EnemyValues
     {
-        public const float HP = 100;
+        public const float HP = 75;
 
         public const float DMG = 38;
 
@@ -127,13 +129,13 @@ namespace ComfyJamSummer
 
         public const float BULLET_SPEED = 115;
 
-        public const float ATK_SPEED = 3.5f;
+        public const float ATK_SPEED = 3.25f;
 
-        public const float IDLE_TIME_STATE = 1f;
+        public const float IDLE_TIME_STATE = 0.5f;
 
         public const float MOVE_TIME_STATE = 10f;
 
-        public const float PATROL_TIME_STATE = 2.1f;
+        public const float PATROL_TIME_STATE = 1.1f;
 
         public const float PATROL_COOLDOWN = 1f;
 

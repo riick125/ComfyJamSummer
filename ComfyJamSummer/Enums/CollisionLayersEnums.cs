@@ -14,4 +14,14 @@
         Player,
         Enemy
     }
+
+    public enum CollisionTag
+    {
+        Body,
+        Shadow,
+        AttackArea,
+        CatchArea,
+        ShowPopupItemInfoArea,
+        AvoidObstacleArea
+    }
 }

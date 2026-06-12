@@ -46,7 +46,9 @@ namespace ComfyJamSummer.Scenes
 
                 Camera.AddComponent(new FollowCamera(_player, Camera));
 
-                CreateEntity("Battle").AddComponent(new BattleComponent(_island, _gameManager, _prefabs));
+                CreateEntity(EntityNames.BATTLE).AddComponent(new BattleComponent(_island, _gameManager, _prefabs));
+
+                CreateEntity(EntityNames.COLLECTIBLE_SPAWNER).AddComponent(new CollectibleSpawner(_gameManager, _prefabs));
             }
         }
     }

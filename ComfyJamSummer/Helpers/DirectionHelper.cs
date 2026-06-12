@@ -27,5 +27,20 @@ namespace ComfyJamSummer.Helpers
 
             return true;
         }
+
+        public static Vector2 PerpendicularDirection(Vector2 source, Vector2 destination, float force = 32)
+        {
+            var perpendicularDirection = destination - source;
+            perpendicularDirection.Normalize();
+
+            perpendicularDirection = new Vector2(-perpendicularDirection.Y, perpendicularDirection.X);
+
+            var surroundingPosition = destination + perpendicularDirection * force;
+
+            var destinationDirection = surroundingPosition - source;
+            destinationDirection.Normalize();
+
+            return destinationDirection;
+        }
     }
 }

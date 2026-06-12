@@ -29,6 +29,9 @@ namespace ComfyJamSummer.Components.Gameplay
 
         protected bool Validate(Entity entity)
         {
+            if (!Enabled)
+                return false;
+
             if (_scene == null || _camera == null)
                 return false;
 
