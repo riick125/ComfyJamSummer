@@ -215,7 +215,7 @@ namespace ComfyJamSummer.Data
             return Array.ConvertAll(values, x => (Enum)x).ToList();
         }
 
-        protected virtual List<CustomTextureData> CreateAll(JsonDataResult<SpriteJsonData> jsonData)
+        protected virtual List<CustomTextureData> CreateAllJsonData(JsonDataResult<SpriteJsonData> jsonData)
         {
             var result = new List<CustomTextureData>();
 

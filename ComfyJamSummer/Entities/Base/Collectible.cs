@@ -1,7 +1,10 @@
 ﻿using ComfyJamSummer.Components.Extensions;
+using ComfyJamSummer.Components.Visuals;
 using ComfyJamSummer.Enums;
+using ComfyJamSummer.Helpers;
 using Microsoft.Xna.Framework;
 using Nez;
+using System;
 using System.Linq;
 
 namespace ComfyJamSummer.Entities.Base
@@ -15,8 +18,6 @@ namespace ComfyJamSummer.Entities.Base
         public Vector2 Speed { get; set; } = new Vector2(225, 225);
 
         public float TimeLeftToBeCollected { get; set; }
-
-        private float _timeLeftToBeCollected = 0.35f;
 
         public bool CanBeCollected { get { return TimeLeftToBeCollected <= 0 && !FollowingCatcher; } }
 
@@ -37,17 +38,23 @@ namespace ComfyJamSummer.Entities.Base
             }
             private set { }
         }
-        public bool Squeezed { get; set; }
-        private float _squeezeDelay = 0.015f;
 
-        public Collectible CloneCollectible(uint islandId, CollectibleType type, Vector2 pos)
+        public Vector2 FallDestination { get; set; }
+
+        public Collectible CloneCollectible(uint islandId, Vector2 pos, Vector2 fallDestination)
         {
-            var name = type.ToString().ToLower().Replace("_", " ");
+            var name = Type.ToString().ToLower().Replace("_", " ");
 
             var clone = base.CloneInteractable(islandId, pos, 0, 0, $"Press [E] to collect {name}") as Collectible;
+            clone.FallDestination = fallDestination;
 
-            clone.SetScale(0);
-            clone.RotationDegrees = Nez.Random.Range(30, 100);
+            clone.AddComponent(new JuicyAppear(UtilHelper.GameManager(), UtilHelper.Prefabs()));
+
+            var distanceY = Math.Abs(pos.Y - fallDestination.Y);
+
+            clone.AddComponent(new FakeShadowComponent(8, distanceY));
+
+            clone.AddComponent(new BounceComponent(clone, islandId, new Vector2(100), 3));
 
             return clone;
         }

@@ -19,7 +19,7 @@ namespace ComfyJamSummer.Data
         {
             JsonDataResult<SpriteJsonData> jsonData = new JsonDataResult<SpriteJsonData>("");
 
-            return base.CreateAll(jsonData);
+            return base.CreateAllJsonData(jsonData);
         }
     }
 }

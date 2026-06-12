@@ -93,7 +93,7 @@ namespace ComfyJamSummer.Entities.Base
                 return;
             }
 
-            var player = UtilHelper.GetEntity<Player>();
+            var player = UtilHelper.Player();
 
             if (player == null)
             {

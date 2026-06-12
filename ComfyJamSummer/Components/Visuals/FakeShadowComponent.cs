@@ -1,4 +1,4 @@
-﻿using ComfyJamSummer.Components.Extensions;
+﻿using ComfyJamSummer.Entities;
 using ComfyJamSummer.Entities.Base;
 using ComfyJamSummer.Helpers;
 using Microsoft.Xna.Framework;
@@ -9,6 +9,10 @@ namespace ComfyJamSummer.Components.Visuals
 {
     public class FakeShadowComponent : Component, IUpdatable
     {
+        Island _island;
+
+        SpriteRenderer _shadowRenderer;
+
         private int _radius;
         private float _offsetY;
         private float _offsetX;
@@ -63,6 +67,8 @@ namespace ComfyJamSummer.Components.Visuals
                 return;
             }
 
+            _island = UtilHelper.GetEntity<Island>();
+
             entity.Shadow = UtilHelper.Prefabs().Shadow.Clone() as Shadow;
             entity.Shadow.OffsetY = _offsetY;
 
@@ -72,12 +78,11 @@ namespace ComfyJamSummer.Components.Visuals
             }
 
             var texture = UtilHelper.CreatePixelCircle(Core.GraphicsDevice, _radius, _color, _alpha);
-            var renderer = entity.Shadow.AddComponent(new SpriteRenderer(texture));
+            _shadowRenderer = entity.Shadow.AddComponent(new SpriteRenderer(texture));
 
             var renderLayer = entity.Animator != null ? entity.Animator.RenderLayer : entity.Renderer.RenderLayer;
 
-            renderer.SetRenderLayer(renderLayer + 1);
-            renderer.SetLocalOffset(new Vector2(_offsetX, _offsetY));
+            _shadowRenderer.SetRenderLayer(renderLayer + 1);
 
             Core.Scene.AddEntity(entity.Shadow);
         }
@@ -102,12 +107,20 @@ namespace ComfyJamSummer.Components.Visuals
                 return;
             }
 
-            entity.Shadow.Position = new Vector2(entity.Position.X, FollowPositionY ? entity.Position.Y + _offsetY : entity.Shadow.Position.Y);
+            if (_island == null)
+            {
+                this.RemoveComponent();
+                return;
+            }
+
+            var position = new Vector2(entity.Position.X, entity.Position.Y + _offsetY);
+
+            position.Y = Mathf.Clamp(position.Y, entity.Position.Y, _island.MaxPositionY - (_shadowRenderer.Height * 1.25f));
+
+            entity.Shadow.SetPosition(position);
 
             if (_timeLeftToUpdateScale <= 0)
             {
-                entity.Shadow.SetPosition(entity.Shadow.Position.X, entity.Shadow.Position.Y);
-
                 entity.Shadow.SetScale(new Vector2(_originalScale + (Nez.Random.Range(0, 0.05f) * Nez.Random.MinusOneToOne()), _originalScale + (Nez.Random.Range(0, 0.05f) * Nez.Random.MinusOneToOne())));
 
                 _timeLeftToUpdateScale = _updateScaleCooldown;

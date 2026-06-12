@@ -84,6 +84,8 @@ namespace ComfyJamSummer
 
         public const string PLAYER_DATA_PATH = "sprites/gameplay/player/";
 
+        public const string COLLECTIBLE_DATA_PATH = "sprites/gameplay/collectible/";
+
         public const string ENEMY_DATA_PATH = "sprites/gameplay/enemy/";
 
         public const string MAP_DATA_PATH = "Content/tmx/";

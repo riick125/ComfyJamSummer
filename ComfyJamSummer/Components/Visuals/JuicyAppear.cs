@@ -33,15 +33,15 @@ namespace ComfyJamSummer.Components.Visuals
         {
             _rotationSpeed = 1200;
 
-            _scaleIncreaseSpeed = 4f;
-            _colorIncreaseSpeed = 7f;
+            _scaleIncreaseSpeed = 7.5f;
+            _colorIncreaseSpeed = 5f;
 
             _minStartDelay = 0.0001f;
-            _maxStartDelay = 0.0009f;
+            _maxStartDelay = 0.001f;
 
             _startDelay = Nez.Random.Range(_minStartDelay, _maxStartDelay);
 
-            _maxInflateValue = 1.15f;
+            _maxInflateValue = 1.75f;
         }
 
         public override void OnAddedToEntity()
@@ -88,7 +88,6 @@ namespace ComfyJamSummer.Components.Visuals
 
                     _target.RotationDegrees += _rotationSpeed * deltaTime;
 
-                    _target.SetScale(scale);
                     _target.GetAnyRenderer().SetColor(Color.White * _target.Alpha);
 
                     if (scale >= 1f && _target.Alpha >= 1f)
@@ -99,7 +98,7 @@ namespace ComfyJamSummer.Components.Visuals
                     break;
 
                 case JuicyAppearState.Inflating:
-                    scale += (_scaleIncreaseSpeed * 1.5f) * deltaTime;
+                    scale += (_scaleIncreaseSpeed * 1.75f) * deltaTime;
                     scale = Mathf.Clamp(scale, 0, _maxInflateValue);
 
                     if (scale >= _maxInflateValue)
@@ -109,7 +108,7 @@ namespace ComfyJamSummer.Components.Visuals
                     break;
 
                 case JuicyAppearState.Deflating:
-                    scale -= (_scaleIncreaseSpeed * 0.75f) * deltaTime;
+                    scale -= (_scaleIncreaseSpeed * 0.85f) * deltaTime;
                     scale = Mathf.Clamp(scale, 1f, _maxInflateValue);
 
                     if (scale <= 1f)
@@ -119,6 +118,8 @@ namespace ComfyJamSummer.Components.Visuals
                     }
                     break;
             }
+
+            _target.SetScale(scale);
         }
     }
 }

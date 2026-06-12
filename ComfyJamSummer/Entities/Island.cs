@@ -42,6 +42,14 @@ namespace ComfyJamSummer.Entities
             }
         }
 
+        public float MaxPositionX => Position.X + Renderer.Width - TileWidth;
+
+        public float MaxPositionY => Position.Y + Renderer.Height - TileHeight;
+
+        public int TileWidth => Renderer == null ? 0 : Renderer.TiledMap.TileWidth;
+
+        public int TileHeight => Renderer == null ? 0 : Renderer.TiledMap.TileWidth;
+
         public Island CloneIsland(int wavesQty, Vector2 pos)
         {
             var clone = base.Clone(pos) as Island;

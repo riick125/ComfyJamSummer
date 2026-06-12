@@ -4,6 +4,7 @@ using ComfyJamSummer.CustomPostProcessors;
 using ComfyJamSummer.Entities;
 using ComfyJamSummer.Helpers;
 using ComfyJamSummer.Scenes.Base;
+using Microsoft.Xna.Framework;
 using Nez;
 
 namespace ComfyJamSummer.Scenes
@@ -32,7 +33,7 @@ namespace ComfyJamSummer.Scenes
         {
             base.Begin();
 
-            _island = _prefabs.Island.CloneIsland(15, Screen.Center);
+            _island = _prefabs.Island.CloneIsland(15, Vector2.Zero);
 
             if (_island != null)
             {

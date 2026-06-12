@@ -22,7 +22,7 @@ namespace ComfyJamSummer.Components.Extensions
         private float _bounceForce = 308;
         private int _bounceCounter, _bounceQuantity;
         private float _bounceDelay = 0.002f, _timeLeftToNextBounce;
-        private bool _isOnFloor;
+        private bool _isOnFloor, _isOutSideOfMap = true;
 
         public bool IsOnFloor { get { return this._isOnFloor; } }
 
@@ -107,93 +107,102 @@ namespace ComfyJamSummer.Components.Extensions
                 return;
             }
 
-            if (!_isOnFloor)
+            if (_entityMover == null)
+            {
+                _entityMover = _entity.GetComponent<RickMover>();
+            }
+
+            if (_shadowMover == null)
+            {
+                _shadowMover = _shadow.GetComponent<RickMover>();
+            }
+
+            if (_isOutSideOfMap)
             {
                 _entity.RotationDegrees += _rotationVel * deltaTime;
 
-                if (_entityMover == null)
-                {
-                    _entityMover = _entity.GetComponent<RickMover>();
-                }
 
-                if (_shadowMover == null)
-                {
-                    _shadowMover = _shadow.GetComponent<RickMover>();
-                }
-
-                var collisionResult = new CollisionResult();
-
-                var collisionResultShadow = new CollisionResult();
-
-                var velEntity = Vector2.Zero;
-
-                var velShadow = Vector2.Zero;
-
-                velEntity += _velocity * deltaTime;
-
-                velEntity.Y += _gravity * deltaTime;
-
-                velShadow.Y += _gravityShadow * deltaTime;
-
-                _entityMover.Move(velEntity, out collisionResult);
-
-                var posXEntity = _entity.Position.X;
-                var posYEntity = _entity.Position.Y;
-
-                //posXEntity = Mathf.Clamp(posXEntity, island.MinPositionX + _entity.SpriteWidth, island.MaxPositionX - _entity.SpriteWidth);
-
-                posYEntity = Mathf.Clamp(posYEntity, _shadow.Position.Y - _maxDistanceOfShadow, _shadow.Position.Y);
-
-                _entity.SetPosition(new Vector2(posXEntity, posYEntity));
-
-                _shadowMover.Move(velShadow, out collisionResultShadow);
-
-                var posYShadow = _shadow.Position.Y;
-
-                //posYShadow = Mathf.Clamp(posYShadow, island.MinPositionY, island.MaxPositionY - _entity.SpriteHeight);
-
-                _shadow.SetPosition(_entity.Position.X, posYShadow);
-
-                if (_entity.Position.Y + _safeDistanceY >= _shadow.Position.Y)
-                {
-                    if (_timeLeftToNextBounce <= 0)
-                    {
-                        if (_entity.CrazyScaleComponent != null)
-                        {
-                            _entity.CrazyScaleComponent.Squeeze();
-                        }
-
-                        if (_bounceCounter < _bounceQuantity)
-                        {
-                            var bounceVel = new Vector2(0, _bounceForce * deltaTime);
-
-                            _entityMover.Move(-bounceVel, out collisionResult);
-
-                            _bounceForce *= 0.94f;
-
-                            _bounceCounter++;
-                        }
-                        else
-                        {
-                            _isOnFloor = true;
-                        }
-
-                        _timeLeftToNextBounce = _bounceDelay;
-                    }
-                    else
-                    {
-                        _timeLeftToNextBounce -= deltaTime;
-                    }
-                }
             }
             else
             {
-                if (_resetRotation)
-                    _entity.RotationDegrees = 0;
+                if (!_isOnFloor)
+                {
+                    _entity.RotationDegrees += _rotationVel * deltaTime;
 
-                _entity.Position = _shadow.Position;
+                    var collisionResult = new CollisionResult();
 
-                this.RemoveComponent();
+                    var collisionResultShadow = new CollisionResult();
+
+                    var velEntity = Vector2.Zero;
+
+                    var velShadow = Vector2.Zero;
+
+                    velEntity += _velocity * deltaTime;
+
+                    velEntity.Y += _gravity * deltaTime;
+
+                    velShadow.Y += _gravityShadow * deltaTime;
+
+                    _entityMover.Move(velEntity, out collisionResult);
+
+                    var posXEntity = _entity.Position.X;
+                    var posYEntity = _entity.Position.Y;
+
+                    //posXEntity = Mathf.Clamp(posXEntity, island.MinPositionX + _entity.SpriteWidth, island.MaxPositionX - _entity.SpriteWidth);
+
+                    posYEntity = Mathf.Clamp(posYEntity, _shadow.Position.Y - _maxDistanceOfShadow, _shadow.Position.Y);
+
+                    _entity.SetPosition(new Vector2(posXEntity, posYEntity));
+
+                    _shadowMover.Move(velShadow, out collisionResultShadow);
+
+                    var posYShadow = _shadow.Position.Y;
+
+                    //posYShadow = Mathf.Clamp(posYShadow, island.MinPositionY, island.MaxPositionY - _entity.SpriteHeight);
+
+                    _shadow.SetPosition(_entity.Position.X, posYShadow);
+
+                    if (_entity.Position.Y + _safeDistanceY >= _shadow.Position.Y)
+                    {
+                        if (_timeLeftToNextBounce <= 0)
+                        {
+                            if (_entity.CrazyScaleComponent != null)
+                            {
+                                _entity.CrazyScaleComponent.Squeeze();
+                            }
+
+                            if (_bounceCounter < _bounceQuantity)
+                            {
+                                var bounceVel = new Vector2(0, _bounceForce * deltaTime);
+
+                                _entityMover.Move(-bounceVel, out collisionResult);
+
+                                _bounceForce *= 0.94f;
+
+                                _bounceCounter++;
+                            }
+                            else
+                            {
+                                _isOnFloor = true;
+                            }
+
+                            _timeLeftToNextBounce = _bounceDelay;
+                        }
+                        else
+                        {
+                            _timeLeftToNextBounce -= deltaTime;
+                        }
+                    }
+                }
+                else
+                {
+                    if (_resetRotation)
+                        _entity.RotationDegrees = 0;
+
+                    _entity.Position = _shadow.Position;
+
+                    this.RemoveComponent();
+                }
             }
         }
 

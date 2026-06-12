@@ -6,9 +6,9 @@ namespace ComfyJamSummer.Entities.Collectibles
 {
     public class FriedChicken : Collectible
     {
-        public FriedChicken CloneFried(uint islandId, Vector2 pos)
+        public FriedChicken CloneFried(uint islandId, Vector2 pos, Vector2 fallDestination)
         {
-            var clone = base.CloneCollectible(islandId, CollectibleType.Fried_Chicken, pos) as FriedChicken;
+            var clone = base.CloneCollectible(islandId, pos, fallDestination) as FriedChicken;
 
             return clone;
         }

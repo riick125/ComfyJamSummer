@@ -1,5 +1,7 @@
 ﻿using ComfyJamSummer.AI.Enemies;
 using ComfyJamSummer.Entities;
+using ComfyJamSummer.Enums;
+using ComfyJamSummer.Helpers;
 using ComfyJamSummer.Manager;
 using ComfyJamSummer.Prefab;
 using Microsoft.Xna.Framework;
@@ -13,6 +15,8 @@ namespace ComfyJamSummer.Components.Gameplay
         Enemy _enemy;
 
         StateMachine<Enemy> _machine;
+
+        bool _spawnedCollectible;
 
         public EnemyController(GameManager manager, Prefabs prefabs) : base(manager, prefabs)
         {
@@ -50,6 +54,22 @@ namespace ComfyJamSummer.Components.Gameplay
 
             if (!_enemy.IsAlive)
             {
+                if (!_spawnedCollectible)
+                {
+                    var player = UtilHelper.Player();
+
+                    if (player != null)
+                    {
+                        var collectibleSpawner = UtilHelper.GetComponent<CollectibleSpawner>();
+
+                        var qty = 1; //Nez.Random.Range(4, 7)
+
+                        collectibleSpawner?.Spawn(CollectibleType.Fried_Chicken, qty, _enemy.Position, player.Position);
+                    }
+
+                    _spawnedCollectible = true;
+                }
+
                 _enemy.RotationDegrees += _enemy.DyingRotationSpeed * deltaTime;
 
                 var scale = _enemy.Scale.X;

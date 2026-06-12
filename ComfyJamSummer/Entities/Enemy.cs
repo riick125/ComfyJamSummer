@@ -16,7 +16,7 @@ namespace ComfyJamSummer.Entities
 
         public EnemyController EnemyController => this.GetComponent<EnemyController>();
 
-        public Player Player => UtilHelper.GetEntity<Player>();
+        public Player Player => UtilHelper.Player();
 
         public EnemyType Type { get; set; }
 

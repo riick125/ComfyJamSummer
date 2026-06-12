@@ -35,6 +35,8 @@ namespace ComfyJamSummer.Prefab
 
         public PlayerData PlayerData { get { return _dataPlayer; } }
 
+        public CollectibleData CollectibleData { get { return _dataCollectible; } }
+
         public PlayerConfig PlayerConfig => _playerConfig;
 
         public List<EnemyConfig> ListEnemyConfig => _enemyConfigs;
@@ -47,6 +49,7 @@ namespace ComfyJamSummer.Prefab
 
         LogoData _dataLogo;
         PlayerData _dataPlayer;
+        CollectibleData _dataCollectible;
         EnemyData _dataEnemy;
         NpcObjectData _dataNpc;
         MapData _dataMap;
@@ -81,6 +84,9 @@ namespace ComfyJamSummer.Prefab
         Wave Wave;
         Enemy Enemy;
         public Bullet BulletEnemy { get; private set; }
+
+        List<Collectible> Collectibles;
+
         public Shadow Shadow;
         List<DebuffIcon> DebuffsIcons;
         List<CustomTextureData> _uiTextures;
@@ -104,6 +110,8 @@ namespace ComfyJamSummer.Prefab
 
             CreatePlayer();
 
+            CreateCollectibles();
+
             CreateEnemies();
 
             CreateUIContent();
@@ -116,6 +124,7 @@ namespace ComfyJamSummer.Prefab
             _dataLogo = new LogoData(this, _mapper);
             _dataNpc = new NpcObjectData(this, _mapper);
             _dataPlayer = new PlayerData(this, _mapper);
+            _dataCollectible = new CollectibleData(this, _mapper);
             _dataEnemy = new EnemyData(this, _mapper);
             _dataMap = new MapData(this, _mapper);
 
@@ -138,6 +147,11 @@ namespace ComfyJamSummer.Prefab
             Gun = _dataPlayer.CreateGun();
             Bullet = _dataPlayer.CreateBullet();
             Shadow = new Shadow();
+        }
+
+        void CreateCollectibles()
+        {
+            Collectibles = _dataCollectible.CreateAll();
         }
 
         void CreateEnemies()
@@ -189,6 +203,13 @@ namespace ComfyJamSummer.Prefab
         public Enemy GetEnemy(uint islandId, EnemyType type, Vector2 pos)
         {
             return Enemy?.CloneEnemy(_dataEnemy.InitializeEnemy(islandId, type, pos));
+        }
+
+        public Collectible GetCollectible(uint islandId, CollectibleType type, Vector2 pos, Vector2 fallDestination)
+        {
+            var selected = Collectibles?.FirstOrDefault(x=> x.Type == type);
+
+            return selected?.CloneCollectible(islandId, pos, fallDestination);
         }
 
         public Wave GetWave(WaveConfig config)

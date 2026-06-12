@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ComfyJamSummer.Components.Extensions;
+﻿using ComfyJamSummer.Components.Extensions;
 using ComfyJamSummer.Components.Gameplay;
 using ComfyJamSummer.Entities;
 using ComfyJamSummer.Enums;
@@ -13,6 +10,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Nez;
 using Nez.UI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
 
 namespace ComfyJamSummer.Helpers
 {
@@ -165,6 +166,35 @@ namespace ComfyJamSummer.Helpers
             }
 
             return Core.Scene.GetSceneComponent<CustomFont>();
+        }
+
+        public static Player Player()
+        {
+            if (Core.Scene == null)
+            {
+                return null;
+            }
+
+            var entity = Core.Scene.FindEntity(EntityNames.PLAYER);
+
+            if (entity == null)
+            {
+                return null;
+            }
+
+            return entity as Player;
+        }
+
+        public static T GetComponent<T>() where T : Component
+        {
+            if (Core.Scene == null)
+            {
+                return null;
+            }
+
+            var entity = Core.Scene.EntitiesOfType<Entity>().FirstOrDefault(x=> x.HasComponent<T>());
+
+            return entity?.GetComponent<T>();
         }
 
         public static T GetEntity<T>(string name) where T : Entity, new()
