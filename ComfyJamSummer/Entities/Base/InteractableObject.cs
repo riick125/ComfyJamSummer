@@ -27,6 +27,10 @@ namespace ComfyJamSummer.Entities.Base
                 return GetComponent<CircleCollider>();
             }
         }
+
+        public Vector2 FallDestination { get; set; }
+        public Vector2 FallDirection { get; set; }
+
         protected float _talkAreaOffsetX, _talkAreaOffsetY;
 
         protected bool _disappeared;

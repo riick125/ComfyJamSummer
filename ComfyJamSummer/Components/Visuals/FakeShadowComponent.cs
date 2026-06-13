@@ -26,6 +26,8 @@ namespace ComfyJamSummer.Components.Visuals
         private Color _color;
         private float _alpha = 0.09f;
 
+        Vector2 _position;
+
         public void SetOffsetY(float amount)
         {
             _offsetY = amount;
@@ -113,9 +115,9 @@ namespace ComfyJamSummer.Components.Visuals
                 return;
             }
 
-            var position = new Vector2(entity.Position.X, entity.Position.Y + _offsetY);
+            var position = new Vector2(entity.Position.X, FollowPositionY ? entity.Position.Y + _offsetY : entity.Shadow.Position.Y);
 
-            position.Y = Mathf.Clamp(position.Y, entity.Position.Y, _island.MaxPositionY - (_shadowRenderer.Height * 1.25f));
+            position.Y = Mathf.Clamp(position.Y, _island.MinPosition.Y, _island.MaxPosition.Y - (_shadowRenderer.Height * 1.25f));
 
             entity.Shadow.SetPosition(position);
 

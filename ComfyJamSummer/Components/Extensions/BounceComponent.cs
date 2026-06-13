@@ -1,8 +1,10 @@
 ﻿using ComfyJamSummer.Components.General;
 using ComfyJamSummer.Entities;
 using ComfyJamSummer.Entities.Base;
+using ComfyJamSummer.Entities.General;
 using ComfyJamSummer.Helpers;
 using Microsoft.Xna.Framework;
+using MonoGame.Extended.ECS;
 using Nez;
 using System.Linq;
 
@@ -16,13 +18,16 @@ namespace ComfyJamSummer.Components.Extensions
 
         private Vector2 _velocity;
 
-        private float _gravity = 53;
+        private float _gravity = 70;
+        readonly float _gravityOriginalValue, _gravityMaxValue;
         private float _gravityShadow;
         private float _maxDistanceOfShadow = 20f;
-        private float _bounceForce = 308;
+        CustomAccelerator _bounceAccel;
         private int _bounceCounter, _bounceQuantity;
-        private float _bounceDelay = 0.002f, _timeLeftToNextBounce;
+        private float _bounceDelay = 0.05f, _timeLeftToNextBounce;
         private bool _isOnFloor, _isOutSideOfMap = true;
+
+        CustomAccelerator _goingUpAccel;
 
         public bool IsOnFloor { get { return this._isOnFloor; } }
 
@@ -31,38 +36,33 @@ namespace ComfyJamSummer.Components.Extensions
 
         private float _safeDistanceY = 0.1f;
 
-        private Animated _entity;
+        private InteractableObject _entity;
         private RickMover _entityMover;
 
         private Shadow _shadow;
         private RickMover _shadowMover;
 
-        public BounceComponent(Animated entity, uint islandId, Vector2 velocity, int bounceQuantity, float rotationVel = 750f, bool isHeavy = false, bool resetRotation = true)
+        public BounceComponent(uint islandId, Vector2 velocity, int bounceQuantity, float rotationVel = 750f, bool isHeavy = false, bool resetRotation = true)
         {
             try
             {
-                _entity = entity;
-
                 _islandId = islandId;
-
-                _entity.AddComponent<RickMover>();
-
-                if (_entity.Shadow == null)
-                {
-                    return;
-                }
 
                 if (isHeavy)
                 {
                     _gravity = _gravity * 1.5f;
                 }
 
+                _goingUpAccel = new CustomAccelerator(600, Nez.Random.Range(0.15f, 0.16f));
+
+                _bounceAccel = new CustomAccelerator(150);
+
+                _gravityOriginalValue = _gravity;
+                _gravityMaxValue = _gravity * 15;
+
                 _resetRotation = resetRotation;
 
                 _gravityShadow = _gravity * Nez.Random.Range(0.055f, 0.07f);
-                _shadow = _entity.Shadow;
-
-                _shadow.AddComponent<RickMover>();
 
                 _velocity = velocity;
 
@@ -78,10 +78,43 @@ namespace ComfyJamSummer.Components.Extensions
             base.OnAddedToEntity();
 
             _island = Entity.Scene.EntitiesOfType<Island>().FirstOrDefault(x => x.Id == _islandId);
+
+            if (this.Entity == null)
+            {
+                this.RemoveComponent();
+                return;
+            }
+
+            var typeClass = this.Entity.GetType();
+
+            if (typeClass != typeof(InteractableObject) && !typeClass.IsSubclassOf(typeof(InteractableObject)))
+            {
+                this.RemoveComponent();
+                return;
+            }
+
+            _entity = this.Entity as InteractableObject;
+
+            _entity.AddComponent<RickMover>();
+
+            if (_entity.Shadow == null)
+            {
+                this.RemoveComponent();
+                return;
+            }
+
+            _shadow = _entity.Shadow;
+
+            _shadow.AddComponent<RickMover>();
         }
 
         public void Process()
         {
+            if (_entity == null)
+            {
+                return;
+            }
+
             if (_entity.IsDestroyed)
             {
                 return;
@@ -119,9 +152,63 @@ namespace ComfyJamSummer.Components.Extensions
 
             if (_isOutSideOfMap)
             {
+                _gravity += (_gravity * 1.25f) * deltaTime;
+                _gravity = Mathf.Clamp(_gravity, _gravityOriginalValue, _gravityMaxValue);
+
                 _entity.RotationDegrees += _rotationVel * deltaTime;
 
+                var isGoingUp = _entity.Position.X < _island.Position.X || _entity.Position.X > _island.MaxPosition.X;
 
+                if (isGoingUp)
+                {
+                    var result = _goingUpAccel.Process();
+                    if (result)
+                    {
+                        var velBounce = Vector2.Zero;
+
+                        velBounce.Y -= _goingUpAccel.Accel * deltaTime;
+
+                        _entity.Position += velBounce;
+                    }
+                }
+
+                if (_entity.FallDestination != default)
+                {
+                    var directionShadow = _shadow.Position - _entity.Position;
+                    directionShadow.Normalize();
+
+                    var vel = Vector2.Zero;
+
+                    if (Vector2.Distance(_entity.Shadow.Position, _entity.Position) < _entity.SpriteWidth)
+                    {
+                        _gravity = _gravityOriginalValue;
+                        _isOutSideOfMap = false;
+                    }
+                    else
+                    {
+                        if (DirectionHelper.ValidateVelocity(directionShadow, vel))
+                        {
+                            var posEntityX = _entity.Position.X;
+                            var posEntityY = _entity.Position.Y;
+
+                            directionShadow.X = _entity.FallDirection.X;
+
+                            vel.X += directionShadow.X * (isGoingUp ? _gravity * 1.5f : _gravity * 0.75f) * deltaTime;
+                            vel.Y += directionShadow.Y * _gravity * deltaTime;
+                            _entity.Position += vel;
+                        }
+                        else
+                        {
+                            _gravity = _gravityOriginalValue;
+                            _isOutSideOfMap = false;
+                        }
+                    }
+                }
+                else
+                {
+                    _gravity = _gravityOriginalValue;
+                    _isOutSideOfMap = false;
+                }
             }
             else
             {
@@ -139,26 +226,29 @@ namespace ComfyJamSummer.Components.Extensions
 
                     velEntity += _velocity * deltaTime;
 
+                    velEntity.X *= _entity.FallDirection.X > 0 ? 1 : -1;
+
                     velEntity.Y += _gravity * deltaTime;
 
                     velShadow.Y += _gravityShadow * deltaTime;
 
-                    _entityMover.Move(velEntity, out collisionResult);
+                    if (_timeLeftToNextBounce <= 0)
+                        _entityMover.Move(velEntity, out collisionResult);
 
-                    var posXEntity = _entity.Position.X;
-                    var posYEntity = _entity.Position.Y;
+                    var posEntityX = _entity.Position.X;
+                    var posEntityY = _entity.Position.Y;
 
-                    //posXEntity = Mathf.Clamp(posXEntity, island.MinPositionX + _entity.SpriteWidth, island.MaxPositionX - _entity.SpriteWidth);
+                    posEntityX = Mathf.Clamp(posEntityX, island.MinPosition.X + _entity.SpriteWidth, island.MaxPosition.X - _entity.SpriteWidth);
 
-                    posYEntity = Mathf.Clamp(posYEntity, _shadow.Position.Y - _maxDistanceOfShadow, _shadow.Position.Y);
+                    posEntityY = Mathf.Clamp(posEntityY, _shadow.Position.Y - _maxDistanceOfShadow, _shadow.Position.Y);
 
-                    _entity.SetPosition(new Vector2(posXEntity, posYEntity));
+                    _entity.SetPosition(new Vector2(posEntityX, posEntityY));
 
                     _shadowMover.Move(velShadow, out collisionResultShadow);
 
                     var posYShadow = _shadow.Position.Y;
 
-                    //posYShadow = Mathf.Clamp(posYShadow, island.MinPositionY, island.MaxPositionY - _entity.SpriteHeight);
+                    posYShadow = Mathf.Clamp(posYShadow, island.MinPosition.Y, island.MaxPosition.Y - _entity.SpriteHeight);
 
                     _shadow.SetPosition(_entity.Position.X, posYShadow);
 
@@ -173,11 +263,7 @@ namespace ComfyJamSummer.Components.Extensions
 
                             if (_bounceCounter < _bounceQuantity)
                             {
-                                var bounceVel = new Vector2(0, _bounceForce * deltaTime);
-
-                                _entityMover.Move(-bounceVel, out collisionResult);
-
-                                _bounceForce *= 0.94f;
+                                _bounceAccel.SetForce(_bounceAccel.Force * 0.94f);
 
                                 _bounceCounter++;
                             }
@@ -188,8 +274,16 @@ namespace ComfyJamSummer.Components.Extensions
 
                             _timeLeftToNextBounce = _bounceDelay;
                         }
-                        else
+                    }
+                    else
+                    {
+                        if (_timeLeftToNextBounce > 0)
                         {
+                            _bounceAccel.Process();
+
+                            var bounceVel = new Vector2(0, _bounceAccel.Accel * deltaTime);
+
+                            _entityMover.Move(-bounceVel, out collisionResult);
                             _timeLeftToNextBounce -= deltaTime;
                         }
                     }

@@ -70,8 +70,8 @@ namespace ComfyJamSummer.Entities.Creatures
                     return default;
                 }
 
-                var minX = Island.CenterPosition().X - Island.Width * 1.05f;
-                var minY = Island.CenterPosition().Y - Island.Height * 1.05f;
+                var minX = Island.CenterPosition().X - Island.Width * 0.8f;
+                var minY = Island.CenterPosition().Y - Island.Height * 0.8f;
 
                 return new Vector2(minX, minY);
             }
@@ -86,7 +86,7 @@ namespace ComfyJamSummer.Entities.Creatures
                     return default;
                 }
 
-                var maxX = Island.CenterPosition().X + Island.Width * 1.05f;
+                var maxX = Island.CenterPosition().X + Island.Width * 0.8f;
                 var maxY = Island.CenterPosition().Y - Island.Height / 2.5f;
 
                 return new Vector2(maxX, maxY);

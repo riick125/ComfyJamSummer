@@ -29,7 +29,7 @@ namespace ComfyJamSummer.Entities.Base
 
         protected BounceComponent _bounceComponent;
 
-        public BounceComponent BulletCapsuleComponent
+        public BounceComponent BounceComponent
         {
             get
             {
@@ -38,8 +38,6 @@ namespace ComfyJamSummer.Entities.Base
             }
             private set { }
         }
-
-        public Vector2 FallDestination { get; set; }
 
         public Collectible CloneCollectible(uint islandId, Vector2 pos, Vector2 fallDestination)
         {
@@ -52,11 +50,20 @@ namespace ComfyJamSummer.Entities.Base
 
             var distanceY = Math.Abs(pos.Y - fallDestination.Y);
 
-            clone.AddComponent(new FakeShadowComponent(8, distanceY));
+            clone.AddComponent(new FakeShadowComponent(8, distanceY, false));
 
-            clone.AddComponent(new BounceComponent(clone, islandId, new Vector2(100), 3));
+            clone.AddComponent(new BounceComponent(islandId, new Vector2(Nez.Random.Range(75, 150)), 3));
 
             return clone;
+        }
+
+        public override void OnAddedToScene()
+        {
+            base.OnAddedToScene();
+
+            var direction = DirectionHelper.PerpendicularDirection(Position, FallDestination);
+
+            FallDirection = direction;
         }
     }
 }

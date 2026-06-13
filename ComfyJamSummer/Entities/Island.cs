@@ -42,9 +42,9 @@ namespace ComfyJamSummer.Entities
             }
         }
 
-        public float MaxPositionX => Position.X + Renderer.Width - TileWidth;
+        public Vector2 MinPosition => new Vector2(Position.X + TileWidth, Position.Y + TileHeight);
 
-        public float MaxPositionY => Position.Y + Renderer.Height - TileHeight;
+        public Vector2 MaxPosition => new Vector2(Position.X + Renderer.Width - TileWidth, Position.Y + Renderer.Height - TileHeight);
 
         public int TileWidth => Renderer == null ? 0 : Renderer.TiledMap.TileWidth;
 

@@ -92,7 +92,7 @@ namespace ComfyJamSummer.Components.Gameplay
 
                     if (collectible.CanBeCollected)
                     {
-                        if (collectible.BulletCapsuleComponent == null)
+                        if (collectible.BounceComponent == null)
                         {
                             var direction = creature.Position - collectible.Position;
                             direction.Normalize();
