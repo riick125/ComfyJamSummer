@@ -4,6 +4,7 @@ using ComfyJamSummer.Entities.Configs;
 using ComfyJamSummer.Enums;
 using ComfyJamSummer.Prefab;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace ComfyJamSummer.Data
 {
@@ -15,7 +16,7 @@ namespace ComfyJamSummer.Data
 
         public Crab CreateCrab()
         {
-            var crab = CreateDummyRenderer<Crab>(12, 12, Color.Orange, Constants.CREATURE_RENDER_LAYER);
+            var crab = CreateDummyRenderer<Crab>(12, 12, Color.MonoGameOrange, Constants.CREATURE_RENDER_LAYER);
 
             return crab;
         }
@@ -34,12 +35,19 @@ namespace ComfyJamSummer.Data
             return starFish;
         }
 
-        //public CreatureConfig InitializeCrab(Vector2 pos)
-        //{
-        //    var maxHp = PlayerValues.HP;
-        //    var speed = PlayerValues.SPEED;
+        public CreatureConfig InitializeCrab(uint islandId, Vector2 pos)
+        {
+            return _prefabs.CrabConfig.Clone(islandId, pos);
+        }
 
-        //    return _prefabs.CreatureConfig.Clone(maxHp, 0, speed, 0, pos, ColliderType.Player);
-        //}
+        public CreatureConfig CreateBaseConfig()
+        {
+            return new CreatureConfig()
+            {
+                Damage = CrabValues.DMG,
+                Speed = CrabValues.SPEED,
+                AtkSpeed = CrabValues.ATK_SPEED
+            };
+        }
     }
 }

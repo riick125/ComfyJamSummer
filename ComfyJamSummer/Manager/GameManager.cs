@@ -11,7 +11,7 @@ namespace ComfyJamSummer.Manager
 
         public bool IsAnyCutSceneRunning { get; set; }
 
-        public bool CantDoAnyAction { get { return IsGameOver || IsAnyCutSceneRunning || IsGamePaused; } }
+        public bool CantDoAnyAction { get { return TimeLeftToEndGameStartDelay > 0 || IsGameOver || IsAnyCutSceneRunning || IsGamePaused; } }
 
         public float TimeLeftToEndGameStartDelay { get; set; }
 

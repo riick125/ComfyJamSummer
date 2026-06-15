@@ -8,6 +8,16 @@
         Dying
     }
 
+    public enum CrabAnim
+    {
+        Idle,
+        Walk,
+        Talk,
+        Hungry,
+        Build,
+        Pissed
+    }
+
     public enum GunAnim
     {
         Idle,

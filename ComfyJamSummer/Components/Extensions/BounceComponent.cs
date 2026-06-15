@@ -53,7 +53,7 @@ namespace ComfyJamSummer.Components.Extensions
                     _gravity = _gravity * 1.5f;
                 }
 
-                _goingUpAccel = new CustomAccelerator(600, Nez.Random.Range(0.15f, 0.16f));
+                _goingUpAccel = new CustomAccelerator(700, Nez.Random.Range(0.23f, 0.25f));
 
                 _bounceAccel = new CustomAccelerator(150);
 

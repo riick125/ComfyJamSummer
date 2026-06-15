@@ -45,6 +45,8 @@ namespace ComfyJamSummer.Prefab
 
         public CreatureConfig CreatureConfig => _creatureConfig;
 
+        public CreatureConfig CrabConfig => _crabConfig;
+
         public BulletConfig BulletConfig => _bulletConfig;
 
         LogoData _dataLogo;
@@ -57,6 +59,7 @@ namespace ComfyJamSummer.Prefab
 
         WaveConfig _waveConfig;
         CreatureConfig _creatureConfig;
+        CreatureConfig _crabConfig;
         BulletConfig _bulletConfig;
         PlayerConfig _playerConfig;
         List<EnemyConfig> _enemyConfigs;
@@ -80,6 +83,7 @@ namespace ComfyJamSummer.Prefab
         public Bullet Bullet { get; private set; }
 
         public Island Island { get; private set; }
+        Animated Stone;
 
         Wave Wave;
         Enemy Enemy;
@@ -164,9 +168,11 @@ namespace ComfyJamSummer.Prefab
         void CreateMap()
         {
             Island = _dataMap.Create();
+            Stone = _dataMap.CreateStone();
 
             Wave = new Wave();
 
+            _crabConfig = _dataNpc.CreateBaseConfig();
             Crab = _dataNpc.CreateCrab();
             Rocket = _dataNpc.CreateRocket();
             StarFish = _dataNpc.CreateStarFish();
@@ -198,6 +204,20 @@ namespace ComfyJamSummer.Prefab
             }
 
             return player;
+        }
+
+        public Animated GetStone(Vector2 pos)
+        {
+            var stone = Stone?.CloneAnimated(pos);
+
+            return stone;
+        }
+
+        public Crab GetCrab(uint islandId, Vector2 pos)
+        {
+            var stone = Crab?.CloneCrab(_dataNpc.InitializeCrab(islandId, pos));
+
+            return stone;
         }
 
         public Enemy GetEnemy(uint islandId, EnemyType type, Vector2 pos)

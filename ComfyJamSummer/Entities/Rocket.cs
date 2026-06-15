@@ -1,13 +1,22 @@
 ﻿using ComfyJamSummer.Entities.Base;
+using ComfyJamSummer.Enums;
 using Microsoft.Xna.Framework;
+using Nez;
 
 namespace ComfyJamSummer.Entities
 {
-    public class Rocket : Animated
+    public class Rocket : InteractableObject
     {
-        public Rocket CloneRocket(Vector2 pos)
+        public Rocket CloneRocket(uint islandId, Vector2 pos)
         {
-            var clone = base.CloneAnimated(pos) as Rocket;
+            var clone = base.CloneInteractable(islandId, pos, 0, 0, "Press [E] to escape!") as Rocket;
+
+            //clone.AddComponent(new BoxCollider(clone.SpriteWidth, clone.SpriteHeight / 2.4f)
+            //{
+            //    LocalOffset = new Vector2(0, clone.SpriteHeight / 3.5f),
+            //    CollidesWithLayers = (int)CollisionLayer.Player,
+            //    PhysicsLayer = (int)CollisionLayer.Map
+            //});
 
             return clone;
         }

@@ -13,37 +13,40 @@ namespace ComfyJamSummer.Components.Visuals
         {
             base.Update();
 
-            //var arena = this.Scene.EntitiesOfType<BattleArena>().FirstOrDefault();
+            var island = this.Scene.EntitiesOfType<Island>().FirstOrDefault();
 
-            //if (arena == null)
-            //{
-            //    return;
-            //}
+            if (island == null)
+            {
+                return;
+            }
 
-            //var entities = this.Scene.EntitiesOfType<Animated>();
+            var entities = this.Scene.EntitiesOfType<Animated>();
 
-            //foreach (var x in entities)
-            //{
-            //    var height = 0f;
+            foreach (var x in entities)
+            {
+                var height = 0f;
 
-            //    var spriteRenderer = x.GetComponent<SpriteRenderer>();
+                SpriteAnimator animator = null;
+                SpriteRenderer renderer = null;
 
-            //    if (spriteRenderer != null)
-            //    {
-            //        height = spriteRenderer.Height / 4;
-            //    }
-            //    else
-            //    {
-            //        var animator = x.GetComponent<SpriteAnimator>();
+                renderer = x.GetComponent<SpriteRenderer>();
 
-            //        if (animator != null)
-            //        {
-            //            height = animator.Height / 4;
-            //        }
-            //    }
+                if (renderer != null)
+                {
+                    height = renderer.Height / 2;
+                }
+                else
+                {
+                    animator = x.GetComponent<SpriteAnimator>();
 
-            //    UtilHelper.SetLayerDepthForMovingObject(x, height);
-            //}
+                    if (animator != null)
+                    {
+                        height = animator.Height / 3;
+                    }
+                }
+
+                UtilHelper.ProcessLayerDepth(island, x, animator != null ? animator : null, renderer != null ? renderer : animator, height);
+            }
         }
     }
 }

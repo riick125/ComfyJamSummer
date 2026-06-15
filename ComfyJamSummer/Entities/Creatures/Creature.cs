@@ -19,8 +19,6 @@ namespace ComfyJamSummer.Entities.Creatures
         public Island Island { get; private set; }
         public uint IslandId { get; set; }
 
-        public CreatureStates ActualState { get; set; }
-
         public string CreatureName { get; set; }
 
         public float ActualHP { get; set; }

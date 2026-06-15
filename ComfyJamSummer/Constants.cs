@@ -19,6 +19,7 @@ namespace ComfyJamSummer
     {
         public const string PLAYER = "Player";
         public const string ISLAND = "Island";
+        public const string STONE = "Stone";
         public const string BATTLE = "Battle";
         public const string COLLECTIBLE_SPAWNER = "CollectibleSpawner";
     }
@@ -119,6 +120,15 @@ namespace ComfyJamSummer
         public static float HP = 350;
 
         public static float SPEED = 120;
+    }
+
+    public static class CrabValues
+    {
+        public const float DMG = 87.5f;
+
+        public const float SPEED = 160;
+
+        public const float ATK_SPEED = 1f;
     }
 
     public static class EnemyValues

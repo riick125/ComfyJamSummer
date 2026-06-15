@@ -1,6 +1,7 @@
 ﻿using ComfyJamSummer.Components.Extensions;
 using ComfyJamSummer.Components.Gameplay;
 using ComfyJamSummer.Entities;
+using ComfyJamSummer.Entities.Base;
 using ComfyJamSummer.Enums;
 using ComfyJamSummer.Extensions;
 using ComfyJamSummer.Manager;
@@ -9,6 +10,7 @@ using ComfyJamSummer.Prefab;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Nez;
+using Nez.Sprites;
 using Nez.UI;
 using System;
 using System.Collections.Generic;
@@ -229,6 +231,31 @@ namespace ComfyJamSummer.Helpers
             }
 
             return entity as T;
+        }
+
+        public static void ProcessLayerDepth(Island island, Animated entity, SpriteAnimator animator = null, SpriteRenderer renderer = null, float height = 0)
+        {
+            if (animator == null && renderer == null)
+            {
+                return;
+            }
+
+            if (island == null)
+            {
+                return;
+            }
+
+            float minY = island.MaxPosition.Y;
+            float maxY = island.Position.Y;
+
+            float entityBottomY = entity.Position.Y + height;
+
+            float depth = (entityBottomY - minY) / (maxY - minY);
+
+            if (animator != null)
+                animator.SetLayerDepth(depth);
+            else if (renderer != null)
+                renderer.SetLayerDepth(depth);
         }
 
         public static Texture2D CreateRoundedRectangle(int width, int height, int cornerRadius, Color fillColor, Color borderColor, int borderWidth)

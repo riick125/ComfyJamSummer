@@ -19,6 +19,7 @@ namespace ComfyJamSummer.Components.Gameplay
         List<Wave> _waves;
 
         Wave _actualWave;
+        public Wave ActualWave { get => _actualWave; set => _actualWave = value; }
 
         public BattleComponent(Island island, GameManager manager, Prefabs prefabs) : base(manager, prefabs)
         {

@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using ComfyJamSummer.Entities;
+using ComfyJamSummer.Entities.Base;
 using ComfyJamSummer.Prefab;
+using Microsoft.Xna.Framework;
 using Nez;
 
 namespace ComfyJamSummer.Data
@@ -27,10 +29,17 @@ namespace ComfyJamSummer.Data
 
                 var tmxMap = Core.Content.LoadTiledMap(dir);
 
-                island.AddComponent(new TiledMapRenderer(tmxMap, TiledLayerNames.WALLS) { RenderLayer = Constants.MAP_RENDER_LAYER});
+                island.AddComponent(new TiledMapRenderer(tmxMap, TiledLayerNames.WALLS) { RenderLayer = Constants.MAP_RENDER_LAYER });
             }
 
             return island;
+        }
+
+        public Animated CreateStone()
+        {
+            var stone = CreateDummyRenderer<Animated>(16, 16, Color.DarkGray, Constants.CREATURE_RENDER_LAYER + 1);
+
+            return stone;
         }
     }
 }
