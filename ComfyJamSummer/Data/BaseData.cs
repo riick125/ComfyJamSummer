@@ -4,11 +4,13 @@ using ComfyJamSummer.Entities.Base;
 using ComfyJamSummer.Entities.TextureData;
 using ComfyJamSummer.Helpers;
 using ComfyJamSummer.JsonsData;
+using ComfyJamSummer.JsonsData.AsepriteData;
 using ComfyJamSummer.Prefab;
 using ComfyJamSummer.Results;
 using ComfyJamSummer.UI.Animations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json;
 using Nez;
 using Nez.Sprites;
 using Nez.Textures;
@@ -284,6 +286,27 @@ namespace ComfyJamSummer.Data
             CreateSingleColorSpriteRenderer(animated, color, renderLayer);
 
             return animated;
+        }
+
+        public SpriteFrameData LoadAsepriteJson(string dir)
+        {
+            try
+            {
+                var jsonString = File.ReadAllText(dir);
+
+                var spriteData = JsonConvert.DeserializeObject<SpriteFrameData>(jsonString);
+
+                if (spriteData != null && spriteData.Frames != null)
+                {
+                    return spriteData;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+            return null;
         }
     }
 }

@@ -2,6 +2,8 @@
 {
     public enum CollectibleType
     {
-        Fried_Chicken
+        Fried_Chicken,
+        Sandwich,
+        Sliced_Bread
     }
 }

@@ -54,6 +54,11 @@ namespace ComfyJamSummer.Entities
 
             AnimHelper.Play(clone.Animator, BirbAnim.Idle);
 
+            if (clone.Animator != null)
+            {
+                clone.Animator.Speed = 1.25f;
+            }
+
             return clone;
         }
 

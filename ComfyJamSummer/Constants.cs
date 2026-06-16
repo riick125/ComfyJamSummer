@@ -12,7 +12,7 @@ namespace ComfyJamSummer
     public class TiledLayerNames
     {
         public const string FLOOR = "floor";
-        public const string WALLS = "walls";
+        public const string WALLS = "collision";
     }
 
     public class EntityNames
@@ -58,7 +58,7 @@ namespace ComfyJamSummer
         public const int GAME_WIDTH = 320;
         public const int GAME_HEIGHT = 180;
 
-        public const float MIN_GAME_ZOOM = 0.75f;
+        public const float MIN_GAME_ZOOM = 1.1f;
 
         public const float GameZoom = 2;
 
@@ -86,7 +86,7 @@ namespace ComfyJamSummer
 
         public const string PLAYER_DATA_PATH = "sprites/gameplay/player/";
 
-        public const string COLLECTIBLE_DATA_PATH = "sprites/gameplay/collectible/";
+        public const string COLLECTIBLE_DATA_PATH = "sprites/gameplay/collectibles/";
 
         public const string ENEMY_DATA_PATH = "sprites/gameplay/enemies/";
 

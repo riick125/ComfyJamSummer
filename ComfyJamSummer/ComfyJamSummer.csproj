@@ -370,6 +370,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Update="Content\jsons\aseprite\collectibles\fried_chicken.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Content\jsons\aseprite\collectibles\sandwich.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Content\jsons\aseprite\collectibles\sliced_bread.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Content\MonoGame.Extended.Content.Pipeline.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

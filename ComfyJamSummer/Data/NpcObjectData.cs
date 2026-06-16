@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using ComfyJamSummer.Entities;
 using ComfyJamSummer.Entities.Configs;
+using ComfyJamSummer.Entities.Objects;
 using ComfyJamSummer.Enums;
 using ComfyJamSummer.Prefab;
 using Microsoft.Xna.Framework;
+using Nez;
 using System;
 using static Assimp.Metadata;
 
@@ -35,6 +37,22 @@ namespace ComfyJamSummer.Data
             var rocket = CreateAnimatorWithEnum<Rocket>(24, 41, anims, dir, Constants.CREATURE_RENDER_LAYER);
 
             return rocket;
+        }
+
+        public BreadBag CreateBreadBag()
+        {
+            var dir = Constants.MAP_DATA_PATH + "bread_bag";
+
+            var bag = new BreadBag();
+
+            var texture = Core.Content.LoadTexture(dir);
+
+            var renderer = CreateSpriteRenderer(bag, texture, Constants.CREATURE_RENDER_LAYER);
+
+            bag.SpriteWidth = (int)renderer.Width;
+            bag.SpriteHeight = (int)renderer.Height;
+
+            return bag;
         }
 
         public StarFish CreateStarFish()

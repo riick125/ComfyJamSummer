@@ -115,7 +115,7 @@ namespace ComfyJamSummer.Components.Visuals
 
             var position = new Vector2(entity.Position.X, FollowPositionY ? entity.Position.Y + _offsetY : entity.Shadow.Position.Y);
 
-            position.Y = Mathf.Clamp(position.Y, _island.MinPosition.Y, _island.MaxPosition.Y - (_shadowRenderer.Height * 1.25f));
+            position.Y = Mathf.Clamp(position.Y, _island.MinPosition.Y, _island.MaxPosition.Y - (_shadowRenderer.Height * 0.75f));
 
             entity.Shadow.SetPosition(position);
 

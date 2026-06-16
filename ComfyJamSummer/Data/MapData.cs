@@ -30,7 +30,7 @@ namespace ComfyJamSummer.Data
 
                 var tmxMap = Core.Content.LoadTiledMap(dir);
 
-                island.AddComponent(new TiledMapRenderer(tmxMap, TiledLayerNames.WALLS) { RenderLayer = Constants.MAP_RENDER_LAYER });
+                island.AddComponent(new TiledMapRenderer(tmxMap) { RenderLayer = Constants.MAP_RENDER_LAYER });
             }
 
             return island;

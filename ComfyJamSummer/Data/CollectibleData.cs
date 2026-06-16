@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using ComfyJamSummer.Entities.Base;
 using ComfyJamSummer.Enums;
+using ComfyJamSummer.JsonsData.AsepriteData;
 using ComfyJamSummer.Prefab;
 using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
+using Nez;
 using System;
 using System.Collections.Generic;
 
@@ -22,9 +25,29 @@ namespace ComfyJamSummer.Data
 
             foreach (var item in all)
             {
-                var collectible = CreateDummyRenderer<Collectible>(8, 7, Color.Green, Constants.CREATURE_RENDER_LAYER);
+                var name = item.ToString().ToLower();
 
-                collectible.Type = item;
+                var jsonDir = $"Content/jsons/aseprite/collectibles/{name}.json";
+
+                var spriteData = LoadAsepriteJson(jsonDir);
+
+                if (spriteData == null)
+                {
+                    continue;
+                }
+
+                var dir = $"{_rootDir}{name}";
+
+                var texture = Core.Content.LoadTexture(dir);
+
+                var collectible = new Collectible()
+                {
+                    SpriteWidth = spriteData.Width,
+                    SpriteHeight = spriteData.Height,
+                    Type = item
+                };
+
+                CreateAnimatorOneAnimation(collectible, dir, "Idle", Constants.CREATURE_RENDER_LAYER);
 
                 result.Add(collectible);
             }

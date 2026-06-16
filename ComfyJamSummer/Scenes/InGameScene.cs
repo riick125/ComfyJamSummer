@@ -3,8 +3,6 @@ using ComfyJamSummer.Components.Gameplay;
 using ComfyJamSummer.Components.Visuals;
 using ComfyJamSummer.CustomPostProcessors;
 using ComfyJamSummer.Entities;
-using ComfyJamSummer.Entities.Base;
-using ComfyJamSummer.Helpers;
 using ComfyJamSummer.Scenes.Base;
 using Microsoft.Xna.Framework;
 using Nez;
@@ -14,12 +12,6 @@ namespace ComfyJamSummer.Scenes
     public class InGameScene : CustomScene
     {
         Island _island;
-
-        Rocket _rocket;
-
-        Animated _stone;
-
-        Crab _crab;
 
         Player _player;
 
@@ -45,35 +37,15 @@ namespace ComfyJamSummer.Scenes
 
             if (_island != null)
             {
-                var stonePosition = Vector2.Zero;
-
                 AddEntity(_island);
 
                 Camera.SetPosition(_island.CenterPosition());
 
                 Camera.SetZoom(Game1.GameZoom);
 
-                _rocket = AddEntity(_prefabs.Rocket.CloneRocket(_island.Id, _island.CenterPosition()));
-
-                stonePosition = _rocket.Position - new Vector2(_rocket.SpriteWidth * 1.05f, 0);
-
-                _player = AddEntity(_prefabs.GetPlayer(_island.Id,
-                    _rocket.Position + new Vector2(_rocket.SpriteWidth * 1.25f, 0)));
-
-                _stone = AddEntity(_prefabs.GetStone(stonePosition));
-                _stone.Position += new Vector2(0, _stone.SpriteHeight * 0.9f);
-
-                _crab = AddEntity(_prefabs.GetCrab(_island.Id, stonePosition - new Vector2(0, _stone.SpriteHeight /  8)));
-
-                Camera.AddComponent(new FollowCamera(_player, Camera));
-
-                CreateEntity(EntityNames.BATTLE).AddComponent(new BattleComponent(_island, _gameManager, _prefabs));
-
-                CreateEntity(EntityNames.COLLECTIBLE_SPAWNER).AddComponent(new CollectibleSpawner(_gameManager, _prefabs));
+                _island.AddComponent(new IslandBuilder(_gameManager, _prefabs));
 
                 AddSceneComponent(new DepthComponent());
-
-                CreateEntity(EntityNames.WATER_BACKGROUND).AddComponent(new WaterBackground(_gameManager, _prefabs));
             }
         }
     }

@@ -1,6 +1,10 @@
-﻿using ComfyJamSummer.Enums;
+﻿using ComfyJamSummer.Components.Gameplay;
+using ComfyJamSummer.Enums;
 using Microsoft.Xna.Framework;
 using Nez;
+using Nez.Tiled;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ComfyJamSummer.Entities
 {
@@ -60,22 +64,7 @@ namespace ComfyJamSummer.Entities
 
             clone.RemoveComponent<TiledMapRenderer>();
 
-            var renderer = clone.AddComponent(new TiledMapRenderer(clonedTiledMap) { RenderLayer = Constants.MAP_RENDER_LAYER });
-
-            renderer.CollisionLayer = renderer.TiledMap?.TileLayers[TiledLayerNames.WALLS];
-
-            renderer.AddColliders();
-
-            var colliders = renderer.GetColliders();
-
-            if (colliders != null)
-            {
-                foreach (var item in colliders)
-                {
-                    item.CollidesWithLayers = (int)CollisionLayer.Player;
-                    item.PhysicsLayer = (int)CollisionLayer.Map;
-                }
-            }
+            clone.AddComponent(new TiledMapRenderer(clonedTiledMap) { RenderLayer = Constants.MAP_RENDER_LAYER });
 
             return clone;
         }
@@ -98,6 +87,79 @@ namespace ComfyJamSummer.Entities
             var maxEast = new Vector2(minEast.X + (Width * 1.5f), minWest.Y + midHeight);
 
             _eastArea = new SpawnArea(minEast, maxEast);
+        }
+
+        public TmxLayerTile GetTile(string layerName, int x, int y)
+        {
+            if (string.IsNullOrEmpty(layerName))
+            {
+                return null;
+            }
+
+            var layer = GetLayer(layerName);
+
+            return layer?.GetTile(x, y);
+        }
+
+        public Vector2 GetCornerPosition(string layerName, GenericDirectionPlus direction)
+        {
+            var layer = GetLayer(layerName);
+
+            List<Vector2> filtered = null;
+
+            if (layer != null)
+            {
+                var tiles = layer.Tiles.Where(x => x != null).Select(x => Position + new Vector2(x.X * TileWidth, x.Y * TileHeight)).ToList();
+
+
+                var horizontalSpacing = Width * 0.15f;
+                var verticalSpacing = Height * 0.15f;
+
+                var center = CenterPosition();
+
+                switch (direction)
+                {
+                    case GenericDirectionPlus.Top:
+                        break;
+
+                    case GenericDirectionPlus.TopRight:
+                        filtered = tiles
+                            .Where(x => x.X >= (center.X + horizontalSpacing) &&
+                            x.X < (MaxPosition.X - TileWidth) &&
+                            x.Y > (MinPosition.Y + TileHeight) && x.Y < (center.Y - verticalSpacing)).ToList();
+
+                        return filtered[Nez.Random.Range(0, filtered.Count)];
+
+                    case GenericDirectionPlus.TopLeft:
+                        filtered = tiles
+                            .Where(x => x.X <= (center.X - horizontalSpacing) &&
+                            x.X > (MinPosition.X + (TileWidth * 2)) &&
+                            x.Y > (MinPosition.Y + (TileHeight * 2)) && x.Y < (center.Y - verticalSpacing)).ToList();
+                        break;
+
+                    case GenericDirectionPlus.Bottom:
+                        break;
+
+                    case GenericDirectionPlus.BottomRight:
+                        break;
+
+                    case GenericDirectionPlus.BottomLeft:
+                        break;
+
+                    case GenericDirectionPlus.Right:
+                        break;
+
+                    case GenericDirectionPlus.Left:
+                        break;
+                }
+            }
+
+            if (filtered != null && filtered.Any())
+            {
+                return filtered[Nez.Random.Range(0, filtered.Count)];
+            }
+
+            return default;
         }
 
         public Vector2 CenterPosition()
@@ -143,6 +205,11 @@ namespace ComfyJamSummer.Entities
                 MinPosition = minPos;
                 MaxPosition = maxPos;
             }
+        }
+
+        TmxLayer GetLayer(string layerName)
+        {
+            return Renderer?.TiledMap?.GetLayer<TmxLayer>(layerName);
         }
     }
 }

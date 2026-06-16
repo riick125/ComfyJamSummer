@@ -21,7 +21,7 @@ namespace ComfyJamSummer.Entities
 
             clone.ActualState = CrabAnim.Talk;
 
-            AnimHelper.Play(clone.Animator, CrabAnim.Build);
+            AnimHelper.Play(clone.Animator, CrabAnim.Idle);
 
             return clone;
         }

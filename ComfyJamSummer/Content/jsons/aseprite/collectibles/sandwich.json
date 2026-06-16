@@ -1,0 +1,20 @@
+{ "frames": [
+   {
+    "filename": "sandwich.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 14, "h": 14 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 14, "h": 14 },
+    "sourceSize": { "w": 14, "h": 14 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.3.17.2-x64",
+  "image": "sandwich-.png",
+  "format": "RGBA8888",
+  "size": { "w": 14, "h": 14 },
+  "scale": "1"
+ }
+}

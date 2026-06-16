@@ -7,4 +7,17 @@
         Bottom,
         Left
     }
+    public enum GenericDirectionPlus
+    {
+        Top,
+        TopRight,
+        TopLeft,
+
+        Bottom,
+        BottomRight,
+        BottomLeft,
+
+        Right,
+        Left
+    }
 }

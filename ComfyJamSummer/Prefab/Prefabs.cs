@@ -6,6 +6,7 @@ using ComfyJamSummer.Entities;
 using ComfyJamSummer.Entities.Base;
 using ComfyJamSummer.Entities.Configs;
 using ComfyJamSummer.Entities.Debuffs;
+using ComfyJamSummer.Entities.Objects;
 using ComfyJamSummer.Entities.TextureData;
 using ComfyJamSummer.Enums;
 using ComfyJamSummer.Helpers;
@@ -73,6 +74,8 @@ namespace ComfyJamSummer.Prefab
         public StarFish StarFish { get; private set; }
 
         public Rocket Rocket { get; private set; }
+
+        public BreadBag BreadBag { get; private set; }
 
         public Crab Crab { get; private set; }
 
@@ -177,6 +180,7 @@ namespace ComfyJamSummer.Prefab
             _crabConfig = _dataNpc.CreateBaseConfig();
             Crab = _dataNpc.CreateCrab();
             Rocket = _dataNpc.CreateRocket();
+            BreadBag = _dataNpc.CreateBreadBag();
             StarFish = _dataNpc.CreateStarFish();
         }
 

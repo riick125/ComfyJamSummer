@@ -2,6 +2,7 @@
 using ComfyJamSummer.Entities;
 using ComfyJamSummer.Entities.Configs;
 using ComfyJamSummer.Enums;
+using ComfyJamSummer.Extensions;
 using ComfyJamSummer.Prefab;
 using Microsoft.Xna.Framework;
 using Nez;
@@ -32,14 +33,7 @@ namespace ComfyJamSummer.Data
 
             CreateAnimatorWithEnum(player, cast, dir, Constants.CREATURE_RENDER_LAYER);
 
-            var circleCollider = new CircleCollider(8)
-            {
-                CollidesWithLayers = (int)CollisionLayer.Map | (int)CollisionLayer.Enemy,
-                PhysicsLayer = (int)CollisionLayer.Player,
-                Tag = CreatureCollider.Body.ToString()
-            };
-
-            player.AddComponent(circleCollider);
+            player.CreateCircleCollider(physicsLayer: CollisionLayer.Player, radius: 10, tag: CreatureCollider.Body.ToString(), offset: new Vector2(0, player.SpriteHeight / 8));
 
             player.AddMover();
 

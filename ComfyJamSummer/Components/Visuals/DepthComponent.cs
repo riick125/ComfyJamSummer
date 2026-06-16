@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using ComfyJamSummer.Entities;
 using ComfyJamSummer.Entities.Base;
+using ComfyJamSummer.Entities.Objects;
 using ComfyJamSummer.Helpers;
 using Nez;
 using Nez.Sprites;
@@ -29,23 +30,23 @@ namespace ComfyJamSummer.Components.Visuals
                 SpriteAnimator animator = null;
                 SpriteRenderer renderer = null;
 
-                renderer = x.GetComponent<SpriteRenderer>();
+                animator = x.GetComponent<SpriteAnimator>();
 
-                if (renderer != null)
+                if (animator != null)
                 {
                     if (x.DepthHeight != 0)
                     {
 
                     }
-                    height = x.DepthHeight != 0 ? x.DepthHeight : renderer.Height / 2;
+                    height = x.DepthHeight != 0 ? x.DepthHeight : animator.Height / 2;
                 }
                 else
                 {
-                    animator = x.GetComponent<SpriteAnimator>();
+                    renderer = x.GetComponent<SpriteRenderer>();
 
-                    if (animator != null)
+                    if (renderer != null)
                     {
-                        height = animator.Height / 3;
+                        height = x.DepthHeight != 0 ? x.DepthHeight : renderer.Height / 2;
                     }
                 }
 
