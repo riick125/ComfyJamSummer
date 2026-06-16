@@ -66,6 +66,24 @@ namespace ComfyJamSummer.Data
 
             return animator;
         }
+        public T CreateAnimatorWithEnum<T>(int width, int height, List<Enum> animationsNames, string directory, int renderLayer = 0) where T : Animated, new()
+        {
+            var entity = new T() { SpriteWidth = width, SpriteHeight = height };
+
+            var animator = entity.AddComponent<SpriteAnimator>();
+            animator.RenderLayer = renderLayer;
+
+            foreach (var animation in animationsNames)
+            {
+                if (!FileExists(directory, animation))
+                    continue;
+
+                var sprites = SpriteHelper.LoadSpritesFromAtlas(directory, animation.ToString(), entity.SpriteWidth, entity.SpriteHeight);
+                animator.AddAnimation(animation.ToString(), sprites);
+            }
+
+            return entity;
+        }
 
         public SpriteAnimator CreateAnimatorOneAnimation(Entity entity, int width, int height, string directory, string animationName, int renderLayer = 0)
         {

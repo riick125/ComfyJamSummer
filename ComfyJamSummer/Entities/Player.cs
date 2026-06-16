@@ -1,6 +1,8 @@
 ﻿using ComfyJamSummer.Components.Gameplay;
+using ComfyJamSummer.Components.Visuals;
 using ComfyJamSummer.Entities.Configs;
 using ComfyJamSummer.Entities.Creatures;
+using ComfyJamSummer.Enums;
 using ComfyJamSummer.Helpers;
 
 namespace ComfyJamSummer.Entities
@@ -15,6 +17,10 @@ namespace ComfyJamSummer.Entities
             clone.Name = EntityNames.PLAYER;
 
             clone.AddComponent(new PlayerController(UtilHelper.GameManager(), UtilHelper.Prefabs()));
+
+            AnimHelper.Play(clone.Animator, CreatureAnim.Idle);
+
+            clone.AddComponent(new FakeShadowComponent(8, clone.SpriteHeight / 3.4f));
 
             return clone;
         }

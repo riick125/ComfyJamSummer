@@ -37,7 +37,14 @@ namespace ComfyJamSummer.Entities
 
             var clone = base.CloneAnimated(config.Position) as Bullet;
 
+            if (clone.Animator != null)
+            {
+                clone.Animator.FlipX = config.Direction.X < 0;
+            }
+
             HydrateValues(clone, config);
+
+            AnimHelper.Play(clone.Animator, BulletAnim.Idle);
 
             return clone;
         }

@@ -24,7 +24,7 @@ namespace ComfyJamSummer.Components.Visuals
         public bool FollowPositionY;
 
         private Color _color;
-        private float _alpha = 0.09f;
+        private float _alpha = 0.38f;
 
         Vector2 _position;
 
@@ -37,12 +37,12 @@ namespace ComfyJamSummer.Components.Visuals
         {
             if (_color == default)
             {
-                _color = Constants.SPRITE_COLOR;
+                _color = Constants.BG_COLOR;
             }
 
             if (alpha <= 0)
             {
-                alpha = 0.09f;
+                alpha = _alpha;
             }
 
             _alpha = alpha;
@@ -53,8 +53,6 @@ namespace ComfyJamSummer.Components.Visuals
             FollowPositionY = followYPosition;
             _offsetX = offsetX;
             _originalScale = 1f;
-            _color = color;
-            _alpha = alpha;
         }
 
         public override void OnAddedToEntity()

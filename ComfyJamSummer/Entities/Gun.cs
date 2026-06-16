@@ -2,6 +2,7 @@
 using ComfyJamSummer.Components.Visuals;
 using ComfyJamSummer.Entities.Base;
 using ComfyJamSummer.Entities.Creatures;
+using ComfyJamSummer.Enums;
 using ComfyJamSummer.Helpers;
 using Microsoft.Xna.Framework;
 
@@ -78,6 +79,8 @@ namespace ComfyJamSummer.Entities
             }
 
             clone.AddComponent(new LittleShake(clone.FireRate));
+
+            AnimHelper.Play(clone.Animator, SmgAnim.Idle);
 
             return clone;
         }

@@ -5,6 +5,7 @@ using ComfyJamSummer.Enums;
 using ComfyJamSummer.Prefab;
 using Microsoft.Xna.Framework;
 using System;
+using static Assimp.Metadata;
 
 namespace ComfyJamSummer.Data
 {
@@ -16,14 +17,22 @@ namespace ComfyJamSummer.Data
 
         public Crab CreateCrab()
         {
-            var crab = CreateDummyRenderer<Crab>(12, 12, Color.MonoGameOrange, Constants.CREATURE_RENDER_LAYER);
+            var anims = GetValues<CrabAnim>();
+
+            var dir = _rootDir + "crab/crab_";
+
+            var crab = CreateAnimatorWithEnum<Crab>(32, 28, anims, dir, Constants.CREATURE_RENDER_LAYER);
 
             return crab;
         }
 
         public Rocket CreateRocket()
         {
-            var rocket = CreateDummyRenderer<Rocket>(32, 64, Color.Gray, Constants.CREATURE_RENDER_LAYER);
+            var anims = GetValues<RocketAnim>();
+
+            var dir = Constants.MAP_DATA_PATH + "rocket/rocket_";
+
+            var rocket = CreateAnimatorWithEnum<Rocket>(24, 41, anims, dir, Constants.CREATURE_RENDER_LAYER);
 
             return rocket;
         }

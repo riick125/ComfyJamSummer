@@ -79,17 +79,15 @@ namespace ComfyJamSummer.Components.Gameplay
                 Reload();
             }
 
-            //if (_gun.Animator.CurrentAnimationName != GunAnim.Idle.ToString())
-            //{
-            //    if (_gun.TimeLeftToEndShootAnimation > 0)
-            //    {
-            //        _gun.TimeLeftToEndShootAnimation -= deltaTime;
-            //    }
-            //    else
-            //    {
-            //        _gun.Animator.Play(GunAnim.Idle.ToString(), Nez.Sprites.SpriteAnimator.LoopMode.Loop);
-            //    }
-            //}
+            if (_gun.TimeLeftToEndShootAnimation > 0)
+            {
+                _gun.TimeLeftToEndShootAnimation -= deltaTime;
+            }
+            else
+            {
+                _gun.Animator.Speed = 1;
+                AnimHelper.Play(_gun.Animator, SmgAnim.Idle);
+            }
 
             ProcessShoot(direction, angle2);
         }
@@ -169,7 +167,9 @@ namespace ComfyJamSummer.Components.Gameplay
 
                             //_prefabs.PlaySoundRandomPitch(SoundFxName.Smg_Shot, 0.075f);
 
-                            //_gun.Animator.Play(GunAnim.Shoot.ToString(), Nez.Sprites.SpriteAnimator.LoopMode.Once);
+                            _gun.Animator.Speed = 4;
+                            AnimHelper.Play(_gun.Animator, SmgAnim.Shoot);
+
                             _gun.TimeLeftToEndShootAnimation = _gun.ShootAnimationDuration;
 
                             direction.Normalize();

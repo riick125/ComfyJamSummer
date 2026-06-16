@@ -1,4 +1,5 @@
 ﻿using ComfyJamSummer.Components.Gameplay;
+using ComfyJamSummer.Components.Visuals;
 using ComfyJamSummer.Entities.Configs;
 using ComfyJamSummer.Entities.Creatures;
 using ComfyJamSummer.Enums;
@@ -47,7 +48,11 @@ namespace ComfyJamSummer.Entities
 
             clone.AddComponent(new EnemyController(UtilHelper.GameManager(), UtilHelper.Prefabs()));
 
-            clone.AddComponent(new CircleCollider(10) { Tag = CreatureCollider.Body.ToString() });
+            clone.AddComponent(new CircleCollider(11) { Tag = CreatureCollider.Body.ToString() });
+
+            clone.AddComponent(new FakeShadowComponent(8, clone.SpriteHeight * 3));
+
+            AnimHelper.Play(clone.Animator, BirbAnim.Idle);
 
             return clone;
         }
@@ -78,14 +83,17 @@ namespace ComfyJamSummer.Entities
                 return;
             }
 
-            switch (Type)
+            if (AnimHelper.CurrentAnim(Animator, BirbAnim.Atk) && Animator.CurrentFrame >= 13)
             {
-                case EnemyType.Birb:
-                    BulletHelper.Create(this, target);
-                    break;
-            }
+                switch (Type)
+                {
+                    case EnemyType.Birb:
+                        BulletHelper.Create(this, target);
+                        break;
+                }
 
-            TimeLeftToNextAtk = AtkSpeed;
+                TimeLeftToNextAtk = AtkSpeed;
+            }
         }
     }
 }

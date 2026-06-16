@@ -55,14 +55,15 @@ namespace ComfyJamSummer.Scenes
 
                 _rocket = AddEntity(_prefabs.Rocket.CloneRocket(_island.Id, _island.CenterPosition()));
 
-                stonePosition = _rocket.Position - new Vector2(_rocket.SpriteWidth * 1.25f, 0);
+                stonePosition = _rocket.Position - new Vector2(_rocket.SpriteWidth * 1.05f, 0);
 
                 _player = AddEntity(_prefabs.GetPlayer(_island.Id,
                     _rocket.Position + new Vector2(_rocket.SpriteWidth * 1.25f, 0)));
 
                 _stone = AddEntity(_prefabs.GetStone(stonePosition));
+                _stone.Position += new Vector2(0, _stone.SpriteHeight * 0.9f);
 
-                _crab = AddEntity(_prefabs.GetCrab(_island.Id, stonePosition - new Vector2(0, _stone.SpriteHeight / 2)));
+                _crab = AddEntity(_prefabs.GetCrab(_island.Id, stonePosition - new Vector2(0, _stone.SpriteHeight /  8)));
 
                 Camera.AddComponent(new FollowCamera(_player, Camera));
 
@@ -71,6 +72,8 @@ namespace ComfyJamSummer.Scenes
                 CreateEntity(EntityNames.COLLECTIBLE_SPAWNER).AddComponent(new CollectibleSpawner(_gameManager, _prefabs));
 
                 AddSceneComponent(new DepthComponent());
+
+                CreateEntity(EntityNames.WATER_BACKGROUND).AddComponent(new WaterBackground(_gameManager, _prefabs));
             }
         }
     }

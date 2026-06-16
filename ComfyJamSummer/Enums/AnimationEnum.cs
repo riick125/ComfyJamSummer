@@ -3,9 +3,21 @@
     public enum CreatureAnim
     {
         Idle,
-        Move,
+        Walk,
         Atk,
         Dying
+    }
+
+    public enum BirbAnim
+    {
+        Idle,
+        Atk
+    }
+
+    public enum SmgAnim
+    {
+        Idle,
+        Shoot
     }
 
     public enum CrabAnim
@@ -16,6 +28,15 @@
         Hungry,
         Build,
         Pissed
+    }
+
+    public enum RocketAnim
+    {
+        Done,
+        Build_1,
+        Build_2,
+        Build_3,
+        Flying
     }
 
     public enum GunAnim

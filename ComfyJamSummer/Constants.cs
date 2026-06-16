@@ -22,6 +22,7 @@ namespace ComfyJamSummer
         public const string STONE = "Stone";
         public const string BATTLE = "Battle";
         public const string COLLECTIBLE_SPAWNER = "CollectibleSpawner";
+        public const string WATER_BACKGROUND = "WaterBackground";
     }
 
     public static class StaticStuff
@@ -73,7 +74,7 @@ namespace ComfyJamSummer
 
         public static Color SPRITE_COLOR = new Color(98, 237, 24);
 
-        public static Color BG_COLOR = new Color(3, 18, 2);
+        public static Color BG_COLOR = new Color(24, 24, 27);
 
         public const string SAVE_PATH = "data/stats.json";
 
@@ -81,15 +82,17 @@ namespace ComfyJamSummer
 
         public const string JSON_DATA_REAL_PATH = "jsons\\data\\";
 
-        public const string NPC_DATA_PATH = "sprites/gameplay/npc/";
+        public const string NPC_DATA_PATH = "sprites/gameplay/npcs/";
 
         public const string PLAYER_DATA_PATH = "sprites/gameplay/player/";
 
         public const string COLLECTIBLE_DATA_PATH = "sprites/gameplay/collectible/";
 
-        public const string ENEMY_DATA_PATH = "sprites/gameplay/enemy/";
+        public const string ENEMY_DATA_PATH = "sprites/gameplay/enemies/";
 
-        public const string MAP_DATA_PATH = "Content/tmx/";
+        public const string MAP_TMX_PATH = "Content/tmx/";
+
+        public const string MAP_DATA_PATH = "sprites/gameplay/map/";
 
         public const string UI_DATA_PATH = "sprites/gameplay/ui/";
 
@@ -98,6 +101,8 @@ namespace ComfyJamSummer
         public const int CREATURE_RENDER_LAYER = 3;
 
         public const int MAP_RENDER_LAYER = 10;
+
+        public const int BACKGROUND_RENDER_LAYER = 12;
 
         public const float SPRITE_MAX_SIZE = 208;
         public const int CONTROLLER_SENSITIVITY_MIN_VALUE = 100;
@@ -119,7 +124,7 @@ namespace ComfyJamSummer
     {
         public static float HP = 350;
 
-        public static float SPEED = 120;
+        public static float SPEED = 100;
     }
 
     public static class CrabValues

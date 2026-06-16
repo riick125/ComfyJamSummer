@@ -106,7 +106,7 @@ namespace ComfyJamSummer.Entities.Creatures
         {
             var clone = base.CloneAnimated(config.Position) as Creature;
             clone._safeDistancePatrol = clone.SpriteWidth * 0.8f;
-            clone.DistanceLimitInSpriteSize = clone.SpriteWidth * 12;
+            clone.DistanceLimitInSpriteSize = clone.SpriteWidth * 2;
             clone.IslandId = config.IslandId;
             clone._dyingRotationSpeed = _dyingRotationSpeed * Nez.Random.Range(0.85f, 1.25f);
             clone._losingScaleSpeed = _losingScaleSpeed * Nez.Random.Range(0.95f, 1.5f);
@@ -263,7 +263,7 @@ namespace ComfyJamSummer.Entities.Creatures
 
                 this.Position = pos;
 
-                AnimHelper.Play(Animator, CreatureAnim.Move);
+                AnimHelper.Play(Animator, CreatureAnim.Walk);
             }
         }
 
@@ -321,7 +321,7 @@ namespace ComfyJamSummer.Entities.Creatures
 
             if (DirectionHelper.ValidateVelocity(direction, vel))
             {
-                AnimHelper.Play(Animator, CreatureAnim.Move);
+                AnimHelper.Play(Animator, CreatureAnim.Walk);
 
                 var pos = this.Position;
                 pos += vel;

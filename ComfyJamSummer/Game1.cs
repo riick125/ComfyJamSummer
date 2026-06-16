@@ -112,7 +112,7 @@ namespace ComfyJamSummer
             }
             catch (Exception ex)
             {
-                var name = $"erro-log_{DateTime.Now}.txt";
+                var name = $"erro_log_{DateTime.Now.ToString().Replace("-", "_")}.txt";
 
                 File.WriteAllText(name, ex.ToString());
 

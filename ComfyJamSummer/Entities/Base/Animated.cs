@@ -68,6 +68,8 @@ namespace ComfyJamSummer.Entities.Base
 
         public float Alpha { get; set; }
 
+        public float DepthHeight { get; set; }
+
         public float AlmostDisappearingAlpha { get; private set; }
 
         public List<SoundPerFrame> WalkSoundPerFrame { get; set; }
@@ -93,6 +95,7 @@ namespace ComfyJamSummer.Entities.Base
             clone.SpriteWidth = SpriteWidth;
             clone.SpriteHeight = SpriteHeight;
             clone.Alpha = 1f;
+            clone.DepthHeight = DepthHeight;
             clone.AlmostDisappearingAlpha = 0.05f;
             clone.Shadow = new Shadow();
 

@@ -33,7 +33,11 @@ namespace ComfyJamSummer.Components.Visuals
 
                 if (renderer != null)
                 {
-                    height = renderer.Height / 2;
+                    if (x.DepthHeight != 0)
+                    {
+
+                    }
+                    height = x.DepthHeight != 0 ? x.DepthHeight : renderer.Height / 2;
                 }
                 else
                 {

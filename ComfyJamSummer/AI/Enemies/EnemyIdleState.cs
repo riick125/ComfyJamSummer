@@ -1,4 +1,6 @@
 ﻿using ComfyJamSummer.Entities;
+using ComfyJamSummer.Enums;
+using ComfyJamSummer.Helpers;
 using ComfyJamSummer.Manager;
 using ComfyJamSummer.Prefab;
 
@@ -15,6 +17,7 @@ namespace ComfyJamSummer.AI.Enemies
             base.Begin();
 
             _context?.Idle();
+            AnimHelper.Play(_context.Animator, BirbAnim.Idle);
         }
 
         public override void Update(float deltaTime)

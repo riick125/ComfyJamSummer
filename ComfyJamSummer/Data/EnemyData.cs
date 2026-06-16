@@ -13,20 +13,34 @@ namespace ComfyJamSummer.Data
 {
     public class EnemyData : BaseData
     {
+        string _bulletDir = "sprites/gameplay/bullets/";
+
         public EnemyData(Prefabs prefabs, IMapper mapper) : base(Constants.ENEMY_DATA_PATH, prefabs, mapper)
         {
         }
 
         public Enemy Create()
         {
-            var enemy = CreateDummyRenderer<Enemy>(12, 12, Color.DarkRed, Constants.CREATURE_RENDER_LAYER);
+            var enemy = new Enemy() { SpriteWidth = 26, SpriteHeight = 19 };
+
+            var anims = GetValues<BirbAnim>();
+
+            var dir = _rootDir + "birb_";
+
+            CreateAnimatorWithEnum(enemy, anims, dir, Constants.CREATURE_RENDER_LAYER);
 
             return enemy;
         }
 
         public Bullet CreateBullet()
         {
-            var bullet = CreateDummyRenderer<Bullet>(6, 6, Color.Red, Constants.CREATURE_RENDER_LAYER - 1);
+            var bullet = new Bullet() { SpriteWidth = 12, SpriteHeight = 12 };
+
+            var anims = GetValues<BulletAnim>();
+
+            var dir = _bulletDir + "enemy_bullet_";
+
+            CreateAnimatorWithEnum(bullet, anims, dir, Constants.CREATURE_RENDER_LAYER - 1);
 
             return bullet;
         }
@@ -80,7 +94,7 @@ namespace ComfyJamSummer.Data
                 return null;
             }
 
-            var selectedConfig = _prefabs.ListEnemyConfig?.FirstOrDefault(x=> x.Type == type);
+            var selectedConfig = _prefabs.ListEnemyConfig?.FirstOrDefault(x => x.Type == type);
 
             if (selectedConfig == null)
             {

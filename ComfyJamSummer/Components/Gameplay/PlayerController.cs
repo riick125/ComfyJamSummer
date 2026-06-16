@@ -1,4 +1,5 @@
 ﻿using ComfyJamSummer.Entities;
+using ComfyJamSummer.Enums;
 using ComfyJamSummer.Helpers;
 using ComfyJamSummer.Manager;
 using ComfyJamSummer.Prefab;
@@ -33,7 +34,10 @@ namespace ComfyJamSummer.Components.Gameplay
 
             Move();
 
-            //_camera.SetPosition(_player.Position);
+            if (_player.Animator != null)
+            {
+                _player.Animator.FlipX = Core.Scene.Camera.MouseToWorldPoint().X < _player.Position.X;
+            }
         }
 
         void Move()
@@ -67,6 +71,8 @@ namespace ComfyJamSummer.Components.Gameplay
                         break;
                 }
             }
+
+            AnimHelper.Play(_player?.Animator, direction == default ? CreatureAnim.Idle : CreatureAnim.Walk);
 
             vel += direction * _player.Speed * Time.DeltaTime;
 

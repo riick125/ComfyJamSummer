@@ -5,20 +5,34 @@ using ComfyJamSummer.Enums;
 using ComfyJamSummer.Prefab;
 using Microsoft.Xna.Framework;
 using Nez;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ComfyJamSummer.Data
 {
     public class PlayerData : BaseData
     {
+        string _gunDir = "sprites/gameplay/guns/";
+        string _bulletDir = "sprites/gameplay/bullets/";
+
         public PlayerData(Prefabs prefabs, IMapper mapper) : base(Constants.PLAYER_DATA_PATH, prefabs, mapper)
         {
         }
 
         public Player Create()
         {
-            var player = CreateDummyRenderer<Player>(width: 16, height: 16, Color.CornflowerBlue, Constants.CREATURE_RENDER_LAYER);
+            var player = new Player() { SpriteWidth = 18, SpriteHeight = 20 };
 
-            var circleCollider = new CircleCollider(10)
+            var anim = new List<CreatureAnim>() { CreatureAnim.Idle, CreatureAnim.Walk };
+
+            var cast = anim.Cast<Enum>().ToList();
+
+            var dir = _rootDir + "player_";
+
+            CreateAnimatorWithEnum(player, cast, dir, Constants.CREATURE_RENDER_LAYER);
+
+            var circleCollider = new CircleCollider(8)
             {
                 CollidesWithLayers = (int)CollisionLayer.Map | (int)CollisionLayer.Enemy,
                 PhysicsLayer = (int)CollisionLayer.Player,
@@ -34,7 +48,13 @@ namespace ComfyJamSummer.Data
 
         public Gun CreateGun()
         {
-            var gun = CreateDummyRenderer<Gun>(width: 7, height: 7, Color.Gray, Constants.CREATURE_RENDER_LAYER - 1);
+            var gun = new Gun() { SpriteWidth = 19, SpriteHeight = 15 };
+
+            var anim = GetValues<SmgAnim>();
+
+            var dir = _gunDir + "smg_";
+
+            CreateAnimatorWithEnum(gun, anim, dir, Constants.CREATURE_RENDER_LAYER - 1);
 
             gun.Damage = 33.3f;
             gun.ReloadTime = 1.05f;
@@ -53,7 +73,13 @@ namespace ComfyJamSummer.Data
 
         public Bullet CreateBullet()
         {
-            var bullet = CreateDummyRenderer<Bullet>(width: 4, height: 4, Color.Yellow, Constants.CREATURE_RENDER_LAYER - 1);
+            var bullet = new Bullet() { SpriteWidth = 20, SpriteHeight = 12 };
+
+            var anim = GetValues<BulletAnim>();
+
+            var dir = _bulletDir + "friendly_bullet_";
+
+            CreateAnimatorWithEnum(bullet, anim, dir, Constants.CREATURE_RENDER_LAYER - 1);
 
             return bullet;
         }

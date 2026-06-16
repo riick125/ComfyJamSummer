@@ -83,7 +83,8 @@ namespace ComfyJamSummer.Prefab
         public Bullet Bullet { get; private set; }
 
         public Island Island { get; private set; }
-        Animated Stone;
+        Animated Stone, WaterTile;
+        //CustomTextureData WaterTile;
 
         Wave Wave;
         Enemy Enemy;
@@ -169,6 +170,7 @@ namespace ComfyJamSummer.Prefab
         {
             Island = _dataMap.Create();
             Stone = _dataMap.CreateStone();
+            WaterTile = _dataMap.CreateWaterTile();
 
             Wave = new Wave();
 
@@ -210,7 +212,17 @@ namespace ComfyJamSummer.Prefab
         {
             var stone = Stone?.CloneAnimated(pos);
 
+            stone.AddComponent<BoxCollider>(new BoxCollider(stone.SpriteWidth * 0.9f, stone.SpriteHeight * 0.75f)
+            {
+                CollidesWithLayers = (int)CollisionLayer.Player,
+                PhysicsLayer = (int)CollisionLayer.Map
+            });
             return stone;
+        }
+
+        public Animated GetWaterTile(Vector2 pos)
+        {
+            return WaterTile?.CloneAnimated(pos);
         }
 
         public Crab GetCrab(uint islandId, Vector2 pos)
@@ -227,7 +239,7 @@ namespace ComfyJamSummer.Prefab
 
         public Collectible GetCollectible(uint islandId, CollectibleType type, Vector2 pos, Vector2 fallDestination)
         {
-            var selected = Collectibles?.FirstOrDefault(x=> x.Type == type);
+            var selected = Collectibles?.FirstOrDefault(x => x.Type == type);
 
             return selected?.CloneCollectible(islandId, pos, fallDestination);
         }
