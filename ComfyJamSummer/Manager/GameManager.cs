@@ -1,4 +1,5 @@
-﻿using ComfyJamSummer.Configs;
+﻿using ComfyJamSummer.Components.Cutscenes.Base;
+using ComfyJamSummer.Configs;
 using Nez;
 
 namespace ComfyJamSummer.Manager
@@ -9,7 +10,18 @@ namespace ComfyJamSummer.Manager
 
         public bool IsGameOver { get; set; }
 
-        public bool IsAnyCutSceneRunning { get; set; }
+        public bool IsAnyCutSceneRunning
+        {
+            get
+            {
+                if (this.Scene == null)
+                {
+                    return false;
+                }
+
+                return this.Scene.GetSceneComponent<CutsceneComponent>() != null;
+            }
+        }
 
         public bool CantDoAnyAction { get { return TimeLeftToEndGameStartDelay > 0 || IsGameOver || IsAnyCutSceneRunning || IsGamePaused; } }
 

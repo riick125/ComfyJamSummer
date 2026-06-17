@@ -117,7 +117,7 @@ namespace ComfyJamSummer.Components.Extensions
                         {
                             icon.Alpha -= 5 * deltaTime;
 
-                            icon.Animator.SetColor(Constants.SPRITE_COLOR * icon.Alpha);
+                            icon.Animator.SetColor(Constants.WHITE_COLOR * icon.Alpha);
                         }
 
                         icon.Position = creature.Position + icon.Offset;

@@ -7,6 +7,7 @@ namespace ComfyJamSummer
         public const string SAVING = "SavingGameUI";
         public const string DEBUG = "DebugUI";
         public const string COMPANY_LOGO = "CompanyLogoUI";
+        public const string PLAYER = "PlayerUI";
     }
 
     public class TiledLayerNames
@@ -18,6 +19,7 @@ namespace ComfyJamSummer
     public class EntityNames
     {
         public const string PLAYER = "Player";
+        public const string CRAB = "Crab";
         public const string ISLAND = "Island";
         public const string STONE = "Stone";
         public const string BATTLE = "Battle";
@@ -40,15 +42,15 @@ namespace ComfyJamSummer
 
     public class WaveDefaultValues
     {
+        public const int TOTAL_ENEMIES_SPAWN_QTY = 2;//12;
+
         public const int ALIVE_ENEMIES_QTY_LIMIT = 15;
 
         public const float ALIVE_ENEMIES_GROW_PERCENT = 1f;
 
         public const float ALIVE_ENEMIES_MODIFIER_VALUE = 0.15f;
 
-        public const float START_COOLDOWN = 5f;
-
-        public const float DURATION = 20f;
+        public const float START_COOLDOWN = 1f;//5f;
 
         public const float MAX_DURATION = 60f;
     }
@@ -72,9 +74,9 @@ namespace ComfyJamSummer
 
         public static Color WHITE_COLOR = new Color(255, 255, 255);
 
-        public static Color SPRITE_COLOR = new Color(98, 237, 24);
-
         public static Color BG_COLOR = new Color(24, 24, 27);
+
+        public static readonly float TEXT_WIDTH_LIMIT = 210;
 
         public const string SAVE_PATH = "data/stats.json";
 
@@ -129,6 +131,8 @@ namespace ComfyJamSummer
 
     public static class CrabValues
     {
+        public const float HP = 1980;
+
         public const float DMG = 87.5f;
 
         public const float SPEED = 160;
@@ -146,13 +150,13 @@ namespace ComfyJamSummer
 
         public const float BULLET_SPEED = 115;
 
-        public const float ATK_SPEED = 3.25f;
+        public const float ATK_SPEED = 3.75f;
 
         public const float IDLE_TIME_STATE = 0.5f;
 
         public const float MOVE_TIME_STATE = 10f;
 
-        public const float PATROL_TIME_STATE = 1.1f;
+        public const float PATROL_TIME_STATE = 1.25f;
 
         public const float PATROL_COOLDOWN = 1f;
 

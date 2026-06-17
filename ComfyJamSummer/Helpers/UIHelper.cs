@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ComfyJamSummer.Enums;
+﻿using ComfyJamSummer.Enums;
 using ComfyJamSummer.Helpers;
+using ComfyJamSummer.UI;
 using ComfyJamSummer.UI.CustomElements;
 using ComfyJamSummer.UI.CustomImages;
 using ComfyJamSummer.UI.Data;
@@ -13,6 +11,9 @@ using Nez;
 using Nez.BitmapFonts;
 using Nez.Textures;
 using Nez.UI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using static ComfyJamSummer.UI.CustomImages.ShakableImageButton;
 using Image = Nez.UI.Image;
 using Label = Nez.UI.Label;
@@ -807,6 +808,31 @@ namespace ComfyJamSummer.Extensions
             }
 
             return removed;
+        }
+
+        public static void DestroyCanvas<T>() where T : UICanvas
+        {
+            var entities = Core.Scene.EntitiesOfType<Entity>().Where(x => x.HasComponent<T>());
+
+            foreach (var entity in entities)
+            {
+                if (entity != null && !entity.IsDestroyed)
+                {
+                    entity.Destroy();
+                }
+            }
+        }
+
+        public static PlayerUI GetPlayerUI()
+        {
+            var playerUI = Core.Scene.FindEntity(UINames.PLAYER);
+
+            if (playerUI != null)
+            {
+                return playerUI.GetComponent<PlayerUI>();
+            }
+
+            return null;
         }
     }
 }

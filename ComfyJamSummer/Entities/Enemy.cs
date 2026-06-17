@@ -7,12 +7,15 @@ using ComfyJamSummer.Helpers;
 using Microsoft.Xna.Framework;
 using Nez;
 using Nez.AI.FSM;
-using System;
 
 namespace ComfyJamSummer.Entities
 {
     public class Enemy : Creature
     {
+        public bool WillSpawnChicken { get; set; }
+
+        public bool AlreadySpawnedChicken { get; set; }
+
         public StateMachine<Enemy> Machine => EnemyController?.Machine;
 
         public EnemyController EnemyController => this.GetComponent<EnemyController>();

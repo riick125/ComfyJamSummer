@@ -18,10 +18,12 @@ namespace ComfyJamSummer.Entities
 
         float _timeLeftToStart, _startCooldown;
 
-        float _timeLeftToEnd, _duration;
-
         List<Enemy> _enemies;
-        int _aliveEnemyQtyLimit;
+        int _aliveEnemyQtyLimit, _enemiesSpawnQty;
+
+        public int EnemiesSpawnQty => _enemiesSpawnQty;
+
+        int _totalEnemiesSpawned;
 
         int _index;
 
@@ -35,8 +37,8 @@ namespace ComfyJamSummer.Entities
 
             clone._island = config.Island;
             clone._startCooldown = config.StartCooldown;
-            clone._duration = config.Duration;
             clone._aliveEnemyQtyLimit = config.AliveEnemyQtyLimit;
+            clone._enemiesSpawnQty = config.EnemiesSpawnQty;
             clone._enemies = new List<Enemy>();
 
             return clone;
@@ -49,16 +51,18 @@ namespace ComfyJamSummer.Entities
             AddComponent(new WaveController(_gameManager, _prefabs));
         }
 
-        public float Duration => _duration;
-
         public bool StillGoing
         {
             get
             {
-                _timeLeftToEnd -= Time.DeltaTime;
-                _timeLeftToEnd = Mathf.Clamp(_timeLeftToEnd, 0, 10);
-
-                return _timeLeftToEnd > 0;
+                if (_enemies.Count > 0)
+                {
+                    return _enemies.Any(x => x.IsAlive) || _totalEnemiesSpawned < _enemiesSpawnQty;
+                }
+                else
+                {
+                    return _totalEnemiesSpawned < _enemiesSpawnQty;
+                }
             }
         }
 
@@ -78,12 +82,16 @@ namespace ComfyJamSummer.Entities
 
             _initiatedCountdown = true;
             _timeLeftToStart = _startCooldown;
-            _timeLeftToEnd = _duration;
         }
 
         public void SpawnEnemy()
         {
             if (!ValidateWave())
+            {
+                return;
+            }
+
+            if (_totalEnemiesSpawned >= _enemiesSpawnQty)
             {
                 return;
             }
@@ -99,6 +107,13 @@ namespace ComfyJamSummer.Entities
                 var enemy = _prefabs.GetEnemy(_island.Id, EnemyType.Birb, spawnPosition);
 
                 Enemies.Add(this.Scene.AddEntity(enemy));
+
+                _totalEnemiesSpawned++;
+
+                if (_totalEnemiesSpawned >= _enemiesSpawnQty)
+                {
+                    enemy.WillSpawnChicken = true;
+                }
             }
         }
 

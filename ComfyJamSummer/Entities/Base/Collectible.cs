@@ -1,5 +1,7 @@
 ﻿using ComfyJamSummer.Components.Extensions;
+using ComfyJamSummer.Components.Gameplay;
 using ComfyJamSummer.Components.Visuals;
+using ComfyJamSummer.Entities.Configs;
 using ComfyJamSummer.Enums;
 using ComfyJamSummer.Helpers;
 using Microsoft.Xna.Framework;
@@ -19,7 +21,9 @@ namespace ComfyJamSummer.Entities.Base
 
         public float TimeLeftToBeCollected { get; set; }
 
-        public bool CanBeCollected { get { return TimeLeftToBeCollected <= 0 && !FollowingCatcher; } }
+        public bool IsCollected { get; set; }
+
+        protected bool CanBeCollected => Validate() && CanPressInteractButton && BounceComponent != null && BounceComponent.IsOnFloor;
 
         public CircleCollider BodyCollider { get { return GetComponents<CircleCollider>().FirstOrDefault(x => x.Tag == CollisionTag.Body.ToString()); } }
 
@@ -39,20 +43,31 @@ namespace ComfyJamSummer.Entities.Base
             private set { }
         }
 
-        public Collectible CloneCollectible(uint islandId, Vector2 pos, Vector2 fallDestination)
+        public Collectible CloneCollectible(InteractableConfig config, Vector2 fallDestination)
         {
             var name = Type.ToString().ToLower().Replace("_", " ");
 
-            var clone = base.CloneInteractable(islandId, pos, 0, 0, $"Press [E] to collect {name}") as Collectible;
+            config.InteractText = $"Press [E] to collect {name}";
+
+            var clone = base.CloneInteractable(config) as Collectible;
             clone.FallDestination = fallDestination;
+            clone.Type = Type;
 
-            clone.AddComponent(new JuicyAppear(UtilHelper.GameManager(), UtilHelper.Prefabs()));
+            var manager = UtilHelper.GameManager();
 
-            var distanceY = Math.Abs(pos.Y - fallDestination.Y);
+            var prefabs = UtilHelper.Prefabs();
+
+            clone.AddComponent(new JuicyAppear(manager, prefabs));
+
+            clone.AddComponent(new CollectibleController(manager, prefabs));
+
+            var distanceY = Math.Abs(config.Position.Y - fallDestination.Y);
 
             clone.AddComponent(new FakeShadowComponent(8, distanceY, false));
 
-            clone.AddComponent(new BounceComponent(islandId, new Vector2(Nez.Random.Range(75, 150)), 3));
+            clone.AddComponent(new BounceComponent(config.IslandId, new Vector2(Nez.Random.Range(75, 150)), 3));
+
+            clone.AddComponent(new CircleCollider(8) { IsTrigger = true, Tag = CollisionTag.CatchArea.ToString() });
 
             return clone;
         }

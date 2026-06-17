@@ -88,7 +88,7 @@ namespace ComfyJamSummer.Components.Gameplay
         {
             var horizontalSpacing = 0f;
 
-            _rocket = _scene.AddEntity(_prefabs.Rocket.CloneRocket(_island.Id, _island.CenterPosition()));
+            _rocket = _scene.AddEntity(_prefabs.Rocket.CloneRocket(_prefabs.InteractableConfig.CloneNpc(_island.Id, _island.CenterPosition())));
             horizontalSpacing = _rocket.SpriteWidth * 1.25f;
 
             _player = _scene.AddEntity(_prefabs.GetPlayer(_island.Id,
@@ -114,7 +114,7 @@ namespace ComfyJamSummer.Components.Gameplay
 
             pos = pos != default ? pos : _rocket.Position + new Vector2(spacing, _rocket.SpriteHeight / 8);
 
-            _scene.AddEntity(_prefabs.BreadBag.CloneBread(_island.Id, pos));
+            _scene.AddEntity(_prefabs.BreadBag.CloneBread(_prefabs.InteractableConfig.CloneNpc(_island.Id, pos)));
         }
 
         void CreateFinalComponents()

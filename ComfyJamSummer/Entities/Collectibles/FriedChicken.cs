@@ -1,16 +1,34 @@
 ﻿using ComfyJamSummer.Entities.Base;
-using ComfyJamSummer.Enums;
+using ComfyJamSummer.Entities.Configs;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+using Nez;
 
 namespace ComfyJamSummer.Entities.Collectibles
 {
     public class FriedChicken : Collectible
     {
-        public FriedChicken CloneFried(uint islandId, Vector2 pos, Vector2 fallDestination)
+        public FriedChicken CloneFried(InteractableConfig config, Vector2 fallDestination)
         {
-            var clone = base.CloneCollectible(islandId, pos, fallDestination) as FriedChicken;
+            var clone = base.CloneCollectible(config, fallDestination) as FriedChicken;
 
             return clone;
+        }
+
+        public override void Update()
+        {
+            base.Update();
+
+            if (!CanBeCollected)
+            {
+                return;
+            }
+
+            if (Input.IsKeyPressed(Keys.E) && !IsInteracting)
+            {
+                StartInteractingWithPlayer();
+                FollowingCatcher = true;
+            }
         }
     }
 }

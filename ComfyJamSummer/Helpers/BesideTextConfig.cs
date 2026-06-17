@@ -30,7 +30,7 @@ namespace ComfyJamSummer.Helpers
             HasTypingTextEffect = typingTextEffect;
             MaxLineWidth = maxLineWidth;
 
-            Color = color != default ? color : Constants.SPRITE_COLOR;
+            Color = color != default ? color : Constants.WHITE_COLOR;
         }
 
         public Entity Target { get; set; }

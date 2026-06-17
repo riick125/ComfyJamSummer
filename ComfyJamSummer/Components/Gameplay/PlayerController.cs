@@ -38,6 +38,24 @@ namespace ComfyJamSummer.Components.Gameplay
             {
                 _player.Animator.FlipX = Core.Scene.Camera.MouseToWorldPoint().X < _player.Position.X;
             }
+
+            InteractWithCrab();
+        }
+
+        void InteractWithCrab()
+        {
+            var crab = UtilHelper.Crab();
+
+            if (crab == null)
+            {
+                return;
+            }
+
+            if (!crab.IsAlive)
+            {
+                return;
+            }
+
         }
 
         void Move()

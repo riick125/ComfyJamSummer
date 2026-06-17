@@ -109,7 +109,7 @@ namespace ComfyJamSummer.Helpers
 
                 case GameResolution._1600x900:
                 case GameResolution._1920x1080:
-                    Game1.SetGameMaxZoom(4f);
+                    Game1.SetGameMaxZoom(3f);
                     break;
             }
         }
@@ -185,6 +185,23 @@ namespace ComfyJamSummer.Helpers
             }
 
             return entity as Player;
+        }
+
+        public static Crab Crab()
+        {
+            if (Core.Scene == null)
+            {
+                return null;
+            }
+
+            var entity = Core.Scene.FindEntity(EntityNames.CRAB);
+
+            if (entity == null)
+            {
+                return null;
+            }
+
+            return entity as Crab;
         }
 
         public static T GetComponent<T>() where T : Component
@@ -365,7 +382,7 @@ namespace ComfyJamSummer.Helpers
 
         public static Texture2D CreatePixelCircle(GraphicsDevice graphicsDevice, int radius, Color color = default, float alpha = 0.09f)
         {
-            var selectedColor = Constants.SPRITE_COLOR;
+            var selectedColor = Constants.WHITE_COLOR;
 
             if (color == default)
             {

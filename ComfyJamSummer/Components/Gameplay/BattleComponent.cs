@@ -36,14 +36,12 @@ namespace ComfyJamSummer.Components.Gameplay
             for (int i = 0; i < _wavesQty; i++)
             {
                 var qtyEnemyLimit = WaveDefaultValues.ALIVE_ENEMIES_QTY_LIMIT;
-                var waveDuration = WaveDefaultValues.DURATION;
+                var totalEnemiesSpawnQty = WaveDefaultValues.TOTAL_ENEMIES_SPAWN_QTY;
 
                 qtyEnemyLimit = Convert.ToInt32(qtyEnemyLimit * qtyGrowPercent);
+                totalEnemiesSpawnQty = Convert.ToInt32(totalEnemiesSpawnQty * qtyGrowPercent);
 
-                waveDuration *= qtyGrowPercent;
-                waveDuration = float.Round(Mathf.Clamp(waveDuration, WaveDefaultValues.DURATION, WaveDefaultValues.MAX_DURATION), 2);
-
-                var config = prefabs.WaveConfig.CloneWave(_island, i + 1, qtyEnemyLimit, waveStartCooldown, waveDuration);
+                var config = prefabs.WaveConfig.CloneWave(_island, i + 1, qtyEnemyLimit, totalEnemiesSpawnQty, waveStartCooldown);
 
                 if (config != null)
                 {

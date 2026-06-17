@@ -239,6 +239,11 @@ namespace ComfyJamSummer.Components.Gameplay
                 return false;
             }
 
+            if (_manager.CantDoAnyAction)
+            {
+                return false;
+            }
+
             if (!_player.IsAlive)
             {
                 return false;

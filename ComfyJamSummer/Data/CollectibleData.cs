@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using ComfyJamSummer.Entities.Base;
+using ComfyJamSummer.Entities.Collectibles;
 using ComfyJamSummer.Enums;
-using ComfyJamSummer.JsonsData.AsepriteData;
 using ComfyJamSummer.Prefab;
-using Microsoft.Xna.Framework;
-using Newtonsoft.Json;
 using Nez;
 using System;
 using System.Collections.Generic;
@@ -40,12 +38,31 @@ namespace ComfyJamSummer.Data
 
                 var texture = Core.Content.LoadTexture(dir);
 
-                var collectible = new Collectible()
+                Collectible collectible;
+
+                switch (item)
                 {
-                    SpriteWidth = spriteData.Width,
-                    SpriteHeight = spriteData.Height,
-                    Type = item
-                };
+                    case CollectibleType.Fried_Chicken:
+                        collectible = CreateSpecial<FriedChicken>(spriteData.Width, spriteData.Height, item);
+                        break;
+
+                    case CollectibleType.Sliced_Bread:
+                        collectible = CreateSpecial<SlicedBread>(spriteData.Width, spriteData.Height, item);
+                        break;
+
+                    case CollectibleType.Sandwich:
+                        collectible = CreateSpecial<Sandwich>(spriteData.Width, spriteData.Height, item);
+                        break;
+
+                    default:
+                        collectible = new Collectible()
+                        {
+                            SpriteWidth = spriteData.Width,
+                            SpriteHeight = spriteData.Height,
+                            Type = item
+                        };
+                        break;
+                }
 
                 CreateAnimatorOneAnimation(collectible, dir, "Idle", Constants.CREATURE_RENDER_LAYER);
 
@@ -53,6 +70,16 @@ namespace ComfyJamSummer.Data
             }
 
             return result;
+        }
+
+        T CreateSpecial<T>(int width, int height, CollectibleType type) where T : Collectible, new()
+        {
+            return new T()
+            {
+                SpriteWidth = width,
+                SpriteHeight = height,
+                Type = type
+            };
         }
     }
 }

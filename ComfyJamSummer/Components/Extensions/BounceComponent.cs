@@ -295,13 +295,18 @@ namespace ComfyJamSummer.Components.Extensions
 
                     _entity.Position = _shadow.Position;
 
-                    this.RemoveComponent();
+                    Enabled = false;
                 }
             }
         }
 
         public void Update()
         {
+            if (!Enabled)
+            {
+                return;
+            }
+
             Process();
         }
     }

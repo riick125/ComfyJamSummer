@@ -1,4 +1,5 @@
 ﻿using ComfyJamSummer.Components.Gameplay;
+using ComfyJamSummer.Entities;
 using ComfyJamSummer.Manager;
 using ComfyJamSummer.Prefab;
 using Microsoft.Xna.Framework.Input;
@@ -40,6 +41,11 @@ namespace ComfyJamSummer.Components.Extensions
             }
 
             _camera.Zoom = Mathf.Clamp(_camera.Zoom, _minZoom, Game1.GameMaxZoom);
+
+            if (Input.IsKeyPressed(Keys.Enter))
+            {
+                Core.Scene.EntitiesOfType<Enemy>().ForEach(x => x.TakeDamage(x.MaxHP));
+            }
         }
     }
 }

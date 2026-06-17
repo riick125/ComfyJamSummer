@@ -43,11 +43,11 @@ namespace ComfyJamSummer.UI
                 {
                     var font = Game1.SaveData.ChosenResolution > GameResolution._1366x768 ? customFont.FontNormal : customFont.FontSmall;
 
-                    _lblSaving = new InflateLabel(_txtSaving, new Nez.UI.LabelStyle(font, Constants.SPRITE_COLOR), 1.1f, inflateSpeed: 1.3f);
+                    _lblSaving = new InflateLabel(_txtSaving, new Nez.UI.LabelStyle(font, Constants.WHITE_COLOR), 1.1f, inflateSpeed: 1.3f);
 
                     _lblSaving.SetPosition((_imgSaving.GetX()), (_imgSaving.GetY() + (_imgSaving.PreferredHeight)));
 
-                    _lblSaving.SetFontColor(Constants.SPRITE_COLOR * _alpha);
+                    _lblSaving.SetFontColor(Constants.WHITE_COLOR * _alpha);
 
                     _container.AddElement(_lblSaving);
                 }
@@ -84,7 +84,7 @@ namespace ComfyJamSummer.UI
                 _alpha = Mathf.Clamp01(_alpha);
 
                 _imgSaving.SetColor(Color.White * _alpha);
-                _lblSaving.SetFontColor(Constants.SPRITE_COLOR * _alpha);
+                _lblSaving.SetFontColor(Constants.WHITE_COLOR * _alpha);
 
                 if (_alpha == 0)
                 {

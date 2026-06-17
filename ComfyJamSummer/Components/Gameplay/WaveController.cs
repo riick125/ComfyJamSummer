@@ -35,7 +35,7 @@ namespace ComfyJamSummer.Components.Gameplay
 
             if (_wave != null)
             {
-                _buffCooldown = _wave.Duration / 8;
+                _buffCooldown = 4;
                 _timeLeftToNextBuff = _buffCooldown;
             }
         }

@@ -53,7 +53,7 @@ namespace ComfyJamSummer.Components.Extensions
             _alphaMaxValue = alphaMaxValue;
             _alpha = _alphaMaxValue;
 
-            _typingSounds = Enum.GetValues<SoundFxName>().Where(x => x.ToString().Contains("typing", StringComparison.OrdinalIgnoreCase)).ToList();
+            //_typingSounds = Enum.GetValues<SoundFxName>().Where(x => x.ToString().Contains("typing", StringComparison.OrdinalIgnoreCase)).ToList();
 
             //_typingSoundPrefab = _prefabs.GetSoundFxPrefab(SoundFxsEnum.Typing_1);
         }
@@ -200,16 +200,16 @@ namespace ComfyJamSummer.Components.Extensions
                         {
                             if (_typingSoundPrefab != null)
                             {
-                                var newVolume = _typingSoundPrefab.OriginalVolume;
+                                //var newVolume = _typingSoundPrefab.OriginalVolume;
 
-                                newVolume *= (Nez.Random.Range(0.8f, 1f));
+                                //newVolume *= (Nez.Random.Range(0.8f, 1f));
 
-                                _typingSounds.Shuffle();
-                                var rdmSound = _typingSounds[Nez.Random.RNG.Next(0, _typingSounds.Count)];
-                                if (_prefabs != null && _canPlaySound)
-                                    _prefabs.PlaySoundRandomPitch(rdmSound, 0.1f, newVolume);
+                                //_typingSounds.Shuffle();
+                                //var rdmSound = _typingSounds[Nez.Random.RNG.Next(0, _typingSounds.Count)];
+                                //if (_prefabs != null && _canPlaySound)
+                                //    _prefabs.PlaySoundRandomPitch(rdmSound, 0.1f, newVolume);
 
-                                _canPlaySound = !_canPlaySound;
+                                //_canPlaySound = !_canPlaySound;
                             }
 
                             component.Text += _originalText.Substring(_actualChar, 1);

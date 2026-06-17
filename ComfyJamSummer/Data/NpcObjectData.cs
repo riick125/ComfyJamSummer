@@ -6,8 +6,6 @@ using ComfyJamSummer.Enums;
 using ComfyJamSummer.Prefab;
 using Microsoft.Xna.Framework;
 using Nez;
-using System;
-using static Assimp.Metadata;
 
 namespace ComfyJamSummer.Data
 {
@@ -25,6 +23,22 @@ namespace ComfyJamSummer.Data
 
             var crab = CreateAnimatorWithEnum<Crab>(32, 28, anims, dir, Constants.CREATURE_RENDER_LAYER);
 
+            crab.PhrasesAskingForSandwich = new string[] { "ok, nice! now bring it to me!", "bring to me!", "hurry up!", "I'm starving here!" };
+
+            crab.PhrasesReactToSandwichEating = new string[] {
+                "wtf?!?!? you just ate my sandwich!!",
+                "I'm warning you... stop eating my sandwiches",
+                "I am dead serious, we need to get the hell outta here.",
+                "HEY! STOP!!!"
+            };
+
+            crab.PhrasesPatienceLost = new string[] {
+                "you're dead.",
+                "you shouldn't have done that.",
+                "die.",
+                "run."
+            };
+
             return crab;
         }
 
@@ -35,6 +49,8 @@ namespace ComfyJamSummer.Data
             var dir = Constants.MAP_DATA_PATH + "rocket/rocket_";
 
             var rocket = CreateAnimatorWithEnum<Rocket>(24, 41, anims, dir, Constants.CREATURE_RENDER_LAYER);
+
+            rocket.BaseConfig = CreateBaseConfig(interactText: "Press [E] to escape!", talkAreaOffsetY: rocket.SpriteHeight / 4, talkAreaRadius: 15);
 
             return rocket;
         }
@@ -52,6 +68,8 @@ namespace ComfyJamSummer.Data
             bag.SpriteWidth = (int)renderer.Width;
             bag.SpriteHeight = (int)renderer.Height;
 
+            bag.BaseConfig = CreateBaseConfig(interactText: "Press [E] to make sandwich", talkAreaOffsetY: bag.SpriteHeight / 4, talkAreaRadius: 22);
+
             return bag;
         }
 
@@ -62,18 +80,30 @@ namespace ComfyJamSummer.Data
             return starFish;
         }
 
-        public CreatureConfig InitializeCrab(uint islandId, Vector2 pos)
+        public InteractableConfig InitializeCrab(uint islandId, Vector2 pos)
         {
-            return _prefabs.CrabConfig.Clone(islandId, pos);
+            return _prefabs.CrabConfig.CloneNpc(islandId, pos);
         }
 
-        public CreatureConfig CreateBaseConfig()
+        public InteractableConfig CreateCrabConfig()
         {
-            return new CreatureConfig()
+            return new InteractableConfig()
             {
+                HP = CrabValues.HP,
                 Damage = CrabValues.DMG,
                 Speed = CrabValues.SPEED,
                 AtkSpeed = CrabValues.ATK_SPEED
+            };
+        }
+
+        public InteractableConfig CreateBaseConfig(float talkAreaOffsetX = 0f, float talkAreaOffsetY = 0f, string interactText = "Press[E] to interact", float talkAreaRadius = 12f)
+        {
+            return new InteractableConfig()
+            {
+                TalkAreaOffsetX = talkAreaOffsetX,
+                TalkAreaOffsetY = talkAreaOffsetY,
+                TalkAreaRadius = talkAreaRadius,
+                InteractText = interactText
             };
         }
     }

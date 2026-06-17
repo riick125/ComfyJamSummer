@@ -1,4 +1,5 @@
 ﻿using ComfyJamSummer.Save;
+using System.IO;
 
 namespace ComfyJamSummer.Helpers
 {
@@ -8,6 +9,20 @@ namespace ComfyJamSummer.Helpers
         {
             if (Game1.SaveGameComponent != null)
             {
+#if DEBUG
+                if (File.Exists(Constants.SAVE_PATH))
+                {
+                    try
+                    {
+                        File.Delete(Constants.SAVE_PATH);
+                    }
+                    catch (System.Exception)
+                    {
+                    }
+                }
+
+#endif
+
                 Game1.SaveData = Game1.SaveGameComponent.LoadLocalSave();
 
                 return Game1.SaveData;

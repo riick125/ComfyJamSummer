@@ -4,6 +4,7 @@ using ComfyJamSummer.Data;
 using ComfyJamSummer.Data.Jsons;
 using ComfyJamSummer.Entities;
 using ComfyJamSummer.Entities.Base;
+using ComfyJamSummer.Entities.Collectibles;
 using ComfyJamSummer.Entities.Configs;
 using ComfyJamSummer.Entities.Debuffs;
 using ComfyJamSummer.Entities.Objects;
@@ -46,9 +47,11 @@ namespace ComfyJamSummer.Prefab
 
         public CreatureConfig CreatureConfig => _creatureConfig;
 
-        public CreatureConfig CrabConfig => _crabConfig;
+        public InteractableConfig CrabConfig => _crabConfig;
 
         public BulletConfig BulletConfig => _bulletConfig;
+
+        public InteractableConfig InteractableConfig => _interactableConfig;
 
         LogoData _dataLogo;
         PlayerData _dataPlayer;
@@ -58,9 +61,10 @@ namespace ComfyJamSummer.Prefab
         MapData _dataMap;
         UIData _dataUI;
 
+        InteractableConfig _interactableConfig;
         WaveConfig _waveConfig;
         CreatureConfig _creatureConfig;
-        CreatureConfig _crabConfig;
+        InteractableConfig _crabConfig;
         BulletConfig _bulletConfig;
         PlayerConfig _playerConfig;
         List<EnemyConfig> _enemyConfigs;
@@ -139,6 +143,7 @@ namespace ComfyJamSummer.Prefab
             _creatureConfig = new CreatureConfig();
             _waveConfig = new WaveConfig();
             _bulletConfig = new BulletConfig();
+            _interactableConfig = _dataNpc.CreateBaseConfig();
         }
 
         void CreateGameTexts()
@@ -177,7 +182,7 @@ namespace ComfyJamSummer.Prefab
 
             Wave = new Wave();
 
-            _crabConfig = _dataNpc.CreateBaseConfig();
+            _crabConfig = _dataNpc.CreateCrabConfig();
             Crab = _dataNpc.CreateCrab();
             Rocket = _dataNpc.CreateRocket();
             BreadBag = _dataNpc.CreateBreadBag();
@@ -241,11 +246,27 @@ namespace ComfyJamSummer.Prefab
             return Enemy?.CloneEnemy(_dataEnemy.InitializeEnemy(islandId, type, pos));
         }
 
-        public Collectible GetCollectible(uint islandId, CollectibleType type, Vector2 pos, Vector2 fallDestination)
+        public Collectible GetCollectible(InteractableConfig config, CollectibleType type, Vector2 fallDestination)
         {
             var selected = Collectibles?.FirstOrDefault(x => x.Type == type);
 
-            return selected?.CloneCollectible(islandId, pos, fallDestination);
+            switch (type)
+            {
+                case CollectibleType.Fried_Chicken:
+                    var chicken = selected as FriedChicken;
+
+                    return chicken?.CloneFried(config, fallDestination);
+                case CollectibleType.Sandwich:
+                    var sandwich = selected as Sandwich;
+
+                    return sandwich?.CloneSandwich(config, fallDestination);
+                case CollectibleType.Sliced_Bread:
+                    var bread = selected as SlicedBread;
+
+                    return bread?.CloneBread(config, fallDestination);
+            }
+
+            return selected?.CloneCollectible(config, fallDestination);
         }
 
         public Wave GetWave(WaveConfig config)

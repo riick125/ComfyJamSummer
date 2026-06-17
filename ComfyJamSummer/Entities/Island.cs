@@ -1,5 +1,4 @@
-﻿using ComfyJamSummer.Components.Gameplay;
-using ComfyJamSummer.Enums;
+﻿using ComfyJamSummer.Enums;
 using Microsoft.Xna.Framework;
 using Nez;
 using Nez.Tiled;
@@ -119,9 +118,6 @@ namespace ComfyJamSummer.Entities
 
                 switch (direction)
                 {
-                    case GenericDirectionPlus.Top:
-                        break;
-
                     case GenericDirectionPlus.TopRight:
                         filtered = tiles
                             .Where(x => x.X >= (center.X + horizontalSpacing) &&
@@ -135,21 +131,6 @@ namespace ComfyJamSummer.Entities
                             .Where(x => x.X <= (center.X - horizontalSpacing) &&
                             x.X > (MinPosition.X + (TileWidth * 2)) &&
                             x.Y > (MinPosition.Y + (TileHeight * 2)) && x.Y < (center.Y - verticalSpacing)).ToList();
-                        break;
-
-                    case GenericDirectionPlus.Bottom:
-                        break;
-
-                    case GenericDirectionPlus.BottomRight:
-                        break;
-
-                    case GenericDirectionPlus.BottomLeft:
-                        break;
-
-                    case GenericDirectionPlus.Right:
-                        break;
-
-                    case GenericDirectionPlus.Left:
                         break;
                 }
             }

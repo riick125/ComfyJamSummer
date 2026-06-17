@@ -1,25 +1,24 @@
-﻿using ComfyJamSummer.Entities.Base;
-using ComfyJamSummer.Entities.Creatures;
-using ComfyJamSummer.Enums;
+﻿using ComfyJamSummer.Entities;
+using ComfyJamSummer.Entities.Base;
+using ComfyJamSummer.Entities.Collectibles;
 using ComfyJamSummer.Helpers;
 using ComfyJamSummer.Manager;
 using ComfyJamSummer.Prefab;
 using Microsoft.Xna.Framework;
 using Nez;
-using System.Linq;
 
 namespace ComfyJamSummer.Components.Gameplay
 {
     public class CollectibleController : BaseComponent, IUpdatable
     {
-        private Collider[] _nearColliders;
-
         private GameManager _gameManager;
 
         private float _crawlSpeedPercentage = 0.035f;
         private float _crawlFastSpeedPercentage = 2.2f;
 
-        private Creature _selectedCreature;
+        Collectible _collectible;
+
+        private Player _player;
 
         public CollectibleController(GameManager manager, Prefabs prefabs) : base(manager, prefabs)
         {
@@ -29,134 +28,117 @@ namespace ComfyJamSummer.Components.Gameplay
         {
             base.OnAddedToEntity();
 
-            _nearColliders = new Collider[8];
+            _collectible = this.Entity as Collectible;
+
+            _player = UtilHelper.Player();
         }
 
         public void Update()
         {
-            if (_gameManager == null)
+            if (!Validate(this.Entity))
             {
                 return;
             }
 
-            if (_gameManager.CantDoAnyAction)
+            if (_collectible.FollowingCatcher)
             {
-                return;
-            }
+                var player = UtilHelper.Player();
 
-            if (this.Entity == null)
-            {
-                return;
-            }
-
-            if (this.Entity.IsDestroyed)
-                return;
-
-            var collectible = this.Entity as Collectible;
-
-            if (collectible == null)
-            {
-                return;
-            }
-
-            if (collectible.FollowingCatcher)
-            {
-                this.RemoveComponent();
-
-                if (!this.Entity.IsDestroyed && this.Entity.Scene != null)
+                if (player == null)
                 {
-                    this.Entity.Destroy();
-                }
-            }
-
-            collectible.InteractText?.SetEnabled(false);
-
-            var aliveCreatures = Core.Scene.EntitiesOfType<Creature>().Where(x => x.IsAlive).ToList();
-            var indexCreature = 0;
-
-            while (indexCreature < aliveCreatures.Count && _selectedCreature == null && !_gameManager.CantDoAnyAction)
-            {
-                var creature = aliveCreatures[indexCreature];
-
-                if (!creature.IsAlive)
-                {
-                    indexCreature++;
-                    continue;
+                    return;
                 }
 
-                if (!collectible.FollowingCatcher)
+                if (player.BodyCollider == null || _collectible.CatchAreaCollider == null)
                 {
-                    collectible.TimeLeftToBeCollected -= Time.DeltaTime;
-
-                    var collider = collectible.ShowPopupItemInfoAreaCollider != null ? collectible.ShowPopupItemInfoAreaCollider : collectible.CatchAreaCollider;
-
-                    if (collectible.CanBeCollected)
-                    {
-                        if (collectible.BounceComponent == null)
-                        {
-                            var direction = creature.Position - collectible.Position;
-                            direction.Normalize();
-
-                            var vel = Vector2.Zero;
-
-                            //if (!_actualRoom.IsCombatHappening)
-                            //{
-                            //    vel += direction * (creature.Speed * _crawlFastSpeedPercentage) * Time.DeltaTime;
-                            //}
-                            //else
-                            //{
-                            //    vel += direction * (collectible.Speed * _crawlSpeedPercentage) * Time.DeltaTime;
-                            //}
-
-                            collectible.Position += vel;
-
-
-                            if (collectible.Shadow != null)
-                            {
-                                collectible.Shadow.SetPosition(collectible.Position + new Vector2(0, 1));
-                            }
-                        }
-
-                        if (creature.BodyCollider != null && collider != null && creature.BodyCollider.Overlaps(collider))
-                        {
-                            collectible.FollowingCatcher = true;
-
-                            _selectedCreature = collectible.FollowingCatcher ? creature : null;
-                        }
-                    }
+                    return;
                 }
 
-                if (!collectible.FollowingCatcher)
-                {
-                    indexCreature++;
-                }
-            }
-
-            if (collectible.FollowingCatcher && _selectedCreature != null)
-            {
-                var direction = _selectedCreature.Position - collectible.Position;
+                var direction = player.Position - _collectible.Position;
                 direction.Normalize();
 
-                var vel = Vector2.Zero;
-
-                vel += direction * collectible.Speed * Time.DeltaTime;
-
-                collectible.Position += vel;
-
-                var radius = 8;
-
-                Physics.OverlapCircleAll(collectible.Position, radius, _nearColliders);
-
-                if (_nearColliders.Any(x => x != null && x.Entity != null && x.Entity.GetType() == typeof(Creature)))
+                if (DirectionHelper.Validate(direction))
                 {
-                    if (_prefabs == null)
+                    _collectible.Position += direction * _collectible.Speed * Time.DeltaTime;
+
+                    if (player.BodyCollider.Overlaps(_collectible.CatchAreaCollider))
                     {
-                        return;
+                        var shouldDestroy = false;
+
+                        switch (_collectible.Type)
+                        {
+                            case Enums.CollectibleType.Fried_Chicken:
+                                var chicken = _collectible as FriedChicken;
+
+                                if (chicken != null)
+                                {
+                                    _player.FriedChicken = chicken;
+                                }
+                                break;
+
+                            case Enums.CollectibleType.Sandwich:
+                                var sandwich = _collectible as Sandwich;
+
+                                if (sandwich != null)
+                                {
+                                    _player.Sandwich = sandwich;
+                                }
+                                break;
+
+                            case Enums.CollectibleType.Sliced_Bread:
+                                var bread = _collectible as SlicedBread;
+
+                                if (bread != null && _player?.FriedChicken != null)
+                                {
+                                    if (!_player.FriedChicken.IsDestroyed)
+                                        _player?.FriedChicken?.Destroy();
+
+                                    var island = UtilHelper.GetEntity<Island>();
+
+                                    if (island != null)
+                                    {
+                                        shouldDestroy = true;
+
+                                        var fallDestination = _player.Position + new Vector2(_player.SpriteWidth * Nez.Random.MinusOneToOne(), _player.SpriteHeight * 1.35f);
+
+                                        var brandNewDeliciousSandwich = _scene.AddEntity(_prefabs.GetCollectible(_prefabs.InteractableConfig
+                                            .CloneNpc(island.Id, _collectible.Position), Enums.CollectibleType.Sandwich, fallDestination));
+
+                                        var crab = UtilHelper.Crab();
+
+                                        if (crab != null)
+                                        {
+                                            crab.LookAtSandwich(brandNewDeliciousSandwich.Id);
+                                        }
+                                    }
+                                }
+                                break;
+                        }
+
+                        if (!shouldDestroy)
+                        {
+                            _collectible.FollowingCatcher = false;
+                            _collectible.IsCollected = true;
+
+                            var colliders = _collectible.GetComponents<Collider>();
+
+                            foreach (var item in colliders)
+                            {
+                                item.RemoveComponent();
+                            }
+                        }
+                        else
+                        {
+                            _collectible.Destroy();
+                        }
+
+                        if (_collectible.Shadow != null && !_collectible.IsDestroyed)
+                        {
+                            _collectible.Shadow.Destroy();
+                        }
+
+                        this.RemoveComponent();
                     }
-
-                    SoundHelper.PlayRandomSound(SoundFxName.Collect_1);
-
-                    //ItemPopupUI.Emitter?.Emit(Enums.Events.UIEventEnums.CollectItem, new Events.UIEventData() { Item = item, ActualRoom = _actualRoom });                     
                 }
             }
         }

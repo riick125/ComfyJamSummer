@@ -48,6 +48,11 @@ namespace ComfyJamSummer.Save
         /// </summary>
         public int Deaths { get; set; }
 
+        public bool HasSeenCrabLookingAtSandwichCutsceneForFirstTime { get; set; }
+
+        public bool HasSeenAngryCrabCutsceneForFirstTime { get; set; }
+
+        public bool HasSeenStarFishCutsceneForFirstTime { get; set; }
 
         public SaveData()
         {

@@ -32,14 +32,24 @@ namespace ComfyJamSummer.UI.Base
 
             if (customFont != null)
             {
-                _lblStyleSmall = new LabelStyle(customFont.FontSmall, Constants.SPRITE_COLOR);
+                _lblStyleSmall = new LabelStyle(customFont.FontSmall, Constants.WHITE_COLOR);
 
-                _lblStyleNormal = new LabelStyle(customFont.FontNormal, Constants.SPRITE_COLOR);
+                _lblStyleNormal = new LabelStyle(customFont.FontNormal, Constants.WHITE_COLOR);
 
-                lblStyleBig = new LabelStyle(customFont.FontBig, Constants.SPRITE_COLOR);
+                lblStyleBig = new LabelStyle(customFont.FontBig, Constants.WHITE_COLOR);
 
-                _lblStyleGiant = new LabelStyle(customFont.FontGiant, Constants.SPRITE_COLOR);
+                _lblStyleGiant = new LabelStyle(customFont.FontGiant, Constants.WHITE_COLOR);
             }
+        }
+
+        protected bool Validate()
+        {
+            if (_prefabs == null || _manager == null)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

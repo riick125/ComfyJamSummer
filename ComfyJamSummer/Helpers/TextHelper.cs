@@ -156,6 +156,7 @@ namespace ComfyJamSummer.Helpers
 
             var config = new BesideTextConfig(entity, phrase, default, true, duration);
             config.IsTalk = true;
+            config.HasTypingTextEffect = true;
 
             TextHelper.CreateFollowTypingBesideText(config);
         }

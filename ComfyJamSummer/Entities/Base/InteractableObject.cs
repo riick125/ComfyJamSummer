@@ -1,4 +1,6 @@
-﻿using ComfyJamSummer.Helpers;
+﻿using ComfyJamSummer.Entities.Configs;
+using ComfyJamSummer.Entities.Objects;
+using ComfyJamSummer.Helpers;
 using ComfyJamSummer.Manager;
 using Microsoft.Xna.Framework;
 using Nez;
@@ -8,6 +10,29 @@ namespace ComfyJamSummer.Entities.Base
 {
     public class InteractableObject : Animated
     {
+        public InteractableConfig BaseConfig { get; set; }
+
+        public bool IsKillable { get; set; }
+
+        public float ActualHP { get; set; }
+
+        public float MaxHP { get; set; }
+
+        public bool IsAlive
+        {
+            get
+            {
+                if (!IsKillable)
+                {
+                    return true;
+                }
+                else
+                {
+                    return ActualHP > 0;
+                }
+            }
+        }
+
         public Island Island { get; set; }
 
         protected uint _islandId;
@@ -35,11 +60,27 @@ namespace ComfyJamSummer.Entities.Base
 
         protected bool _disappeared;
 
-        public InteractableObject CloneInteractable(uint islandId, Vector2 pos, float talkAreaOffsetX, float talkAreaOffsetY, string interactText = "Press [E] to interact", float talkAreaRadius = 9f)
+        public InteractableObject CloneInteractable(InteractableConfig config)
         {
-            var clone = base.CloneAnimated(pos) as InteractableObject;
+            var clone = base.CloneAnimated(config.Position) as InteractableObject;
 
-            clone._islandId = islandId;
+            clone._islandId = config.IslandId;
+
+            var talkAreaOffsetX = config.TalkAreaOffsetX;
+            var talkAreaOffsetY = config.TalkAreaOffsetY;
+            var talkAreaRadius = config.TalkAreaRadius;
+            var interactText = config.InteractText;
+
+            if (BaseConfig != null)
+            {
+                talkAreaOffsetX = BaseConfig.TalkAreaOffsetX != 0 && BaseConfig.TalkAreaOffsetX != talkAreaOffsetX ? BaseConfig.TalkAreaOffsetX : talkAreaOffsetX;
+
+                talkAreaOffsetY = BaseConfig.TalkAreaOffsetY != 0 && BaseConfig.TalkAreaOffsetY != talkAreaOffsetY ? BaseConfig.TalkAreaOffsetY : talkAreaOffsetY;
+
+                talkAreaRadius = BaseConfig.TalkAreaRadius != 0 && BaseConfig.TalkAreaRadius != talkAreaRadius ? BaseConfig.TalkAreaRadius : talkAreaRadius;
+
+                interactText = !string.IsNullOrEmpty(BaseConfig.InteractText) && BaseConfig.InteractText != interactText ? BaseConfig.InteractText : interactText;
+            }
 
             clone.InteractText = TextHelper.CreateFollowBesideText(new BesideTextConfig(clone, interactText, new Vector2(SpriteWidth / 2.25f, SpriteHeight / 2), true, 0));
 
@@ -49,7 +90,7 @@ namespace ComfyJamSummer.Entities.Base
 
             if (txtComponent != null)
             {
-                txtComponent.SetColor(Constants.SPRITE_COLOR * 0);
+                txtComponent.SetColor(Constants.WHITE_COLOR * 0);
             }
 
             var localoffset = new Vector2(talkAreaOffsetX <= 0 ? 0 : -talkAreaOffsetX, talkAreaOffsetY <= 0 ? 0 : talkAreaOffsetY / 2);
@@ -110,6 +151,8 @@ namespace ComfyJamSummer.Entities.Base
                 return;
             }
 
+            ToggleEnableDisable(true);
+
             CanPressInteractButton = CheckInteractAreaCollision(player, gameManager);
         }
 
@@ -128,7 +171,7 @@ namespace ComfyJamSummer.Entities.Base
 
                 if (txtComponent != null)
                 {
-                    txtComponent.SetColor(Constants.SPRITE_COLOR * 0);
+                    txtComponent.SetColor(Constants.WHITE_COLOR * 0);
                     _txtAlpha = 0f;
                 }
             }
@@ -180,6 +223,13 @@ namespace ComfyJamSummer.Entities.Base
 
                 if (collided)
                 {
+                    switch (this)
+                    {
+                        case BreadBag bag:
+                            bag.ChangeText();
+                            break;
+                    }
+
                     _txtAlpha += 5 * Time.DeltaTime;
                 }
                 else
@@ -198,7 +248,9 @@ namespace ComfyJamSummer.Entities.Base
 
             if (txtComponent != null)
             {
-                txtComponent.SetColor(Constants.SPRITE_COLOR * _txtAlpha);
+                txtComponent.Transform.SetPosition(this.Position);
+
+                txtComponent.SetColor(Color.White * _txtAlpha);
             }
 
             return result;

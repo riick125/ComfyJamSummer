@@ -332,6 +332,18 @@ namespace ComfyJamSummer.Entities.Creatures
             return this.Position;
         }
 
+        public void Heal(float amount)
+        {
+            ActualHP += amount;
+
+            ActualHP = Mathf.Clamp(ActualHP, 0, MaxHP);
+
+            var textOffset = new Vector2(SpriteWidth * (Nez.Random.Chance(50) ? 1 : -1), -SpriteHeight / 4);
+
+            var config = new BesideTextConfig(this, $"+{(int)amount}", offset: textOffset, color: Color.Green);
+            TextHelper.CreateGoingUpBesideText(config);
+        }
+
         public bool TakeDamage(float dmg)
         {
             if (!Validate() || !IsAlive)
