@@ -66,6 +66,7 @@ namespace ComfyJamSummer.Components.Gameplay
         void CreateColliders()
         {
             var renderer = _island.Renderer;
+            renderer.DebugRenderEnabled = false;
 
             var tmxMap = renderer?.TiledMap;
 
@@ -78,7 +79,6 @@ namespace ComfyJamSummer.Components.Gameplay
                     var pos = _island.Position + new Vector2(obj.X, obj.Y);
 
                     var collider = _island.CreateCollider(physicsLayer: CollisionLayer.Map, pos.X, pos.Y, obj.Width, obj.Height);
-
                     Physics.AddCollider(collider);
                 }
             }

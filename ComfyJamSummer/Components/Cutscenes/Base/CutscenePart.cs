@@ -6,6 +6,11 @@ namespace ComfyJamSummer.Components.Cutscenes.Base
 {
     public class CutscenePart : Animated
     {
+        public T GetPartName<T>() where T : Enum
+        {
+            return (T)PartName;
+        }
+
         public Enum PartName { get; set; }
 
         public float Duration { get; set; }

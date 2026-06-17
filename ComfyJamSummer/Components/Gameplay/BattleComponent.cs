@@ -1,5 +1,8 @@
 ﻿using ComfyJamSummer.Entities;
+using ComfyJamSummer.Entities.Base;
+using ComfyJamSummer.Entities.Collectibles;
 using ComfyJamSummer.Entities.Configs;
+using ComfyJamSummer.Helpers;
 using ComfyJamSummer.Manager;
 using ComfyJamSummer.Prefab;
 using Nez;
@@ -24,7 +27,8 @@ namespace ComfyJamSummer.Components.Gameplay
         public BattleComponent(Island island, GameManager manager, Prefabs prefabs) : base(manager, prefabs)
         {
             _island = island;
-            _nextWaveStartCooldown = 30;
+            _nextWaveStartCooldown = 2f;// 20;
+            _timeLeftToNextWave = _nextWaveStartCooldown;
 
             _waves = new List<Wave>();
             _wavesQty = island.WavesQuantity;
@@ -67,14 +71,34 @@ namespace ComfyJamSummer.Components.Gameplay
                 _waves = _waves.OrderBy(x => x.Index).ToList();
 
                 _actualWave = _waves.FirstOrDefault(x => !x.Started);
+                _timeLeftToNextWave = _nextWaveStartCooldown;
             }
             else
             {
-                var waveController = _actualWave.WaveController;
-
-                if (waveController != null)
+                if (_actualWave.StillGoing)
                 {
-                    waveController.Process();
+                    var waveController = _actualWave.WaveController;
+
+                    if (waveController != null)
+                    {
+                        waveController.Process();
+                    }
+                }
+                else
+                {
+                    var player = UtilHelper.Player();
+
+                    var anyIngredientSpawned = this._scene.EntitiesOfType<Collectible>().Count(x => x is FriedChicken || x is Sandwich || x is SlicedBread);
+
+                    if (anyIngredientSpawned <= 0)
+                    {
+                        _timeLeftToNextWave -= Time.DeltaTime;
+
+                        if (_timeLeftToNextWave <= 0)
+                        {
+                            _actualWave = null;
+                        }
+                    }
                 }
             }
         }

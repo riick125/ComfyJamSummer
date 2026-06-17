@@ -1,11 +1,16 @@
-﻿using ComfyJamSummer.Components.Cutscenes;
+﻿using ComfyJamSummer.AI.Enemies;
+using ComfyJamSummer.Components.Cutscenes;
+using ComfyJamSummer.Components.Gameplay;
+using ComfyJamSummer.Components.Visuals;
 using ComfyJamSummer.Entities.Base;
 using ComfyJamSummer.Entities.Configs;
-using ComfyJamSummer.Entities.Creatures;
+using ComfyJamSummer.Entities.Objects;
 using ComfyJamSummer.Enums;
 using ComfyJamSummer.Extensions;
 using ComfyJamSummer.Helpers;
 using Nez;
+using Nez.AI.FSM;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,6 +18,8 @@ namespace ComfyJamSummer.Entities
 {
     public class Crab : InteractableObject
     {
+        string _canInteractText = "Press [E] to feed the crab", _cannotInteractText = "Go make some sandwich for the crab!!!";
+
         public string[] PhrasesAskingForSandwich { get; set; }
 
         public string[] PhrasesReactToSandwichEating { get; set; }
@@ -21,18 +28,49 @@ namespace ComfyJamSummer.Entities
 
         public CrabAnim ActualState { get; set; }
 
-        float _satiation = 50, _satiationLossPerWave, _maxSatiation = 100;
-        float _hungryValue = 25;
+        float _satiation = 60, _satiationValuePerChange, _maxSatiation = 100;
+        float _hungryValue = 25, _idleValue = 50;
 
         float _patience = 50, _patienceLossPerSlipUp, _maxPatience = 100;
 
+        public bool LostPatience { get { return _patience <= 0; } }
+
         public bool IsHungry { get { return _satiation <= _hungryValue; } }
+
+        public bool CantBuild { get { return _satiation > _hungryValue && _satiation < _idleValue; } }
+
+        public CrabController CrabController => this.GetComponent<CrabController>();
+
+        public StateMachine<Crab> Machine
+        {
+            get
+            {
+                if (CrabController == null)
+                {
+                    return null;
+                }
+
+                return CrabController.Machine;
+            }
+        }
 
         List<uint> _sandwichIds;
 
         public Crab CloneCrab(InteractableConfig config)
         {
             var clone = base.CloneInteractable(config) as Crab;
+            clone._satiation = _satiation;
+            clone._maxSatiation = _maxSatiation;
+            clone._satiationValuePerChange = _maxSatiation * 0.15f;
+            clone._hungryValue = _hungryValue;
+            clone._idleValue = _idleValue;
+
+            clone._patience = _patience;
+            clone._maxPatience = _maxPatience;
+            clone._patienceLossPerSlipUp = _patienceLossPerSlipUp;
+
+            clone._canInteractText = _canInteractText;
+            clone._cannotInteractText = _cannotInteractText;
             clone.Name = EntityNames.CRAB;
             clone._sandwichIds = new List<uint>();
 
@@ -46,12 +84,58 @@ namespace ComfyJamSummer.Entities
 
             AnimHelper.Play(clone.Animator, CrabAnim.Idle);
 
+            if (clone.Animator != null)
+            {
+                clone.Animator.OnAnimationCompletedEvent += Crab_OnAnimationCompletedEvent;
+            }
+
+            clone.AddComponent(new CrabController(UtilHelper.GameManager(), UtilHelper.Prefabs()));
+
+
+            clone.AddComponent(new FakeShadowComponent(9, SpriteHeight / 2, false));
+
             return clone;
         }
 
-        public void PassWave()
+        private void Crab_OnAnimationCompletedEvent(string obj)
         {
-            _satiation -= _satiationLossPerWave;
+            var value = CrabAnim.Idle;
+
+            if (Enum.TryParse<CrabAnim>(obj, out value))
+            {
+                switch (value)
+                {
+                    case CrabAnim.Eat:
+                        AnimHelper.Play(Animator, CrabAnim.Idle);
+                        break;
+                }
+            }
+        }
+
+        public override void Update()
+        {
+            base.Update();
+
+            if (!Validate())
+            {
+                return;
+            }
+
+            var player = UtilHelper.Player();
+
+            if (player == null)
+            {
+                return;
+            }
+
+            MeasureInteractText(player.Sandwich != null ? _canInteractText : _cannotInteractText);
+        }
+
+        public void ModifySatiation(bool reduce = true)
+        {
+            var value = reduce ? _satiationValuePerChange * 1.25f : _satiationValuePerChange;
+
+            _satiation += reduce ? -value : value;
             _satiation = Mathf.Clamp(_satiation, 0, _maxSatiation);
         }
 
@@ -59,6 +143,22 @@ namespace ComfyJamSummer.Entities
         {
             _patience += reduce ? -_patienceLossPerSlipUp : _patienceLossPerSlipUp / 2;
             _patience = Mathf.Clamp(_patience, 0, _maxPatience);
+        }
+
+        public void EatSandwich()
+        {
+            ModifySatiation(false);
+
+            Machine?.ChangeState<CrabIdleState>();
+
+            var breadBag = UtilHelper.GetEntity<BreadBag>();
+
+            if (breadBag != null)
+            {
+                breadBag.IsInteracting = false;
+            }
+
+            AnimHelper.Play(Animator, CrabAnim.Eat, Nez.Sprites.SpriteAnimator.LoopMode.ClampForever);
         }
 
         public void LookAtSandwich(uint sandwichId)
@@ -119,13 +219,6 @@ namespace ComfyJamSummer.Entities
         public void ReactToPlayerEatingSandwich(Player player, uint sandwichId)
         {
             if (player == null)
-            {
-                return;
-            }
-
-            var result = GrabSandwichId(sandwichId);
-
-            if (!result)
             {
                 return;
             }

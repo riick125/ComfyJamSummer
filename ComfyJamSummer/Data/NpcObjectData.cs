@@ -6,6 +6,9 @@ using ComfyJamSummer.Enums;
 using ComfyJamSummer.Prefab;
 using Microsoft.Xna.Framework;
 using Nez;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ComfyJamSummer.Data
 {
@@ -50,8 +53,8 @@ namespace ComfyJamSummer.Data
 
             var rocket = CreateAnimatorWithEnum<Rocket>(24, 41, anims, dir, Constants.CREATURE_RENDER_LAYER);
 
-            rocket.BaseConfig = CreateBaseConfig(interactText: "Press [E] to escape!", talkAreaOffsetY: rocket.SpriteHeight / 4, talkAreaRadius: 15);
-
+            rocket.BaseConfig = CreateBaseConfig(interactText: "Press [E] to escape!", talkAreaOffsetY: rocket.SpriteHeight * 1.5f, talkAreaRadius: 4);
+            
             return rocket;
         }
 
@@ -68,7 +71,7 @@ namespace ComfyJamSummer.Data
             bag.SpriteWidth = (int)renderer.Width;
             bag.SpriteHeight = (int)renderer.Height;
 
-            bag.BaseConfig = CreateBaseConfig(interactText: "Press [E] to make sandwich", talkAreaOffsetY: bag.SpriteHeight / 4, talkAreaRadius: 22);
+            bag.BaseConfig = CreateBaseConfig(interactText: "Press [E] to make sandwich", talkAreaOffsetY: bag.SpriteHeight * 1.5f, talkAreaRadius: 11);
 
             return bag;
         }
@@ -87,12 +90,17 @@ namespace ComfyJamSummer.Data
 
         public InteractableConfig CreateCrabConfig()
         {
+            var offsetY = _prefabs?.Crab?.SpriteHeight * 2f;
+
             return new InteractableConfig()
             {
                 HP = CrabValues.HP,
                 Damage = CrabValues.DMG,
                 Speed = CrabValues.SPEED,
-                AtkSpeed = CrabValues.ATK_SPEED
+                AtkSpeed = CrabValues.ATK_SPEED,
+                IsKillable = true,
+                TalkAreaRadius = 5,
+                TalkAreaOffsetY = offsetY.HasValue ? offsetY.Value : 0
             };
         }
 

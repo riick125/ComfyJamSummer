@@ -30,11 +30,18 @@ namespace ComfyJamSummer.Components.Gameplay
                 _machine = new StateMachine<Crab>(_crab, new CrabIdleState(_prefabs, _manager));
 
                 _machine.AddState(new CrabBuildState(_prefabs, _manager));
+                _machine.AddState(new CrabPissedOffState(_prefabs, _manager));
             }
         }
 
         public void Update()
         {
+            if (!Validate(this.Entity))
+            {
+                return;
+            }
+
+            _machine.Update(Time.DeltaTime);
         }
     }
 }

@@ -40,28 +40,26 @@ namespace ComfyJamSummer.Components.Gameplay
                 return;
             }
 
+            if (_player == null)
+            {
+                return;
+            }
+
             if (_collectible.FollowingCatcher)
             {
-                var player = UtilHelper.Player();
-
-                if (player == null)
+                if (_player.BodyCollider == null || _collectible.CatchAreaCollider == null)
                 {
                     return;
                 }
 
-                if (player.BodyCollider == null || _collectible.CatchAreaCollider == null)
-                {
-                    return;
-                }
-
-                var direction = player.Position - _collectible.Position;
+                var direction = _player.Position - _collectible.Position;
                 direction.Normalize();
 
                 if (DirectionHelper.Validate(direction))
                 {
                     _collectible.Position += direction * _collectible.Speed * Time.DeltaTime;
 
-                    if (player.BodyCollider.Overlaps(_collectible.CatchAreaCollider))
+                    if (_player.BodyCollider.Overlaps(_collectible.CatchAreaCollider))
                     {
                         var shouldDestroy = false;
 
@@ -90,8 +88,11 @@ namespace ComfyJamSummer.Components.Gameplay
 
                                 if (bread != null && _player?.FriedChicken != null)
                                 {
-                                    if (!_player.FriedChicken.IsDestroyed)
+                                    if (_player.FriedChicken != null && !_player.FriedChicken.IsDestroyed)
+                                    {
                                         _player?.FriedChicken?.Destroy();
+                                        _player.FriedChicken = null;
+                                    }
 
                                     var island = UtilHelper.GetEntity<Island>();
 

@@ -8,6 +8,7 @@ using ComfyJamSummer.Enums;
 using ComfyJamSummer.Helpers;
 using Microsoft.Xna.Framework;
 using Nez;
+using System.Linq;
 
 namespace ComfyJamSummer.Entities
 {
@@ -23,6 +24,9 @@ namespace ComfyJamSummer.Entities
 
         public Vector2 OffsetCollectible { get; set; }
 
+        public CircleCollider InteractAreaCollider { get { return this.GetComponents<CircleCollider>().FirstOrDefault(x => x.Tag == CreatureCollider.InteractArea.ToString()); } }
+
+
         float _collectibleFollowSpeed;
 
         public Player ClonePlayer(PlayerConfig config)
@@ -37,6 +41,8 @@ namespace ComfyJamSummer.Entities
             clone.AddComponent(new FakeShadowComponent(8, clone.SpriteHeight / 3.4f));
 
             clone.OffsetCollectible = new Vector2(clone.SpriteWidth / 1.5f, -clone.SpriteHeight / 4);
+
+            clone.AddComponent(new CircleCollider(5) { IsTrigger = true, Tag = CreatureCollider.InteractArea.ToString() });
 
             return clone;
         }

@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ComfyJamSummer.Components.Extensions;
-using ComfyJamSummer.Components.General;
+﻿using ComfyJamSummer.Components.Extensions;
 using ComfyJamSummer.Entities.Base;
-using ComfyJamSummer.Entities.Creatures;
 using Microsoft.Xna.Framework;
 using Nez;
 using Nez.BitmapFonts;
+using System;
+using System.Linq;
+using System.Text;
 
 namespace ComfyJamSummer.Helpers
 {

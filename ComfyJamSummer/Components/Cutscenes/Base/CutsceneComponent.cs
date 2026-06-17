@@ -22,7 +22,7 @@ namespace ComfyJamSummer.Components.Cutscenes.Base
 
             if (!string.IsNullOrEmpty(title))
             {
-                var presentationUI = Game1.CustomScene.CreateEntityCustom("RoomEventPresentationUI") as Animated;
+                var presentationUI = Core.Scene?.CreateEntity("RoomEventPresentationUI");
 
                 presentationUI.AddComponent(new TitlePresentationUI(title, executionTime, startDelay: startDelay));
             }
@@ -76,6 +76,10 @@ namespace ComfyJamSummer.Components.Cutscenes.Base
             if (IsRunning)
             {
                 var deltaTime = Time.DeltaTime;
+
+#if DEBUG
+                deltaTime *= 4;
+#endif
 
                 ElapsedTimeInState += deltaTime;
                 TimeLeftToEndCutscene -= deltaTime;

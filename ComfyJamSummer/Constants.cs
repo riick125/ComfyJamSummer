@@ -140,6 +140,11 @@ namespace ComfyJamSummer
         public const float ATK_SPEED = 1f;
     }
 
+    public static class RocketValues
+    {
+        public const float HITS_TO_NEXT_PHASE = 50;
+    }
+
     public static class EnemyValues
     {
         public const float HP = 75;

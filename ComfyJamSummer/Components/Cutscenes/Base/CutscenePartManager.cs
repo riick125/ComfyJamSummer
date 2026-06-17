@@ -1,5 +1,4 @@
-﻿using ComfyJamSummer.Entities.Base;
-using Nez;
+﻿using Nez;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,9 +6,9 @@ namespace ComfyJamSummer.Components.Cutscenes.Base
 {
     public class CutscenePartManager : Component, IUpdatable
     {
-        private Animated _manager;
+        private Entity _manager;
 
-        private bool _isRunning;
+        private bool _isRunning, _autoStart;
 
         private List<CutscenePart> _parts;
 
@@ -25,11 +24,21 @@ namespace ComfyJamSummer.Components.Cutscenes.Base
 
             _parts.ForEach(x => Core.Scene.AddEntity(x));
 
-            _isRunning = autoStart;
+            _autoStart = autoStart;
 
-            _manager = Game1.CustomScene.CreateEntityCustom("CutscenePartManager");
+            _manager = Core.Scene.CreateEntity("CutscenePartManager");
 
             _manager.AddComponent(this);
+        }
+
+        public override void OnAddedToEntity()
+        {
+            base.OnAddedToEntity();
+
+            if (_autoStart)
+            {
+                Run();
+            }
         }
 
         public void Run()

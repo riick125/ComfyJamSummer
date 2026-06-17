@@ -49,6 +49,8 @@ namespace ComfyJamSummer.Scenes
                 AddSceneComponent(new DepthComponent());
 
                 CreateEntity(UINames.PLAYER).AddComponent(new PlayerUI(_gameManager, _prefabs));
+
+                Camera.AddComponent(new CameraShake());
             }
         }
     }

@@ -12,6 +12,8 @@ namespace ComfyJamSummer.Entities.Configs
 
         public float TalkAreaRadius { get; set; }
 
+        public bool IsKillable { get; set; }
+
         public InteractableConfig CloneNpc(uint islandId, Vector2 pos, float talkAreaOffsetX = 0f, float talkAreaOffsetY = 0f, string interactText = "Press[E] to interact", float talkAreaRadius = 12f)
         {
             var clone = base.Clone(islandId, pos) as InteractableConfig;

@@ -4,6 +4,8 @@ using ComfyJamSummer.Manager;
 using ComfyJamSummer.Prefab;
 using Microsoft.Xna.Framework.Input;
 using Nez;
+using Nez.Sprites;
+using System.Linq;
 
 namespace ComfyJamSummer.Components.Extensions
 {
@@ -26,6 +28,13 @@ namespace ComfyJamSummer.Components.Extensions
 #endif
             if (!Validate(this.Entity))
                 return;
+
+            var entities = _scene.EntitiesOfType<Entity>().Where(x => x.HasComponent<SpriteRenderer>() && !x.GetComponent<SpriteRenderer>().DebugRenderEnabled).Select(x=> x.GetComponent<SpriteRenderer>());
+
+            foreach (var item in entities)
+            {
+                item.DebugRenderEnabled = false;
+            }
 
             var deltaTime = Time.DeltaTime;
 

@@ -3,6 +3,7 @@
     public enum CreatureCollider
     {
         Body,
+        InteractArea,
         Shadow
     }
 

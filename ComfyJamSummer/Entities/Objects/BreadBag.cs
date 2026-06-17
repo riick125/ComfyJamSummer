@@ -56,15 +56,7 @@ namespace ComfyJamSummer.Entities.Objects
                 return;
             }
 
-            var txt = InteractText;
-
-            var auxText = txt.Font.WrapText(_player.FriedChicken != null ? _canInteractText : _cannotInteractText, Constants.TEXT_WIDTH_LIMIT);
-
-            var measureString = txt.Font.MeasureString(auxText);
-
-            txt.Offset = new Vector2(-measureString.X / 4, (SpriteHeight / 2) + measureString.Y / 2);
-
-            InteractText.TextComponent.SetText(auxText);
+            MeasureInteractText(_player.FriedChicken != null ? _canInteractText : _cannotInteractText);
         }
 
         bool ValidateBag()

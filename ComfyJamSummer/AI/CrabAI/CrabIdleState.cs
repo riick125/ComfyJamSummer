@@ -12,11 +12,27 @@ namespace ComfyJamSummer.AI.Enemies
         {
         }
 
-        public override void Begin()
+        public override void Update(float deltaTime)
         {
-            base.Begin();
+            base.Update(deltaTime);
 
-            AnimHelper.Play(_context.Animator, CrabAnim.Idle);
+            if (!AnimHelper.CurrentAnim(_context.Animator, CrabAnim.Eat))
+            {
+                AnimHelper.Play(_context.Animator, _context.IsHungry ? CrabAnim.Hungry : CrabAnim.Idle);
+            }
+            else if (_context.Animator.AnimationState == Nez.Sprites.SpriteAnimator.State.Completed)
+            {
+                AnimHelper.Play(_context.Animator, _context.IsHungry ? CrabAnim.Hungry : CrabAnim.Idle);
+            }
+
+            if (_context.LostPatience)
+            {
+                _machine.ChangeState<CrabPissedOffState>();
+            }
+            else if (!_context.IsHungry && !_context.CantBuild)
+            {
+                _machine.ChangeState<CrabBuildState>();
+            }
         }
     }
 }

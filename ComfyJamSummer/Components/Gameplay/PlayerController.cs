@@ -39,10 +39,12 @@ namespace ComfyJamSummer.Components.Gameplay
                 _player.Animator.FlipX = Core.Scene.Camera.MouseToWorldPoint().X < _player.Position.X;
             }
 
-            InteractWithCrab();
+            FeedCrab();
+
+            Escape();
         }
 
-        void InteractWithCrab()
+        void FeedCrab()
         {
             var crab = UtilHelper.Crab();
 
@@ -51,11 +53,40 @@ namespace ComfyJamSummer.Components.Gameplay
                 return;
             }
 
-            if (!crab.IsAlive)
+            if (!crab.IsAlive || crab.TalkAreaCollider == null || crab.IsInteracting)
             {
                 return;
             }
 
+            if (_player.Sandwich == null)
+            {
+                return;
+            }
+
+            if (_player.Sandwich.IsDestroyed)
+            {
+                return;
+            }
+
+            if (crab.CanPressInteractButton && Input.IsKeyPressed(Keys.E))
+            {
+                crab.EatSandwich();
+
+                _player.Sandwich.Destroy();
+                _player.Sandwich = null;
+            }
+        }
+
+        void Escape()
+        {
+            var rocket = UtilHelper.GetEntity<Rocket>();
+
+            if (rocket == null)
+            {
+                return;
+            }
+
+            rocket.Launch(_player);
         }
 
         void Move()

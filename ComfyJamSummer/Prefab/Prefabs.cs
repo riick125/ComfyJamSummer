@@ -182,8 +182,9 @@ namespace ComfyJamSummer.Prefab
 
             Wave = new Wave();
 
-            _crabConfig = _dataNpc.CreateCrabConfig();
             Crab = _dataNpc.CreateCrab();
+            _crabConfig = _dataNpc.CreateCrabConfig();
+            Crab.BaseConfig = _crabConfig;
             Rocket = _dataNpc.CreateRocket();
             BreadBag = _dataNpc.CreateBreadBag();
             StarFish = _dataNpc.CreateStarFish();
@@ -236,9 +237,9 @@ namespace ComfyJamSummer.Prefab
 
         public Crab GetCrab(uint islandId, Vector2 pos)
         {
-            var stone = Crab?.CloneCrab(_dataNpc.InitializeCrab(islandId, pos));
+            var crab = Crab?.CloneCrab(_dataNpc.InitializeCrab(islandId, pos));
 
-            return stone;
+            return crab;
         }
 
         public Enemy GetEnemy(uint islandId, EnemyType type, Vector2 pos)

@@ -16,7 +16,7 @@ namespace ComfyJamSummer.AI.Enemies
         {
             base.Begin();
 
-            AnimHelper.Play(_context.Animator, CrabAnim.Pissed);
+            AnimHelper.Play(_context.Animator, CrabAnim.Walk);
         }
     }
 }

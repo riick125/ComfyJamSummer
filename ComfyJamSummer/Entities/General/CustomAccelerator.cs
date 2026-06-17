@@ -8,6 +8,8 @@ namespace ComfyJamSummer.Entities.General
         float _accel, _accelValue;
         float _forceOriginalValue;
 
+        float _accelInitialValuePercentage = 0.4f, _accelValuePercentage = 0.5f;
+
         float _duration;
         readonly float _maxDuration;
         readonly bool _isInfinite;
@@ -33,14 +35,14 @@ namespace ComfyJamSummer.Entities.General
             Reset();
         }
 
-        public bool Process()
+        public bool Process(bool useAltDeltaTime = false)
         {
             if (!_isInfinite && _duration <= 0)
             {
                 return false;
             }
 
-            var deltaTime = Time.DeltaTime;
+            var deltaTime = useAltDeltaTime ? Time.AltDeltaTime : Time.DeltaTime;
 
             _duration -= deltaTime;
             _duration = Mathf.Clamp(_duration, 0, 30);
@@ -64,11 +66,23 @@ namespace ComfyJamSummer.Entities.General
             Reset();
         }
 
+        public void SetAccelInitialValuePercentage(float value)
+        {
+            _accelInitialValuePercentage = value;
+            Reset();
+        }
+
+        public void SetAccelValuePercentage(float value)
+        {
+            _accelValuePercentage = value;
+            Reset();
+        }
+
         public void Reset()
         {
             _force = _forceOriginalValue;
-            _accel = _force * 0.4f;
-            _accelValue = _force * 0.5f;
+            _accel = _force * _accelInitialValuePercentage;
+            _accelValue = _force * _accelValuePercentage;
             _forceMaxValue = _force;
         }
     }

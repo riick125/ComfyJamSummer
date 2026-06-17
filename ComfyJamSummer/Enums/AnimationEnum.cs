@@ -27,7 +27,7 @@
         Talk,
         Hungry,
         Build,
-        Pissed
+        Eat
     }
 
     public enum RocketAnim

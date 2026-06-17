@@ -179,6 +179,22 @@ namespace ComfyJamSummer.Entities.Base
             return true;
         }
 
+        protected void MeasureInteractText(string txt)
+        {
+            if (InteractText == null || InteractText?.TextComponent == null)
+            {
+                return;
+            }
+
+            var auxText = InteractText.Font.WrapText(txt, Constants.TEXT_WIDTH_LIMIT);
+
+            var measureString = InteractText.Font.MeasureString(auxText);
+
+            InteractText.Offset = new Vector2(-measureString.X / 4, (SpriteHeight / 2) + measureString.Y / 2);
+
+            InteractText.TextComponent.SetText(auxText);
+        }
+
         private void ToggleEnableDisable(bool value)
         {
             if (InteractText != null)
@@ -211,14 +227,14 @@ namespace ComfyJamSummer.Entities.Base
                 return false;
             }
 
-            if (player.BodyCollider == null || TalkAreaCollider == null)
+            if (player.InteractAreaCollider == null || TalkAreaCollider == null)
             {
                 return false;
             }
 
-            if (player != null && player.BodyCollider != null)
+            if (player != null && player.InteractAreaCollider != null)
             {
-                var collided = player.BodyCollider.Overlaps(TalkAreaCollider);
+                var collided = player.InteractAreaCollider.Overlaps(TalkAreaCollider);
                 result = collided;
 
                 if (collided)
