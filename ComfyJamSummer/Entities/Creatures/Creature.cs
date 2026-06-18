@@ -5,7 +5,9 @@ using ComfyJamSummer.Entities.Base;
 using ComfyJamSummer.Entities.Configs;
 using ComfyJamSummer.Entities.Debuffs;
 using ComfyJamSummer.Enums;
+using ComfyJamSummer.EventDatas;
 using ComfyJamSummer.Helpers;
+using ComfyJamSummer.UI;
 using Microsoft.Xna.Framework;
 using Nez;
 using System;
@@ -21,21 +23,11 @@ namespace ComfyJamSummer.Entities.Creatures
 
         public string CreatureName { get; set; }
 
-        public float ActualHP { get; set; }
-
-        public float MaxHP { get; set; }
-
-        public bool IsAlive { get { return ActualHP > 0; } }
-
-        public float PreviousHP { get; set; }
-
         public float Damage { get; set; }
 
         public float TimeLeftToNextAtk { get; set; }
 
         public float AtkSpeed { get; set; }
-
-        public bool IsAttacking { get; set; }
 
         public List<Debuff> DebuffsToGive { get; set; }
 
@@ -342,6 +334,11 @@ namespace ComfyJamSummer.Entities.Creatures
 
             var config = new BesideTextConfig(this, $"+{(int)amount}", offset: textOffset, color: Color.Green);
             TextHelper.CreateGoingUpBesideText(config);
+
+            if (this is Player)
+            {
+                PlayerUI.Emitter.Emit(UIEvent.HealBar, new UIEventData() { Target = this });
+            }
         }
 
         public bool TakeDamage(float dmg)
@@ -352,10 +349,10 @@ namespace ComfyJamSummer.Entities.Creatures
             }
 
 #if DEBUG
-            if (this is Player)
-            {
-                return false;
-            }
+            //if (this is Player)
+            //{
+            //    return false;
+            //}
 #endif
 
             if (dmg < 1)
@@ -365,8 +362,14 @@ namespace ComfyJamSummer.Entities.Creatures
 
             dmg = float.Round(dmg);
 
+            PreviousHP = ActualHP;
+
             ActualHP -= dmg;
             ActualHP = Mathf.Clamp(ActualHP, 0, MaxHP);
+            LastReduceValueTaken = dmg;
+
+            if (this is Player)
+                PlayerUI.Emitter.Emit(UIEvent.ReduceBar, new UIEventData() { Target = this });
 
             var textOffset = new Vector2(SpriteWidth * (Nez.Random.Chance(50) ? 1 : -1), -SpriteHeight / 4);
 

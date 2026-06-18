@@ -49,6 +49,11 @@ namespace ComfyJamSummer.UI.Base
                 return false;
             }
 
+            if (_manager.CantDoAnyAction)
+            {
+                return false;
+            }
+
             return true;
         }
     }

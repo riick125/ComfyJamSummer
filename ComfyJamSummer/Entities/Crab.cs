@@ -91,8 +91,7 @@ namespace ComfyJamSummer.Entities
 
             clone.AddComponent(new CrabController(UtilHelper.GameManager(), UtilHelper.Prefabs()));
 
-
-            clone.AddComponent(new FakeShadowComponent(9, SpriteHeight / 2, false));
+            clone.AddComponent(new FakeShadowComponent(9, SpriteHeight / 2, true));
 
             return clone;
         }
@@ -141,6 +140,9 @@ namespace ComfyJamSummer.Entities
 
         public void ModifyPatience(bool reduce = true)
         {
+#if DEBUG
+            _patience = 0;
+#endif
             _patience += reduce ? -_patienceLossPerSlipUp : _patienceLossPerSlipUp / 2;
             _patience = Mathf.Clamp(_patience, 0, _maxPatience);
         }
@@ -237,7 +239,13 @@ namespace ComfyJamSummer.Entities
                     saveData.HasSeenCrabLookingAtSandwichCutsceneForFirstTime = true;
 
                     SaveHelper.SaveGame(saveData);
+                    this.Scene.AddSceneComponent(new ZoomAtTargetCutscene(this, 3));
                 }
+            }
+
+            if (_patience <= 0)
+            {
+                this.Scene.AddSceneComponent(new ZoomAtTargetCutscene(this, 3));
             }
 
             var phrases = PhrasesReactToSandwichEating;

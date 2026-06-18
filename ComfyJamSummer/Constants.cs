@@ -70,7 +70,9 @@ namespace ComfyJamSummer
 
         public static readonly Microsoft.Xna.Framework.Color BG_COLOR_LOGO = new Microsoft.Xna.Framework.Color(4, 16, 2);
 
-        public static Color RED_COLOR = new Color(237, 24, 24);
+        public static Color RED_COLOR = new Color(232, 23, 23);
+
+        public static Color GREEN_COLOR = new Color(23, 232, 25);
 
         public static Color WHITE_COLOR = new Color(255, 255, 255);
 

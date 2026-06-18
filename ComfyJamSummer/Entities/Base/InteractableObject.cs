@@ -8,17 +8,13 @@ using System.Linq;
 
 namespace ComfyJamSummer.Entities.Base
 {
-    public class InteractableObject : Animated
+    public class InteractableObject : Actor
     {
         public InteractableConfig BaseConfig { get; set; }
 
         public bool IsKillable { get; set; }
 
-        public float ActualHP { get; set; }
-
-        public float MaxHP { get; set; }
-
-        public bool IsAlive
+        public override bool IsAlive
         {
             get
             {

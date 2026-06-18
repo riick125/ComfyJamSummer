@@ -32,16 +32,19 @@ namespace ComfyJamSummer.Components.Gameplay
             if (!Validate(_player))
                 return;
 
-            Move();
-
-            if (_player.Animator != null)
+            if (_player.IsAlive)
             {
-                _player.Animator.FlipX = Core.Scene.Camera.MouseToWorldPoint().X < _player.Position.X;
+                Move();
+
+                if (_player.Animator != null)
+                {
+                    _player.Animator.FlipX = Core.Scene.Camera.MouseToWorldPoint().X < _player.Position.X;
+                }
+
+                FeedCrab();
+
+                Escape();
             }
-
-            FeedCrab();
-
-            Escape();
         }
 
         void FeedCrab()

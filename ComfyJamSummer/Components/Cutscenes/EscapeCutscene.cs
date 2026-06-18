@@ -33,7 +33,7 @@ namespace ComfyJamSummer.Components.Cutscenes
             _parts = new List<CutscenePart>();
 
             _parts.Add(new CutscenePart(EscapeCutscenePart.Entering));
-            _parts.Add(new CutscenePart(EscapeCutscenePart.CameraShake, 6.5f));
+            _parts.Add(new CutscenePart(EscapeCutscenePart.CameraShake, 2));//6.5f));
             _parts.Add(new CutscenePart(EscapeCutscenePart.Flying, 8));
             _parts.Add(new CutscenePart(EscapeCutscenePart.TheEnd));
 
@@ -197,13 +197,13 @@ namespace ComfyJamSummer.Components.Cutscenes
 
                         var scale = _rocket.Shadow.Scale.X;
 
-                        var scaleReduceValue = _rocket.Shadow.Scale.X * 0.98f * deltaTime;
+                        var scaleReduceValue = _rocket.Shadow.Scale.X * 0.35f;
 
-                        scale -= scaleReduceValue;
+                        scale -= scaleReduceValue * deltaTime;
 
                         scale = Mathf.Clamp01(scale);
 
-                        _rocket.Shadow.SetScale(scaleReduceValue);
+                        _rocket.Shadow.SetScale(scale);
                     }
 
                     _accelRocket.Process(true);

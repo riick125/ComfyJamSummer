@@ -139,6 +139,7 @@ namespace ComfyJamSummer.Prefab
             _dataCollectible = new CollectibleData(this, _mapper);
             _dataEnemy = new EnemyData(this, _mapper);
             _dataMap = new MapData(this, _mapper);
+            _dataUI = new UIData(this, _mapper);
 
             _creatureConfig = new CreatureConfig();
             _waveConfig = new WaveConfig();

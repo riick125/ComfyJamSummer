@@ -1,10 +1,10 @@
 ﻿namespace ComfyJamSummer.UI.Data
 {
-    public class EnemyUIData
+    public class ActorUIData
     {
         public uint EnemyId { get; set; }
 
-        public EnemyUIData(uint enemyId)
+        public ActorUIData(uint enemyId)
         {
             EnemyId = enemyId;
         }

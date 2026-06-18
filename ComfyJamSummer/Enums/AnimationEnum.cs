@@ -53,5 +53,11 @@
 
     public enum UISprite
     {
+        health_bar,
+        health_bg,
+        health_border,
+        heart,
+        patience,
+        satiation
     }
 }

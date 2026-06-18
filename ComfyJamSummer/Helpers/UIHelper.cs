@@ -762,7 +762,7 @@ namespace ComfyJamSummer.Extensions
             return list;
         }
 
-        public static bool RemoveDamageTakenElementFromContainer(Container container, uint id, List<EnemyHealthBarImage> list = null, bool isBoss = false)
+        public static bool RemoveDamageTakenElementFromContainer(Container container, uint id, List<HealthBarImage> list = null, bool isBoss = false)
         {
             if (container == null)
             {
@@ -777,18 +777,18 @@ namespace ComfyJamSummer.Extensions
 
                 if (child.UserData != null)
                 {
-                    if (child.UserData.GetType() != typeof(EnemyUIData))
+                    if (child.UserData.GetType() != typeof(ActorUIData))
                     {
                         continue;
                     }
 
-                    var enemyData = child.UserData as EnemyUIData;
+                    var enemyData = child.UserData as ActorUIData;
 
                     if (enemyData != null && enemyData.EnemyId == id)
                     {
-                        if (child.GetType() == typeof(EnemyHealthBarImage))
+                        if (child.GetType() == typeof(HealthBarImage))
                         {
-                            var healthBar = child as EnemyHealthBarImage;
+                            var healthBar = child as HealthBarImage;
 
                             if (healthBar != null && healthBar.Name == HealthBarTypeEnum.DamageTaken)
                             {
