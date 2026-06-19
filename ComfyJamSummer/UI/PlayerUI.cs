@@ -13,7 +13,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Nez;
 using Nez.Systems;
 using Nez.UI;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using static ComfyJamSummer.UI.CustomImages.HealthBarImage;
@@ -22,8 +21,9 @@ namespace ComfyJamSummer.UI
 {
     public class PlayerUI : BaseUI
     {
-        string _txtEatSandwich = "Press [SPACE] to eat sandwich";
-        Label _lblEatSandwich;
+        string _txtRestart = "Press [R] to restart";
+        string _txtEatSandwich = "Press [SPACE] to eat sandwich (don't do it)";
+        Label _lblEatSandwich, _lblRestart;
 
         Player _player;
 
@@ -32,7 +32,13 @@ namespace ComfyJamSummer.UI
         Image _imgHeart;
         List<HealthBarImage> _healthBars;
 
+        Label _lblHealth;
+
+        Label _lblAmmo;
+
         public static Emitter<UIEvent, UIEventData> Emitter;
+
+        CustomFont _customFont;
 
         public PlayerUI(GameManager manager, Prefabs prefabs) : base(manager, prefabs)
         {
@@ -41,15 +47,17 @@ namespace ComfyJamSummer.UI
             Emitter.AddObserver(UIEvent.ReduceBar, OnHit);
             Emitter.AddObserver(UIEvent.HealBar, OnHeal);
 
-            var font = UtilHelper.CustomFont();
+            _customFont = UtilHelper.CustomFont();
 
-            if (font != null)
+            if (_customFont != null)
             {
-                _lblEatSandwich = new Label(_txtEatSandwich, new LabelStyle(font.FontBig, Color.White));
+                _lblEatSandwich = _container.AddElement(new Label(_txtEatSandwich, new LabelStyle(_customFont.FontBig, Color.White)));
                 _lblEatSandwich.SetVisible(false);
                 UIHelper.CentralizeElementPosXInScreen(_lblEatSandwich, Screen.Height * 0.9f);
 
-                _container.AddElement(_lblEatSandwich);
+                _lblRestart = _container.AddElement(new Label(_txtRestart, new LabelStyle(_customFont.FontBig, Color.White)));
+                _lblRestart.SetVisible(false);
+                UIHelper.CentralizeElementPosXInScreen(_lblRestart, Screen.Height * 0.9f);
             }
         }
 
@@ -57,9 +65,18 @@ namespace ComfyJamSummer.UI
         {
             base.OnAddedToEntity();
 
+            if (_customFont == null)
+            {
+                this.RemoveComponent();
+
+                return;
+            }
+
             _player = UtilHelper.Player();
 
             CreateHealth();
+
+            CreateAmmo();
         }
 
         public override void Update()
@@ -71,17 +88,13 @@ namespace ComfyJamSummer.UI
                 return;
             }
 
-            _lblEatSandwich.SetVisible(_player.Sandwich != null);
+            _lblRestart.SetVisible(!_player.IsAlive);
 
+            _lblEatSandwich.SetVisible(_player.Sandwich != null && _player.IsAlive);
 
             for (int i = 0; i < _healthBars.Count; i++)
             {
                 var img = _healthBars[i];
-
-                if (img.Name == HealthBarTypeEnum.DamageTaken)
-                {
-
-                }
 
                 var isInvisible = img.GetX() == 0 || img.GetY() == 0;
 
@@ -94,6 +107,26 @@ namespace ComfyJamSummer.UI
                         break;
                 }
             }
+
+            _lblAmmo.SetText($"{_player.Gun.ActualAmmo}/{_player.Gun.MagSize}");
+
+            var spacing = Screen.Width * 0.985f;
+
+            _lblAmmo.SetPosition(spacing - _lblAmmo.Width(), _imgHeart.GetY() + _lblAmmo.Height() / 2);
+        }
+
+        void CreateAmmo()
+        {
+            if (_player?.Gun == null)
+            {
+                return;
+            }
+
+            _lblAmmo = _container.AddElement(new Label($"{_player.Gun.ActualAmmo}/{_player.Gun.MagSize}", new LabelStyle(_customFont.FontBig, Constants.WHITE_COLOR)));
+
+            var spacing = Screen.Width * 0.985f;
+
+            _lblAmmo.SetPosition(spacing - _lblAmmo.Width(), _imgHeart.GetY() + _lblAmmo.Height() / 2);
         }
 
         void CreateHealth()
@@ -107,6 +140,8 @@ namespace ComfyJamSummer.UI
 
             try
             {
+                _lblHealth = _container.AddElement(new Label($"{(int)_player.ActualHP}/{(int)_player.MaxHP}", _customFont.FontNormal));
+
                 var textureHeart = _prefabs.GetUITexture(UISprite.heart);
 
                 _imgHeart = _container.AddElement(new Image(textureHeart));
@@ -114,7 +149,7 @@ namespace ComfyJamSummer.UI
 
                 _imgHeart.SetOrigin(_imgHeart.Width() / 2, _imgHeart.Height() / 2);
 
-                _imgHeart.SetPosition(Screen.Width * 0.012f, Screen.Height * 0.02f);
+                _imgHeart.SetPosition(Screen.Width * 0.012f, Screen.Height * 0.045f);
 
                 var heartPos = new Vector2(_imgHeart.GetX() + _imgHeart.Width(), _imgHeart.GetY());
 
@@ -129,8 +164,8 @@ namespace ComfyJamSummer.UI
                     switch (item)
                     {
                         case UISprite.health_bar:
-                            barType = LifeBarType.Bar; 
-                            
+                            barType = LifeBarType.Bar;
+
                             _healthBarTexture = _prefabs.GetUITexture(item);
                             break;
 
@@ -158,6 +193,8 @@ namespace ComfyJamSummer.UI
             {
                 this.RemoveComponent();
             }
+
+            UpdateLabelHealth();
         }
 
         bool ValidatePlayer()
@@ -168,6 +205,11 @@ namespace ComfyJamSummer.UI
             }
 
             if (_player == null)
+            {
+                return false;
+            }
+
+            if (_player.Gun == null)
             {
                 return false;
             }
@@ -199,6 +241,18 @@ namespace ComfyJamSummer.UI
             if (bar != null)
             {
                 bar.Process();
+                UpdateLabelHealth();
+            }
+        }
+
+        void UpdateLabelHealth()
+        {
+            var anyBar = _healthBars.FirstOrDefault(x=> x.BarType == LifeBarType.Border);
+
+            if (anyBar != null)
+            {
+                _lblHealth.SetText($"{(int)_player.ActualHP}/{(int)_player.MaxHP}");
+                _lblHealth.SetPosition(anyBar.GetX() + anyBar.Width() / 2 - _lblHealth.Width() / 2, anyBar.GetY() - _lblHealth.Height() / 2);
             }
         }
 
@@ -226,6 +280,8 @@ namespace ComfyJamSummer.UI
             if (bar != null)
             {
                 bar.Process();
+
+                UpdateLabelHealth();
             }
 
             var clonedHpBarTexture = UtilHelper.CloneTexture(_healthBarTexture);

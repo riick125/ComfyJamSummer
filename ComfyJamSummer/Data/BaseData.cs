@@ -87,7 +87,7 @@ namespace ComfyJamSummer.Data
             return entity;
         }
 
-        public SpriteAnimator CreateAnimatorOneAnimation(Entity entity, int width, int height, string directory, string animationName, int renderLayer = 0)
+        public SpriteAnimator CreateAnimatorOneAnimation(Animated entity, int width, int height, string directory, string animationName, int renderLayer = 0)
         {
             if (entity == null) return null;
 

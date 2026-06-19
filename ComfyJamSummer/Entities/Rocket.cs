@@ -3,15 +3,15 @@ using ComfyJamSummer.Components.Visuals;
 using ComfyJamSummer.Entities.Base;
 using ComfyJamSummer.Entities.Configs;
 using ComfyJamSummer.Enums;
+using ComfyJamSummer.EventDatas;
 using ComfyJamSummer.Helpers;
+using ComfyJamSummer.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using MonoGame.Extended.Collisions.Layers;
 using Nez;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
 
 namespace ComfyJamSummer.Entities
 {
@@ -20,6 +20,56 @@ namespace ComfyJamSummer.Entities
         public List<RocketBuildPhase> BuildPhases { get; set; }
 
         RocketBuildPhase _actualPhase;
+
+        public int ActualProgress
+        {
+            get
+            {
+                if (BuildPhases == null)
+                {
+                    return 0;
+                }
+
+                if (_actualPhase == null)
+                {
+                    var phase = BuildPhases.OrderBy(x => Convert.ToInt32(x.PhaseName)).FirstOrDefault(x => !x.IsDone);
+
+                    if (phase == null)
+                    {
+                        return 0;
+                    }
+
+                    return phase.ActualHits;
+                }
+
+                return _actualPhase.ActualHits;
+            }
+        }
+
+        public int MaxProgress
+        {
+            get
+            {
+                if (BuildPhases == null)
+                {
+                    return 0;
+                }
+
+                if (_actualPhase == null)
+                {
+                    var phase = BuildPhases.OrderBy(x => Convert.ToInt32(x.PhaseName)).FirstOrDefault(x => !x.IsDone);
+
+                    if (phase == null)
+                    {
+                        return 0;
+                    }
+
+                    return phase.HitsToNextPhase;
+                }
+
+                return _actualPhase.HitsToNextPhase;
+            }
+        }
 
         public Rocket CloneRocket(InteractableConfig config)
         {
@@ -40,7 +90,13 @@ namespace ComfyJamSummer.Entities
 
             return clone;
         }
+        public override void OnAddedToScene()
+        {
+            base.OnAddedToScene();
 
+
+            CrabUI.Emitter?.Emit(UIEvent.UpdateBuildBar, new UIEventData() { Target = this });
+        }
         void CreateBuildPhases(Rocket clone)
         {
             var totalPhases = Enum.GetValues<RocketAnim>().Where(x => x.ToString()
@@ -48,8 +104,8 @@ namespace ComfyJamSummer.Entities
 
             clone.BuildPhases = new List<RocketBuildPhase>();
 
-            var hitsPerPhase = 2;// 75;
-            var hitsGrowPerPhase = 0;// 50;
+            var hitsPerPhase =  80;
+            var hitsGrowPerPhase =  35;
 
             foreach (var item in totalPhases)
             {
@@ -64,13 +120,7 @@ namespace ComfyJamSummer.Entities
         public override void Update()
         {
             base.Update();
-
-#if DEBUG
-            if (_actualPhase != null)
-            {
-                Debug.DrawText(UtilHelper.CustomFont().FontNormal, _actualPhase.ActualHits + "/" + _actualPhase.HitsToNextPhase, position: this.Position, Color.White);
-            }
-#endif
+            InteractText.SetEnabled(BuildPhases.All(x => x.IsDone));
         }
 
         public void ProgressBuild()
@@ -89,14 +139,17 @@ namespace ComfyJamSummer.Entities
             {
                 _actualPhase = BuildPhases.OrderBy(x => Convert.ToInt32(x.PhaseName)).FirstOrDefault(x => !x.IsDone);
 
-                if (_actualPhase == null)
+                if (BuildPhases.All(x => x.IsDone))
                 {
+                    AnimHelper.Play(Animator, RocketAnim.Done);
                     return;
                 }
             }
             else
             {
                 _actualPhase.ActualHits++;
+
+                CrabUI.Emitter?.Emit(UIEvent.UpdateBuildBar, new UIEventData() { Target = this });
 
                 if (_actualPhase.IsDone)
                 {

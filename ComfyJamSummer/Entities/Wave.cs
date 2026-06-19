@@ -2,7 +2,11 @@
 using ComfyJamSummer.Entities.Base;
 using ComfyJamSummer.Entities.Configs;
 using ComfyJamSummer.Enums;
+using ComfyJamSummer.Helpers;
 using Nez;
+using Nez.Sprites;
+using Nez.Systems;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,6 +22,8 @@ namespace ComfyJamSummer.Entities
 
         float _timeLeftToStart, _startCooldown;
 
+        public float TimeLeftToStart => _timeLeftToStart;
+
         List<Enemy> _enemies;
         int _aliveEnemyQtyLimit, _enemiesSpawnQty;
 
@@ -31,10 +37,14 @@ namespace ComfyJamSummer.Entities
 
         public WaveController WaveController => this.GetComponent<WaveController>();
 
+        CoroutineManager _coroutineManager;
+
         public Wave CloneWave(WaveConfig config)
         {
             var clone = base.Clone() as Wave;
+            clone._coroutineManager = new CoroutineManager();
 
+            clone._index = config.Index;
             clone._island = config.Island;
             clone._startCooldown = config.StartCooldown;
             clone._aliveEnemyQtyLimit = config.AliveEnemyQtyLimit;
@@ -82,6 +92,11 @@ namespace ComfyJamSummer.Entities
 
             _initiatedCountdown = true;
             _timeLeftToStart = _startCooldown;
+
+            if (_gameManager != null && Index > 1)
+            {
+                _gameManager.UpdateModifiers();
+            }
         }
 
         public void SpawnEnemy()
@@ -106,7 +121,14 @@ namespace ComfyJamSummer.Entities
 
                 var enemy = _prefabs.GetEnemy(_island.Id, EnemyType.Birb, spawnPosition);
 
-                Enemies.Add(this.Scene.AddEntity(enemy));
+                if (_coroutineManager == null)
+                {
+                    Enemies.Add(this.Scene.AddEntity(enemy));
+                }
+                else
+                {
+                    _coroutineManager.StartCoroutine(SpawnPoof(enemy, 0.05f));
+                }
 
                 _totalEnemiesSpawned++;
 
@@ -117,22 +139,27 @@ namespace ComfyJamSummer.Entities
             }
         }
 
-        public void BuffEnemies()
+        public void BuffEnemy(Enemy specificEnemy)
         {
             if (!ValidateWave())
                 return;
 
             var buff = GameManager.GetBuffConfig();
 
-            foreach (var enemy in Enemies)
+            if (buff != null)
             {
-                enemy.Buff(buff);
+                specificEnemy.Buff(buff);
             }
         }
 
         public override void Update()
         {
             base.Update();
+
+            if (_coroutineManager != null)
+            {
+                _coroutineManager.Update();
+            }
 
             if (!ValidateWave())
                 return;
@@ -146,6 +173,16 @@ namespace ComfyJamSummer.Entities
                     _timeLeftToStart -= deltaTime;
                 }
             }
+
+        }
+
+        private IEnumerator SpawnPoof(Enemy enemy, float duration)
+        {
+            var poof = this.Scene.AddEntity(_prefabs.Poof.ClonePoof(enemy.Position));
+
+            yield return Coroutine.WaitForSeconds(duration);
+
+            Enemies.Add(this.Scene.AddEntity(enemy));
         }
 
         bool ValidateWave()

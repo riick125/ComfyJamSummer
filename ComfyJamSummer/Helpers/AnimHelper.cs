@@ -21,6 +21,19 @@ namespace ComfyJamSummer.Helpers
             }
         }
 
+        public static void Play(SpriteAnimator animator, string name, LoopMode? loopMode = null)
+        {
+            if (animator == null || name == null) return;
+
+            if (!animator.Animations.ContainsKey(name))
+                return;
+
+            if (animator.CurrentAnimationName != name)
+            {
+                animator.Play(name, loopMode);
+            }
+        }
+
         public static bool CurrentAnim(SpriteAnimator animator, Enum name)
         {
             if (animator == null || name == null) return false;

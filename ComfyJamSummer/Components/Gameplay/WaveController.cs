@@ -76,17 +76,6 @@ namespace ComfyJamSummer.Components.Gameplay
                     {
                         _timeLeftToNextSpawn -= deltaTime;
                     }
-
-                    if (CanBuff)
-                    {
-                        _wave.BuffEnemies();
-
-                        _timeLeftToNextBuff = _buffCooldown;
-                    }
-                    else
-                    {
-                        _timeLeftToNextBuff -= deltaTime;
-                    }
                 }
                 else
                 {

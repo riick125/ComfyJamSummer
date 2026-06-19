@@ -3,6 +3,7 @@ using ComfyJamSummer.Enums;
 using ComfyJamSummer.Helpers;
 using ComfyJamSummer.Manager;
 using ComfyJamSummer.Prefab;
+using System.Linq;
 
 namespace ComfyJamSummer.AI.Enemies
 {
@@ -31,6 +32,15 @@ namespace ComfyJamSummer.AI.Enemies
             }
             else if (!_context.IsHungry && !_context.CantBuild)
             {
+                var rocket = UtilHelper.GetEntity<Rocket>();
+
+                if (rocket != null && rocket.BuildPhases.All(x=> x.IsDone))
+                {
+                    _machine.ChangeState<CrabIdleState>();
+
+                    return;
+                }
+
                 _machine.ChangeState<CrabBuildState>();
             }
         }

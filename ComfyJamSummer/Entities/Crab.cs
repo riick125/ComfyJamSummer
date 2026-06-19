@@ -8,6 +8,7 @@ using ComfyJamSummer.Entities.Objects;
 using ComfyJamSummer.Enums;
 using ComfyJamSummer.Extensions;
 using ComfyJamSummer.Helpers;
+using ComfyJamSummer.UI;
 using Nez;
 using Nez.AI.FSM;
 using System;
@@ -28,7 +29,7 @@ namespace ComfyJamSummer.Entities
 
         public CrabAnim ActualState { get; set; }
 
-        float _satiation = 60, _satiationValuePerChange, _maxSatiation = 100;
+        float _satiation = 80, _satiationValuePerChange, _satiationLossValuePerChange, _maxSatiation = 100;
         float _hungryValue = 25, _idleValue = 50;
 
         float _patience = 50, _patienceLossPerSlipUp, _maxPatience = 100;
@@ -54,6 +55,14 @@ namespace ComfyJamSummer.Entities
             }
         }
 
+        public float ActualSatiation { get => _satiation; }
+
+        public float ActualPatience { get => _patience; }
+
+        public float MaxSatiation { get => _maxSatiation; }
+
+        public float MaxPatience { get => _maxPatience; }
+
         List<uint> _sandwichIds;
 
         public Crab CloneCrab(InteractableConfig config)
@@ -61,7 +70,8 @@ namespace ComfyJamSummer.Entities
             var clone = base.CloneInteractable(config) as Crab;
             clone._satiation = _satiation;
             clone._maxSatiation = _maxSatiation;
-            clone._satiationValuePerChange = _maxSatiation * 0.15f;
+            clone._satiationValuePerChange = _maxSatiation * 0.35f;
+            clone._satiationLossValuePerChange = _maxSatiation * 0.0532f;
             clone._hungryValue = _hungryValue;
             clone._idleValue = _idleValue;
 
@@ -94,6 +104,14 @@ namespace ComfyJamSummer.Entities
             clone.AddComponent(new FakeShadowComponent(9, SpriteHeight / 2, true));
 
             return clone;
+        }
+
+        public override void OnAddedToScene()
+        {
+            base.OnAddedToScene();
+
+            CrabUI.Emitter?.Emit(EventDatas.UIEvent.UpdateSatiationBar, new EventDatas.UIEventData() { Target = this });
+            CrabUI.Emitter?.Emit(EventDatas.UIEvent.UpdatePatienceBar, new EventDatas.UIEventData() { Target = this });
         }
 
         private void Crab_OnAnimationCompletedEvent(string obj)
@@ -132,19 +150,20 @@ namespace ComfyJamSummer.Entities
 
         public void ModifySatiation(bool reduce = true)
         {
-            var value = reduce ? _satiationValuePerChange * 1.25f : _satiationValuePerChange;
+            var value = reduce ? _satiationLossValuePerChange : _satiationValuePerChange;
 
             _satiation += reduce ? -value : value;
             _satiation = Mathf.Clamp(_satiation, 0, _maxSatiation);
+
+            CrabUI.Emitter?.Emit(EventDatas.UIEvent.UpdateSatiationBar, new EventDatas.UIEventData() { Target = this });
         }
 
         public void ModifyPatience(bool reduce = true)
         {
-#if DEBUG
-            _patience = 0;
-#endif
             _patience += reduce ? -_patienceLossPerSlipUp : _patienceLossPerSlipUp / 2;
             _patience = Mathf.Clamp(_patience, 0, _maxPatience);
+
+            CrabUI.Emitter?.Emit(EventDatas.UIEvent.UpdatePatienceBar, new EventDatas.UIEventData() { Target = this });
         }
 
         public void EatSandwich()

@@ -4,6 +4,7 @@ using ComfyJamSummer.Helpers;
 using ComfyJamSummer.Manager;
 using ComfyJamSummer.Prefab;
 using Nez;
+using System.Linq;
 using static Nez.Sprites.SpriteAnimator;
 
 namespace ComfyJamSummer.AI.Enemies
@@ -12,7 +13,7 @@ namespace ComfyJamSummer.AI.Enemies
     {
         float _timeLeftToNextHammer;
 
-        int _hammerHitsToLoseSatiation = 25, _actualHammerHits;
+        int _hammerHitsToLoseSatiation = 8, _actualHammerHits;
 
         public CrabBuildState(Prefabs prefabs, GameManager manager) : base(prefabs, manager)
         {
@@ -22,7 +23,7 @@ namespace ComfyJamSummer.AI.Enemies
         {
             base.Begin();
 
-            _timeLeftToNextHammer = 1f;
+            _timeLeftToNextHammer = 0.8f;
         }
 
         public override void Update(float deltaTime)
@@ -37,11 +38,14 @@ namespace ComfyJamSummer.AI.Enemies
                 return;
             }
 
-#if DEBUG
-            deltaTime *= 8;
-#endif
+            var rocket = UtilHelper.GetEntity<Rocket>();
 
-            if (_context.CantBuild || _context.IsHungry)
+            if (rocket == null)
+            {
+                return;
+            }
+
+            if (_context.CantBuild || _context.IsHungry || rocket.BuildPhases.All(x=> x.IsDone))
             {
                 _machine.ChangeState<CrabIdleState>();
             }
@@ -55,7 +59,6 @@ namespace ComfyJamSummer.AI.Enemies
 
                 if (_timeLeftToNextHammer <= 0)
                 {
-                    var rocket = UtilHelper.GetEntity<Rocket>();
 
                     if (rocket != null)
                     {

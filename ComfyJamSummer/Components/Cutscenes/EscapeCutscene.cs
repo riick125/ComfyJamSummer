@@ -5,6 +5,7 @@ using ComfyJamSummer.Entities;
 using ComfyJamSummer.Entities.General;
 using ComfyJamSummer.Enums;
 using ComfyJamSummer.Helpers;
+using ComfyJamSummer.UI;
 using Microsoft.Xna.Framework;
 using Nez;
 using System.Collections.Generic;
@@ -28,12 +29,14 @@ namespace ComfyJamSummer.Components.Cutscenes
         float _camShake = 0.048f, _maxCamShake = 7f;
         float _shakeIncreaseValue = 0.35f;
 
+        bool _theEnd;
+
         public EscapeCutscene(float duration, string title = "", float executionTime = 1.75F, float startDelay = 0.25F, bool isSkippable = false) : base(duration, title, executionTime, startDelay, isSkippable)
         {
             _parts = new List<CutscenePart>();
 
             _parts.Add(new CutscenePart(EscapeCutscenePart.Entering));
-            _parts.Add(new CutscenePart(EscapeCutscenePart.CameraShake, 2));//6.5f));
+            _parts.Add(new CutscenePart(EscapeCutscenePart.CameraShake, 6.5f));
             _parts.Add(new CutscenePart(EscapeCutscenePart.Flying, 8));
             _parts.Add(new CutscenePart(EscapeCutscenePart.TheEnd));
 
@@ -208,15 +211,25 @@ namespace ComfyJamSummer.Components.Cutscenes
 
                     _accelRocket.Process(true);
 
-                    var vel = Vector2.Zero;
-
-                    vel.Y += _accelRocket.Accel * deltaTime;
-
-                    _rocket.Position -= vel;
+                    MoveRocket();
                     break;
 
                 case EscapeCutscenePart.TheEnd:
+                    if (!_theEnd)
+                    {
+                        var presentationUI = Core.Scene?.CreateEntity("RoomEventPresentationUI");
 
+                        presentationUI.AddComponent(new TitlePresentationUI("THE END\nmade by Kakapo Devs", "", 5, overridePos: new Vector2(Screen.Width * 0.04f, Screen.Height * 0.9f)));
+
+                        _theEnd = true;
+
+                        Core.Schedule(5, t =>
+                        {
+                            Core.Scene.CreateEntity("").AddComponent(new FinalUI(UtilHelper.GameManager(), UtilHelper.Prefabs()));
+
+                            t.Stop();
+                        });
+                    }
                     if (cameraShake != null)
                     {
                         cameraShake.RemoveComponent();
@@ -226,11 +239,22 @@ namespace ComfyJamSummer.Components.Cutscenes
                     {
                         Scene.Camera.RemoveComponent<FollowCamera>();
                     }
+
+                    MoveRocket();
                     break;
 
                 default:
                     break;
             }
+        }
+
+        void MoveRocket()
+        {
+            var vel = Vector2.Zero;
+
+            vel.Y += _accelRocket.Accel * Time.AltDeltaTime;
+
+            _rocket.Position -= vel;
         }
     }
 

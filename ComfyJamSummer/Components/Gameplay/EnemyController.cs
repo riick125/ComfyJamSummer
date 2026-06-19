@@ -1,5 +1,6 @@
 ﻿using ComfyJamSummer.AI.Enemies;
 using ComfyJamSummer.Entities;
+using ComfyJamSummer.Entities.Objects;
 using ComfyJamSummer.Enums;
 using ComfyJamSummer.Helpers;
 using ComfyJamSummer.Manager;
@@ -7,6 +8,7 @@ using ComfyJamSummer.Prefab;
 using Microsoft.Xna.Framework;
 using Nez;
 using Nez.AI.FSM;
+using System.Linq;
 
 namespace ComfyJamSummer.Components.Gameplay
 {
@@ -29,9 +31,9 @@ namespace ComfyJamSummer.Components.Gameplay
 
             if (_enemy != null)
             {
-                _machine = new StateMachine<Enemy>(_enemy, new EnemyMoveState(_prefabs, _manager));
+                _machine = new StateMachine<Enemy>(_enemy, new EnemyIdleState(_prefabs, _manager));
 
-                _machine.AddState(new EnemyIdleState(_prefabs, _manager));
+                _machine.AddState(new EnemyMoveState(_prefabs, _manager));
                 _machine.AddState(new EnemyPatrolState(_prefabs, _manager));
                 _machine.AddState(new EnemyAttackState(_prefabs, _manager));
             }
@@ -53,10 +55,26 @@ namespace ComfyJamSummer.Components.Gameplay
             {
                 if (_enemy.WillSpawnChicken && !_enemy.AlreadySpawnedChicken)
                 {
+                    var shouldSpawn = true;
+
+                    var rocket = UtilHelper.GetEntity<Rocket>();
+
+                    if (rocket != null && rocket.BuildPhases.All(x=> x.IsDone))
+                    {
+                        shouldSpawn = false;
+                    }
+
                     var player = UtilHelper.Player();
 
-                    if (player != null)
+                    if (player != null && shouldSpawn)
                     {
+                        var breadBag = UtilHelper.GetEntity<BreadBag>();
+
+                        if (breadBag != null)
+                        {
+                            breadBag.IsInteracting = false;
+                        }
+
                         var collectibleSpawner = UtilHelper.GetComponent<CollectibleSpawner>();
 
                         collectibleSpawner?.Spawn(CollectibleType.Fried_Chicken, 1, _enemy.Position, player.Position);
@@ -65,29 +83,7 @@ namespace ComfyJamSummer.Components.Gameplay
                     _enemy.AlreadySpawnedChicken = true;
                 }
 
-                _enemy.RotationDegrees += _enemy.DyingRotationSpeed * deltaTime;
-
-                var scale = _enemy.Scale.X;
-
-                scale -= _enemy.LosingScaleSpeed * deltaTime;
-
-                scale = Mathf.Clamp01(scale);
-
-                _enemy.SetScale(scale);
-
-                if (scale < 0.4f)
-                {
-                    _enemy.Alpha -= _enemy.LosingColorSpeed * deltaTime;
-
-                    _enemy.Alpha = Mathf.Clamp01(_enemy.Alpha);
-
-                    _enemy.GetAnyRenderer().SetColor(Color.White * _enemy.Alpha);
-
-                    if (scale <= 0)
-                    {
-                        _enemy.Destroy();
-                    }
-                }
+                _enemy.SpiralDisappear();
             }
             else
             {

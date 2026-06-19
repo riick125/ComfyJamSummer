@@ -77,10 +77,6 @@ namespace ComfyJamSummer.Components.Cutscenes.Base
             {
                 var deltaTime = Time.DeltaTime;
 
-#if DEBUG
-                deltaTime *= 4;
-#endif
-
                 ElapsedTimeInState += deltaTime;
                 TimeLeftToEndCutscene -= deltaTime;
             }
@@ -92,11 +88,14 @@ namespace ComfyJamSummer.Components.Cutscenes.Base
 
             HideShowPlayerUI(true);
 
-            var followCamera = Core.Scene.Camera.GetComponent<FollowCamera>();
-
-            if (followCamera != null)
+            if (Core.Scene.Camera.Entity != null)
             {
-                followCamera.Enabled = true;
+                var followCamera = Core.Scene.Camera.GetComponent<FollowCamera>();
+
+                if (followCamera != null)
+                {
+                    followCamera.Enabled = true;
+                }
             }
         }
 

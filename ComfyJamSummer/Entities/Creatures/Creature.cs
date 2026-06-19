@@ -136,6 +136,38 @@ namespace ComfyJamSummer.Entities.Creatures
             Island = this.Scene.EntitiesOfType<Island>().FirstOrDefault(x => x.Id == this.IslandId);
         }
 
+        public void SpiralDisappear(bool destroy = true)
+        {
+            var deltaTime = Time.DeltaTime;
+
+            RotationDegrees += DyingRotationSpeed * deltaTime;
+
+            var scale = Scale.X;
+
+            scale -= LosingScaleSpeed * deltaTime;
+
+            scale = Mathf.Clamp01(scale);
+
+            this.SetScale(scale);
+
+            if (scale < 0.4f)
+            {
+                Alpha -= LosingColorSpeed * deltaTime;
+
+                Alpha = Mathf.Clamp01(Alpha);
+
+                GetAnyRenderer().SetColor(Color.White * Alpha);
+
+                if (scale <= 0)
+                {
+                    if (destroy && !IsDestroyed && Scene != null)
+                    {
+                        Destroy();
+                    }
+                }
+            }
+        }
+
         public virtual void Buff(BuffConfig config)
         {
             if (config != null)
@@ -367,6 +399,20 @@ namespace ComfyJamSummer.Entities.Creatures
             ActualHP -= dmg;
             ActualHP = Mathf.Clamp(ActualHP, 0, MaxHP);
             LastReduceValueTaken = dmg;
+
+            var prefabs = UtilHelper.Prefabs();
+            if (prefabs != null)
+            {
+                var offset = Vector2.Zero;
+
+                offset.X = Nez.Random.Range(1, SpriteWidth * 0.6f) * Nez.Random.MinusOneToOne();
+                offset.Y = Nez.Random.Range(1, SpriteHeight * 0.6f) * Nez.Random.MinusOneToOne();
+
+                var poof = prefabs.Poof.ClonePoof(this.Position + offset);
+                poof.Scale /= 1.8f;
+                poof.Animator.Speed = 2;
+                this.Scene.AddEntity(poof);
+            }
 
             if (this is Player)
                 PlayerUI.Emitter.Emit(UIEvent.ReduceBar, new UIEventData() { Target = this });

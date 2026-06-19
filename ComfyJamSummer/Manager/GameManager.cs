@@ -38,12 +38,15 @@ namespace ComfyJamSummer.Manager
 
         public BuffConfig GetBuffConfig()
         {
+            return _buffConfig;
+        }
+
+        public void UpdateModifiers()
+        {
             _buffConfig.HpModifier += BuffEnemyModifierValues.HP;
             _buffConfig.SpeedModifier += BuffEnemyModifierValues.SPEED;
             _buffConfig.DamageModifier += BuffEnemyModifierValues.DMG;
             _buffConfig.AtkSpeedModifier += BuffEnemyModifierValues.ATK_SPEED;
-
-            return _buffConfig;
         }
     }
 }

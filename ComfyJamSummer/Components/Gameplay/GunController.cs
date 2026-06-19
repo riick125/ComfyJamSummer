@@ -34,6 +34,8 @@ namespace ComfyJamSummer.Components.Gameplay
         {
             var deltaTime = Time.DeltaTime;
 
+            _gun.Animator.SetEnabled(_player.IsAlive);
+
             if (!Validate())
             {
                 return;

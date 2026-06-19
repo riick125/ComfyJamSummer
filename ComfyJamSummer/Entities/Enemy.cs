@@ -62,6 +62,16 @@ namespace ComfyJamSummer.Entities
                 clone.Animator.Speed = 1.25f;
             }
 
+            var battleComponent = UtilHelper.GetComponent<BattleComponent>();
+
+            if (battleComponent != null)
+            {
+                if (battleComponent.ActualWave != null)
+                {
+                    battleComponent.ActualWave.BuffEnemy(clone);
+                }
+            }
+
             return clone;
         }
 

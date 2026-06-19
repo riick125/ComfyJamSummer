@@ -95,7 +95,10 @@ namespace ComfyJamSummer.Prefab
 
         Wave Wave;
         Enemy Enemy;
+
         public Bullet BulletEnemy { get; private set; }
+
+        public Poof Poof { get; set; }
 
         List<Collectible> Collectibles;
 
@@ -172,6 +175,7 @@ namespace ComfyJamSummer.Prefab
         {
             Enemy = _dataEnemy.Create();
             BulletEnemy = _dataEnemy.CreateBullet();
+            Poof = _dataEnemy.CreatePoof();
             _enemyConfigs = _dataEnemy.CreateAllBaseConfigs();
         }
 

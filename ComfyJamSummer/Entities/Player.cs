@@ -61,6 +61,11 @@ namespace ComfyJamSummer.Entities
         {
             base.Update();
 
+            if (!IsAlive)
+            {
+                SpiralDisappear(false);
+            }
+
             if (!Validate())
             {
                 return;

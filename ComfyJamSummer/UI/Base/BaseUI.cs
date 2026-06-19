@@ -13,6 +13,10 @@ namespace ComfyJamSummer.UI.Base
 
         protected Container _container;
 
+        protected Scene _scene;
+
+        protected Camera _camera;
+
         protected Prefabs _prefabs;
 
         protected GameManager _manager;
@@ -42,15 +46,24 @@ namespace ComfyJamSummer.UI.Base
             }
         }
 
+        public override void OnAddedToEntity()
+        {
+            base.OnAddedToEntity();
+
+            _scene = this.Entity.Scene;
+
+            _camera = _scene.Camera;
+        }
+
         protected bool Validate()
         {
-            if (_prefabs == null || _manager == null)
+            if (_prefabs == null || _manager == null || _scene == null || _camera == null)
             {
                 return false;
             }
 
             if (_manager.CantDoAnyAction)
-            {
+            {                
                 return false;
             }
 

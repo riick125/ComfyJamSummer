@@ -18,7 +18,6 @@ namespace ComfyJamSummer.Scenes.Base
         protected Prefabs _prefabs;
 
         ScreenSpaceRenderer _screenSpaceRenderer;
-        int width = 1280, height = 720;
 
         public BaseScene()
         {
@@ -36,6 +35,9 @@ namespace ComfyJamSummer.Scenes.Base
             base.Initialize();
 
             ClearColor = Color.Black;
+
+            var width = (int)(Constants.GAME_WIDTH * Constants.SCREEN_SIZE_MULTIPLIER);
+            var height = (int)(Constants.GAME_HEIGHT * Constants.SCREEN_SIZE_MULTIPLIER);
 
             if (Game1.SaveData == null)
             {

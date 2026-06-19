@@ -3,9 +3,11 @@ using ComfyJamSummer.Components.Gameplay;
 using ComfyJamSummer.Components.Visuals;
 using ComfyJamSummer.CustomPostProcessors;
 using ComfyJamSummer.Entities;
+using ComfyJamSummer.Helpers;
 using ComfyJamSummer.Scenes.Base;
 using ComfyJamSummer.UI;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Nez;
 
 namespace ComfyJamSummer.Scenes
@@ -34,7 +36,7 @@ namespace ComfyJamSummer.Scenes
         {
             base.Begin();
 
-            _island = _prefabs.Island.CloneIsland(15, Vector2.Zero);
+            _island = _prefabs.Island.CloneIsland(100, Vector2.Zero);
 
             if (_island != null)
             {
@@ -50,7 +52,29 @@ namespace ComfyJamSummer.Scenes
 
                 CreateEntity(UINames.PLAYER).AddComponent(new PlayerUI(_gameManager, _prefabs));
 
+                CreateEntity(UINames.CRAB).AddComponent(new CrabUI(_gameManager, _prefabs));
+
+                CreateEntity(UINames.WAVE).AddComponent(new WaveUI(_gameManager, _prefabs));
+
                 Camera.AddComponent(new CameraShake());
+            }
+        }
+
+        public override void Update()
+        {
+            base.Update();
+
+            if (_player == null)
+            {
+                _player = UtilHelper.Player();
+            }
+
+            if (_player != null && !_player.IsAlive)
+            {
+                if (Input.IsKeyPressed(Keys.R))
+                {
+                    Core.StartSceneTransition<FadeTransition>(new FadeTransition(() => new InGameScene()));
+                }
             }
         }
     }

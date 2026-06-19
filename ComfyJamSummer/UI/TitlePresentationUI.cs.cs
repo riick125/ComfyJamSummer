@@ -1,5 +1,6 @@
 ﻿using ComfyJamSummer.Extensions;
 using ComfyJamSummer.Helpers;
+using Microsoft.Xna.Framework;
 using Nez;
 using Nez.UI;
 
@@ -27,6 +28,8 @@ namespace ComfyJamSummer.UI
 
         private float _alphaDecreaserPercentage = 1f;
 
+        Vector2 _overridePos;
+
         public TitlePresentationUI(string title, float executionTime = 1.75f, bool giantText = true, bool textOnCenter = false, float startDelay = 0.25f)
         {
             Initialize(title, executionTime, giantText, textOnCenter, startDelay);
@@ -37,8 +40,14 @@ namespace ComfyJamSummer.UI
             Initialize(title, executionTime, giantText, textOnCenter, startDelay, subTitle);
         }
 
-        private void Initialize(string title, float executionTime, bool giantText, bool textOnCenter, float startDelay, string subtitle = null)
+        public TitlePresentationUI(string title, string subTitle, float executionTime = 1.75f, Vector2 overridePos = default)
         {
+            Initialize(title, executionTime, true, false, 0.25f, subTitle, overridePos);
+        }
+
+        private void Initialize(string title, float executionTime, bool giantText, bool textOnCenter, float startDelay, string subtitle = null, Vector2 overridePos = default)
+        {
+            _overridePos = overridePos;
             _startDelay = startDelay;
             _giantText = giantText;
             _textOnCenter = textOnCenter;
@@ -74,13 +83,20 @@ namespace ComfyJamSummer.UI
 
             _lblTitle = new Label(title, _lblTitleStyle);
 
-            if (_textOnCenter)
+            if (_overridePos != default)
             {
-                UIHelper.CentralizeElementPosXInScreen(_lblTitle, Nez.Screen.Height * 0.25f);
+                _lblTitle.SetPosition(_overridePos.X, _overridePos.Y);
             }
             else
             {
-                UIHelper.CentralizeElementPosXInScreen(_lblTitle, Nez.Screen.Height * 0.12f);
+                if (_textOnCenter)
+                {
+                    UIHelper.CentralizeElementPosXInScreen(_lblTitle, Nez.Screen.Height * 0.25f);
+                }
+                else
+                {
+                    UIHelper.CentralizeElementPosXInScreen(_lblTitle, Nez.Screen.Height * 0.12f);
+                }
             }
 
             _container.AddElement(_lblTitle);

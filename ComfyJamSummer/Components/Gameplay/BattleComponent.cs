@@ -1,7 +1,6 @@
 ﻿using ComfyJamSummer.Entities;
 using ComfyJamSummer.Entities.Base;
 using ComfyJamSummer.Entities.Collectibles;
-using ComfyJamSummer.Entities.Configs;
 using ComfyJamSummer.Helpers;
 using ComfyJamSummer.Manager;
 using ComfyJamSummer.Prefab;
@@ -24,10 +23,12 @@ namespace ComfyJamSummer.Components.Gameplay
         Wave _actualWave;
         public Wave ActualWave { get => _actualWave; set => _actualWave = value; }
 
+        public bool WaitingToFeedCrab { get; private set; }
+
         public BattleComponent(Island island, GameManager manager, Prefabs prefabs) : base(manager, prefabs)
         {
             _island = island;
-            _nextWaveStartCooldown = 2f;// 20;
+            _nextWaveStartCooldown = 2f;
             _timeLeftToNextWave = _nextWaveStartCooldown;
 
             _waves = new List<Wave>();
@@ -89,6 +90,8 @@ namespace ComfyJamSummer.Components.Gameplay
                     var player = UtilHelper.Player();
 
                     var anyIngredientSpawned = this._scene.EntitiesOfType<Collectible>().Count(x => x is FriedChicken || x is Sandwich || x is SlicedBread);
+
+                    WaitingToFeedCrab = anyIngredientSpawned > 0;
 
                     if (anyIngredientSpawned <= 0)
                     {

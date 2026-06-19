@@ -14,6 +14,7 @@ namespace ComfyJamSummer.Data
     public class EnemyData : BaseData
     {
         string _bulletDir = "sprites/gameplay/bullets/";
+        string _effectDir = "sprites/gameplay/effects/";
 
         public EnemyData(Prefabs prefabs, IMapper mapper) : base(Constants.ENEMY_DATA_PATH, prefabs, mapper)
         {
@@ -43,6 +44,19 @@ namespace ComfyJamSummer.Data
             CreateAnimatorWithEnum(bullet, anims, dir, Constants.CREATURE_RENDER_LAYER - 1);
 
             return bullet;
+        }
+
+        public Poof CreatePoof()
+        {
+            var poof = new Poof() { SpriteWidth = 32, SpriteHeight = 32 };
+
+            var anims = GetValues<BulletAnim>();
+
+            var dir = _effectDir + "poof";
+
+            CreateAnimatorOneAnimation(poof, dir, "Poof", Constants.CREATURE_RENDER_LAYER - 1);
+
+            return poof;
         }
 
         /// <summary>

@@ -8,6 +8,8 @@ namespace ComfyJamSummer
         public const string DEBUG = "DebugUI";
         public const string COMPANY_LOGO = "CompanyLogoUI";
         public const string PLAYER = "PlayerUI";
+        public const string CRAB = "CrabUI";
+        public const string WAVE = "WaveUI";
     }
 
     public class TiledLayerNames
@@ -42,7 +44,7 @@ namespace ComfyJamSummer
 
     public class WaveDefaultValues
     {
-        public const int TOTAL_ENEMIES_SPAWN_QTY = 2;//12;
+        public const int TOTAL_ENEMIES_SPAWN_QTY = 12;
 
         public const int ALIVE_ENEMIES_QTY_LIMIT = 15;
 
@@ -50,15 +52,15 @@ namespace ComfyJamSummer
 
         public const float ALIVE_ENEMIES_MODIFIER_VALUE = 0.15f;
 
-        public const float START_COOLDOWN = 1f;//5f;
+        public const float START_COOLDOWN = 5f;
 
         public const float MAX_DURATION = 60f;
     }
 
     public class Constants
     {
-        public const int GAME_WIDTH = 320;
-        public const int GAME_HEIGHT = 180;
+        public const int GAME_WIDTH = 640;
+        public const int GAME_HEIGHT = 360;
 
         public const float MIN_GAME_ZOOM = 1.1f;
 
@@ -151,13 +153,13 @@ namespace ComfyJamSummer
     {
         public const float HP = 75;
 
-        public const float DMG = 38;
+        public const float DMG = 9.75f;
 
-        public const float SPEED = 87;
+        public const float SPEED = 99;
 
-        public const float BULLET_SPEED = 115;
+        public const float BULLET_SPEED = 122;
 
-        public const float ATK_SPEED = 3.75f;
+        public const float ATK_SPEED = 3f;
 
         public const float IDLE_TIME_STATE = 0.5f;
 
@@ -167,17 +169,17 @@ namespace ComfyJamSummer
 
         public const float PATROL_COOLDOWN = 1f;
 
-        public const float ATK_TIME_STATE = 4f;
+        public const float ATK_TIME_STATE = 3.7f;
     }
 
     public static class BuffEnemyModifierValues
     {
-        public const float HP = 0.025f;
+        public const float HP = 0.2f;
 
-        public const float DMG = 0.04f;
+        public const float DMG = 0.094f;
 
-        public const float SPEED = 0.0025f;
+        public const float SPEED = 0.028f;
 
-        public const float ATK_SPEED = 0.001f;
+        public const float ATK_SPEED = 0.035f;
     }
 }

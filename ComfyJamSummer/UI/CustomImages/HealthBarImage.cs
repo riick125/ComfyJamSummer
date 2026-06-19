@@ -31,9 +31,7 @@ namespace ComfyJamSummer.UI.CustomImages
 
         public float Alpha { get; set; } = 1f;
 
-
-
-        public HealthBarImage(Texture2D texture, Actor actor, LifeBarType type, HealthBarTypeEnum name = HealthBarTypeEnum.Normal) : base(texture)
+        public HealthBarImage(Texture2D texture, Actor actor, LifeBarType type, HealthBarTypeEnum name = HealthBarTypeEnum.Normal, Color color = default) : base(texture)
         {
             Name = name;
 
@@ -43,7 +41,14 @@ namespace ComfyJamSummer.UI.CustomImages
 
             UserData = new ActorUIData(actor.Id);
 
-            SetColor(name == HealthBarTypeEnum.DamageTaken ? Color.White * 0.94f : type == LifeBarType.Bar ? Constants.GREEN_COLOR : Color.White);
+            if (color == default)
+            {
+                SetColor(name == HealthBarTypeEnum.DamageTaken ? Color.White * 0.94f : type == LifeBarType.Bar ? Constants.GREEN_COLOR : Color.White);
+            }
+            else
+            {
+                SetColor(color);
+            }
 
             TimeLeftToReduceWidth = 0.65f;
         }
@@ -52,23 +57,26 @@ namespace ComfyJamSummer.UI.CustomImages
         {
             if (Name == HealthBarTypeEnum.DamageTaken)
             {
-                var damageWidth = ((Actor.PreviousHP - Actor.ActualHP) / Actor.MaxHP) * (bar.Width() * 0.94f);
+                var damageWidth = ((Actor.PreviousHP - Actor.ActualHP) / Actor.MaxHP) * (bar.Width());
 
                 var hpBarEnd = (Actor.ActualHP / Actor.MaxHP) * this.Width();
 
                 SetSize(damageWidth, this.GetHeight());
                 SetWidth(damageWidth);
 
-                Offset = new Vector2(hpBarEnd, 0);
+                Offset = new Vector2(hpBarEnd - this.Width() / 2, 0);
             }
         }
 
-        public void Process()
+        public void Process(float actualValue = 0f, float maxValue = 0f)
         {
             if (BarType != LifeBarType.Bar)
             {
                 return;
             }
+
+            actualValue = actualValue != 0 ? actualValue : Actor.ActualHP;
+            maxValue = maxValue != 0 ? maxValue : Actor.MaxHP;
 
             switch (Name)
             {
@@ -78,7 +86,7 @@ namespace ComfyJamSummer.UI.CustomImages
                         OriginalWidth = this.Width();
                     }
 
-                    var width = (Actor.ActualHP / Actor.MaxHP) * OriginalWidth;
+                    var width = (actualValue / maxValue) * OriginalWidth;
 
                     width = Mathf.Clamp(width, 1f, OriginalWidth);
                     SetSize(width, this.GetHeight());

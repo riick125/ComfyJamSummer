@@ -10,6 +10,9 @@ namespace ComfyJamSummer.EventDatas
     public enum UIEvent
     {
         ReduceBar,
-        HealBar
+        HealBar,
+        UpdatePatienceBar,
+        UpdateSatiationBar,
+        UpdateBuildBar
     }
 }

@@ -1,17 +1,13 @@
 ﻿using ComfyJamSummer.Components.Gameplay;
 using ComfyJamSummer.Entities;
-using ComfyJamSummer.Entities.Base;
 using ComfyJamSummer.Helpers;
 using ComfyJamSummer.Manager;
 using ComfyJamSummer.Prefab;
-using ComfyJamSummer.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using MonoGame.Extended.Collisions.Layers;
 using Nez;
 using Nez.Sprites;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace ComfyJamSummer.Components.Extensions
 {
@@ -72,7 +68,9 @@ namespace ComfyJamSummer.Components.Extensions
 
             if (Input.IsKeyPressed(Keys.Enter))
             {
-                //Core.Scene.EntitiesOfType<Enemy>().ForEach(x => x.TakeDamage(x.MaxHP));
+                //_player.TakeDamage(_player.MaxHP);
+
+                Core.Scene.EntitiesOfType<Enemy>().ForEach(x => x.TakeDamage(x.MaxHP));
 
                 //var fallDestination = _player.Position + new Vector2(_player.SpriteWidth * Nez.Random.MinusOneToOne(), _player.SpriteHeight * 1.35f);
 
@@ -80,12 +78,11 @@ namespace ComfyJamSummer.Components.Extensions
                 //    .CloneNpc(_island.Id, _player.Position), Enums.CollectibleType.Sandwich, fallDestination));
             }
 
-            if (!_player.IsAlive)
+            var enemies = Core.Scene.EntitiesOfType<Enemy>().Where(x => x.IsAlive);
+
+            foreach (var item in enemies)
             {
-                if (Input.IsKeyPressed(Keys.R))
-                {
-                    Core.StartSceneTransition<FadeTransition>(new FadeTransition(() => new InGameScene()));
-                }
+                Debug.DrawText(UtilHelper.CustomFont().FontNormal, item.ActualHP + "/" + item.MaxHP, position: item.Position, Color.White);
             }
         }
     }

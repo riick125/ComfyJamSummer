@@ -68,14 +68,36 @@ namespace ComfyJamSummer.Entities
             return clone;
         }
 
+        public Vector2 MinPositionSpawn
+        {
+            get
+            {
+                var minX = CenterPosition().X - Width * 0.8f;
+                var minY = CenterPosition().Y - Height * 0.8f;
+
+                return new Vector2(minX, minY);
+            }
+        }
+
+        public Vector2 MaxPositionSpawn
+        {
+            get
+            {
+                var maxX = CenterPosition().X + Width * 0.8f;
+                var maxY = CenterPosition().Y - Height / 2.5f;
+
+                return new Vector2(maxX, maxY);
+            }
+        }
+
         public override void OnAddedToScene()
         {
             base.OnAddedToScene();
 
-            var highHeight = Height * 1.4f;
+            var highHeight = Height * 0.8f;
             var midHeight = highHeight / 2;
 
-            var minWest = CenterPosition() + new Vector2(-(Width * 1.5f), -highHeight);
+            var minWest = CenterPosition() + new Vector2(-(Width * 0.8f), -highHeight);
 
             var maxWest = new Vector2(minWest.X + Width / 4, minWest.Y + midHeight);
 
@@ -83,7 +105,7 @@ namespace ComfyJamSummer.Entities
 
             var minEast = CenterPosition() + new Vector2(Width / 4, -highHeight);
 
-            var maxEast = new Vector2(minEast.X + (Width * 1.5f), minWest.Y + midHeight);
+            var maxEast = new Vector2(minEast.X + (Width / 2), minWest.Y + midHeight);
 
             _eastArea = new SpawnArea(minEast, maxEast);
         }
