@@ -19,17 +19,9 @@ namespace ComfyJamSummer.Entities
 
             AnimHelper.Play(clone.Animator, "Poof", Nez.Sprites.SpriteAnimator.LoopMode.ClampForever);
 
-            clone.Animator.OnAnimationCompletedEvent += Animator_OnAnimationCompletedEvent;
+            clone.Animator.Speed = 1.25f;
 
             return clone;
-        }
-
-        private void Animator_OnAnimationCompletedEvent(string obj)
-        {
-            if (!IsDestroyed && Scene != null)
-            {
-                this.Destroy();
-            }
         }
 
         public override void Update()
@@ -38,12 +30,17 @@ namespace ComfyJamSummer.Entities
 
             if (_soundDelay <= 0 && !_played)
             {
-                Prefabs?.PlaySoundRandomPitch(Enums.SoundFxName.Collect_1, 0.1f);
+                Prefabs?.PlaySoundRandomPitch(Enums.SoundFxName.Poof, 0.1f);
                 _played = true;
             }
             else
             {
                 _soundDelay -= Time.DeltaTime;
+            }
+
+            if (Animator.AnimationState == Nez.Sprites.SpriteAnimator.State.Completed & !this.IsDestroyed)
+            {
+                this.Destroy();
             }
         }
     }

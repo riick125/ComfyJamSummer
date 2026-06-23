@@ -81,6 +81,12 @@
 /processorParam:Quality=Best
 /build:sounds/enemy_shot.wav
 
+#begin sounds/enemy_shot.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/enemy_shot.wav
+
 #begin sounds/flesh.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -92,6 +98,12 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:sounds/flesh.wav
+
+#begin sounds/hammer_hit.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/hammer_hit.wav
 
 #begin sounds/hammer_hit.wav
 /importer:WavImporter
@@ -135,6 +147,12 @@
 /processorParam:Quality=Best
 /build:sounds/item_collect.wav
 
+#begin sounds/poof.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/poof.wav
+
 #begin sounds/reloading.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -146,6 +164,12 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:sounds/reloading.wav
+
+#begin sounds/rocket_launch.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/rocket_launch.wav
 
 #begin sounds/rocket_launch.wav
 /importer:WavImporter

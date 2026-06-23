@@ -2,6 +2,7 @@
 using ComfyJamSummer.Entities;
 using ComfyJamSummer.Entities.Base;
 using ComfyJamSummer.Entities.TextureData;
+using ComfyJamSummer.Enums;
 using ComfyJamSummer.Helpers;
 using ComfyJamSummer.JsonsData;
 using ComfyJamSummer.JsonsData.AsepriteData;
@@ -318,17 +319,29 @@ namespace ComfyJamSummer.Data
             return null;
         }
 
-        protected SoundPerFrame CreateSoundFrame(int frame, Enum soundName, Enum animationName, bool allowPitchChange = false)
+        protected SoundPerFrame CreateSoundFrame(int frame, Enum soundName, Enum animationName)
+        {
+            return CreateFrame(frame, soundName, animationName);
+        }
+
+        protected SoundPerFrame CreateSoundFrame(int frame, Enum soundName, Enum animationName, float pitchMaxValue)
+        {
+            pitchMaxValue = Mathf.Clamp01(pitchMaxValue);
+
+            return CreateFrame(frame, soundName, animationName, pitchMaxValue);
+        }
+
+        private SoundPerFrame CreateFrame(int frame, Enum soundName, Enum animationName, float pitchMaxValue = 0)
         {
             return new SoundPerFrame()
             {
                 ActualFrame = frame,
                 SoundName = soundName.ToString(),
                 AnimationName = animationName.ToString(),
-                AllowPitchChange = allowPitchChange,
-                ShouldPlay = true
+                PitchMaxValue = pitchMaxValue
             };
         }
+
 
         protected SoundAnimator CreateSoundAnimator(Animated entity, Enum name, SoundPerFrame[] soundFrames)
         {

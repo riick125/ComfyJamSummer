@@ -25,13 +25,15 @@ namespace ComfyJamSummer.Entities.Creatures
 
         public float Damage { get; set; }
 
+        public float CriticalChance { get; set; }
+
         public float TimeLeftToNextAtk { get; set; }
 
         public float AtkSpeed { get; set; }
 
         public List<Debuff> DebuffsToGive { get; set; }
 
-        float _dyingRotationSpeed = 1300f, _losingScaleSpeed = 2.7f, _losingColorSpeed = 4f;
+        float _dyingRotationSpeed = 1300f, _losingScaleSpeed = 1.75f, _losingColorSpeed = 4f;
 
         List<Vector2> _originalMoveDirections, _moveDirections;
 
@@ -106,6 +108,7 @@ namespace ComfyJamSummer.Entities.Creatures
             clone.ActualHP = config.HP;
             clone.MaxHP = config.HP;
             clone.Damage = config.Damage;
+            clone.CriticalChance = config.CriticalChance;
             clone.Speed = config.Speed * Nez.Random.Range(0.91f, 1.04f);
             clone.AtkSpeed = config.AtkSpeed * Nez.Random.Range(0.95f, 1.15f);
             clone.PatrolCooldown = config.PatrolCooldown * Nez.Random.Range(0.95f, 1.15f);
@@ -150,13 +153,28 @@ namespace ComfyJamSummer.Entities.Creatures
 
             this.SetScale(scale);
 
-            if (scale < 0.4f)
+            if (Shadow != null)
+            {
+                if (HasComponent<FakeShadowComponent>())
+                {
+                    RemoveComponent<FakeShadowComponent>();
+                }
+
+                Shadow.RotationDegrees = RotationDegrees;
+                Shadow.SetScale(scale);
+            }
+
+            if (scale < 0.25f)
             {
                 Alpha -= LosingColorSpeed * deltaTime;
 
                 Alpha = Mathf.Clamp01(Alpha);
 
+                Shadow.Alpha = Alpha;
+
                 GetAnyRenderer().SetColor(Color.White * Alpha);
+
+                Shadow.GetAnyRenderer().SetColor(Color.White * Alpha);
 
                 if (scale <= 0)
                 {
@@ -165,17 +183,6 @@ namespace ComfyJamSummer.Entities.Creatures
                         Destroy();
                     }
                 }
-            }
-        }
-
-        public virtual void Buff(BuffConfig config)
-        {
-            if (config != null)
-            {
-                MaxHP *= config.HpModifier;
-                Damage *= config.DamageModifier;
-                Speed *= config.SpeedModifier;
-                AtkSpeed *= config.AtkSpeedModifier;
             }
         }
 
@@ -358,6 +365,8 @@ namespace ComfyJamSummer.Entities.Creatures
 
         public void Heal(float amount)
         {
+            Prefabs?.PlaySoundRandomPitch(SoundFxName.Heal, 0.15f);
+
             ActualHP += amount;
 
             ActualHP = Mathf.Clamp(ActualHP, 0, MaxHP);
@@ -373,7 +382,7 @@ namespace ComfyJamSummer.Entities.Creatures
             }
         }
 
-        public bool TakeDamage(float dmg)
+        public bool TakeDamage(float dmg, Bullet bullet = null)
         {
             if (!Validate() || !IsAlive)
             {
@@ -383,6 +392,15 @@ namespace ComfyJamSummer.Entities.Creatures
             if (dmg < 1)
             {
                 dmg = 1;
+            }
+
+            var isCritical = false;
+
+            if (bullet != null)
+            {
+                isCritical = Nez.Random.Chance(bullet.CriticalChance);
+
+                dmg *= isCritical ? 1.5f : 1f; 
             }
 
             dmg = float.Round(dmg);
@@ -416,6 +434,21 @@ namespace ComfyJamSummer.Entities.Creatures
 
             var config = new BesideTextConfig(this, $"-{dmg}", offset: textOffset, color: Color.Red);
             TextHelper.CreateGoingUpBesideText(config);
+
+            if (isCritical)
+            {
+                Core.Schedule(0.01f, t =>
+                {
+                    Prefabs?.PlaySoundRandomPitch(SoundFxName.Bash, 0.25f);
+
+                    var textOffset = new Vector2(SpriteWidth * (Nez.Random.Chance(50) ? 1 : -1), -SpriteHeight / 4);
+
+                    var config = new BesideTextConfig(this, $"Critical!", offset: textOffset, color: Constants.YELLOW_COLOR, duration: 1.5f);
+                    TextHelper.CreateGoingUpBesideText(config);
+
+                    t.Stop();
+                });
+            }
 
             if (!IsAlive)
             {

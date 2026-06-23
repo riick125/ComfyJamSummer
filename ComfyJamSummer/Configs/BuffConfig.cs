@@ -9,5 +9,7 @@
         public float DamageModifier { get; set; } = 1f;
 
         public float AtkSpeedModifier { get; set; } = 1f;
+
+        public float BulletSpeedModifier { get; set; } = 1f;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using ComfyJamSummer.Components.Gameplay;
 using ComfyJamSummer.Entities.Base;
 using ComfyJamSummer.Enums;
+using ComfyJamSummer.Helpers;
 using ComfyJamSummer.Manager;
 using ComfyJamSummer.Prefab;
 using Nez;
@@ -73,9 +74,9 @@ namespace ComfyJamSummer.Components.General
                     }
                 }
 
-                var currentFrame = _actualSoundAnimator.SoundFrames.FirstOrDefault(x => x.ActualFrame == _animator.CurrentFrame && x.ShouldPlay);
+                var currentFrame = _actualSoundAnimator.SoundFrames.FirstOrDefault(x => x.ActualFrame == _animator.CurrentFrame);
 
-                if (currentFrame != null && currentFrame.ShouldPlay)
+                if (currentFrame != null)
                 {
                     if (!currentFrame.AlreadyPlayed)
                     {
@@ -83,13 +84,20 @@ namespace ComfyJamSummer.Components.General
 
                         if (Enum.TryParse<SoundFxName>(currentFrame.SoundName, out sfx))
                         {
-                            if (currentFrame.AllowPitchChange)
+                            if (SoundHelper.HaveVariations(sfx))
                             {
-                                _prefabs.PlaySoundRandomPitch(sfx, 0.05f);
+                                SoundHelper.PlayRandomSound(sfx, maxPitchValue: currentFrame.PitchMaxValue);
                             }
                             else
                             {
-                                _prefabs.PlaySound(sfx);
+                                if (currentFrame.AllowPitchChange)
+                                {
+                                    _prefabs.PlaySoundRandomPitch(sfx, currentFrame.PitchMaxValue);
+                                }
+                                else
+                                {
+                                    _prefabs.PlaySound(sfx);
+                                }
                             }
                         }
 

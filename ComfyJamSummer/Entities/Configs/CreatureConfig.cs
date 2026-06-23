@@ -16,6 +16,8 @@ namespace ComfyJamSummer.Entities.Configs
 
         public float Damage { get; set; }
 
+        public float CriticalChance { get; internal set; }
+
         public float AtkSpeed { get; set; }
 
         public float Speed { get; set; }
@@ -28,6 +30,7 @@ namespace ComfyJamSummer.Entities.Configs
             clone.IslandId = islandId;
             clone.HP = HP;
             clone.Damage = Damage;
+            clone.CriticalChance = CriticalChance;
             clone.AtkSpeed = AtkSpeed;
             clone.Speed = Speed;
             clone.ColliderType = ColliderType;

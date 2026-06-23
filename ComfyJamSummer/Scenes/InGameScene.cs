@@ -56,6 +56,8 @@ namespace ComfyJamSummer.Scenes
 
                 CreateEntity(UINames.WAVE).AddComponent(new WaveUI(_gameManager, _prefabs));
 
+                CreateEntity(UINames.PAUSE).AddComponent(new PauseUI(_gameManager, _prefabs));
+
                 Camera.AddComponent(new CameraShake());
             }
         }

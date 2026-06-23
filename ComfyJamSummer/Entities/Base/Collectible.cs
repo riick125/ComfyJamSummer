@@ -17,15 +17,11 @@ namespace ComfyJamSummer.Entities.Base
 
         public bool FollowingCatcher { get; internal set; }
 
-        public Vector2 Speed { get; set; } = new Vector2(225, 225);
-
         public float TimeLeftToBeCollected { get; set; }
 
         public bool IsCollected { get; set; }
 
         protected bool CanBeCollected => Validate() && CanPressInteractButton && BounceComponent != null && BounceComponent.IsOnFloor;
-
-        public CircleCollider BodyCollider { get { return GetComponents<CircleCollider>().FirstOrDefault(x => x.Tag == CollisionTag.Body.ToString()); } }
 
         public CircleCollider CatchAreaCollider { get { return GetComponents<CircleCollider>().FirstOrDefault(x => x.Tag == CollisionTag.CatchArea.ToString()); } }
 
@@ -43,6 +39,8 @@ namespace ComfyJamSummer.Entities.Base
             private set { }
         }
 
+        float _timeToAppear;
+
         public Collectible CloneCollectible(InteractableConfig config, Vector2 fallDestination)
         {
             var name = Type.ToString().ToLower().Replace("_", " ");
@@ -52,6 +50,8 @@ namespace ComfyJamSummer.Entities.Base
             var clone = base.CloneInteractable(config) as Collectible;
             clone.FallDestination = fallDestination;
             clone.Type = Type;
+            clone.Speed = 225;
+            clone._timeToAppear = 0.005f;
 
             var manager = UtilHelper.GameManager();
 
@@ -79,6 +79,25 @@ namespace ComfyJamSummer.Entities.Base
             var direction = DirectionHelper.PerpendicularDirection(Position, FallDestination);
 
             FallDirection = direction;
+
+            if (Prefabs != null)
+            {
+                this.Scene.AddEntity(Prefabs.Poof.ClonePoof(this.Position));
+            }
+        }
+
+        public override void Update()
+        {
+            base.Update();
+
+            if (_timeToAppear <= 0)
+            {
+                Animator.Enabled = true;
+            }
+            else
+            {
+                _timeToAppear -= Time.DeltaTime;
+            }
         }
     }
 }

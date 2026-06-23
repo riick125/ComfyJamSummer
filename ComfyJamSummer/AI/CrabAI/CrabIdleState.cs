@@ -30,7 +30,7 @@ namespace ComfyJamSummer.AI.Enemies
             {
                 _machine.ChangeState<CrabPissedOffState>();
             }
-            else if (!_context.IsHungry && !_context.CantBuild)
+            else if (!_context.IsHungry)
             {
                 var rocket = UtilHelper.GetEntity<Rocket>();
 

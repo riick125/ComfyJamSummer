@@ -31,14 +31,14 @@ namespace ComfyJamSummer.Entities
 
         float _satiation = 80, _satiationValuePerChange, _satiationLossValuePerChange, _maxSatiation = 100;
         float _hungryValue = 25, _idleValue = 40;
+        float _satiationMediumPercent = 0.28f;
+        float _satiationLowPercent = 0.07f;
 
         float _patience = 50, _patienceLossPerSlipUp, _maxPatience = 100;
 
         public bool LostPatience { get { return _patience <= 0; } }
 
-        public bool IsHungry { get { return _satiation <= _hungryValue; } }
-
-        public bool CantBuild { get { return _satiation > _hungryValue && _satiation < _idleValue; } }
+        public bool IsHungry { get { return _satiation > _hungryValue && _satiation < _idleValue; } }
 
         public CrabController CrabController => this.GetComponent<CrabController>();
 
@@ -70,8 +70,10 @@ namespace ComfyJamSummer.Entities
             var clone = base.CloneInteractable(config) as Crab;
             clone._satiation = _satiation;
             clone._maxSatiation = _maxSatiation;
-            clone._satiationValuePerChange = _maxSatiation * 0.28f;
-            clone._satiationLossValuePerChange = _maxSatiation * 0.07f;
+            clone._satiationLowPercent = _satiationLowPercent;
+            clone._satiationMediumPercent = _satiationMediumPercent;
+            clone._satiationValuePerChange = _maxSatiation * clone._satiationMediumPercent;
+            clone._satiationLossValuePerChange = _maxSatiation * clone._satiationLowPercent;
             clone._hungryValue = _hungryValue;
             clone._idleValue = _idleValue;
 
@@ -152,6 +154,22 @@ namespace ComfyJamSummer.Entities
         {
             var value = reduce ? _satiationLossValuePerChange : _satiationValuePerChange;
 
+            if (reduce)
+            {
+                if (Nez.Random.Chance(0.35f))
+                {
+                    var lowValue = _maxSatiation * _satiationLowPercent;
+
+                    var extraLossValue = Nez.Random.Range(lowValue * 0.25f, lowValue) * (Nez.Random.MinusOneToOne());
+
+                    value += extraLossValue;
+                }
+            }
+            else if (Nez.Random.Chance(0.25f))
+            {
+                value *= 1.25f;
+            }
+
             _satiation += reduce ? -value : value;
             _satiation = Mathf.Clamp(_satiation, 0, _maxSatiation);
 
@@ -179,6 +197,8 @@ namespace ComfyJamSummer.Entities
                 breadBag.IsInteracting = false;
             }
 
+            Animator.Speed = 1f;
+
             AnimHelper.Play(Animator, CrabAnim.Eat, Nez.Sprites.SpriteAnimator.LoopMode.ClampForever);
         }
 
@@ -205,19 +225,19 @@ namespace ComfyJamSummer.Entities
                     SaveHelper.SaveGame(saveData);
 
                     this.Scene.AddSceneComponent(new ZoomAtTargetCutscene(this, 3));
+
+                    if (PhrasesAskingForSandwich != null && PhrasesAskingForSandwich.Any())
+                    {
+                        Core.Schedule(0.75f, t =>
+                        {
+                            var phrase = firstTime ? PhrasesAskingForSandwich.FirstOrDefault() : PhrasesAskingForSandwich[Nez.Random.Range(0, PhrasesAskingForSandwich.Length)];
+
+                            TextHelper.Talk(this, phrase);
+
+                            t.Stop();
+                        });
+                    }
                 }
-            }
-
-            if (PhrasesAskingForSandwich != null && PhrasesAskingForSandwich.Any())
-            {
-                Core.Schedule(0.75f, t =>
-                {
-                    var phrase = firstTime ? PhrasesAskingForSandwich.FirstOrDefault() : PhrasesAskingForSandwich[Nez.Random.Range(0, PhrasesAskingForSandwich.Length)];
-
-                    TextHelper.Talk(this, phrase);
-
-                    t.Stop();
-                });
             }
         }
 

@@ -15,8 +15,6 @@ namespace ComfyJamSummer.UI
     {
         Table _tableMain;
 
-        CustomFont _customFont;
-
         public DebugUI(GameManager manager, Prefabs prefabs) : base(manager, prefabs)
         {
             _container.SetVisible(!_container.IsVisible());

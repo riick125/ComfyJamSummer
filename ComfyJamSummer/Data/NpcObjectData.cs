@@ -48,7 +48,21 @@ namespace ComfyJamSummer.Data
             crab.SoundAnimators.Add(CreateSoundAnimator(crab, CrabAnim.Build,
                 new SoundPerFrame[]
                 {
-                    CreateSoundFrame(2, SoundFxName.Hammer_Hit, CrabAnim.Build, true),
+                    CreateSoundFrame(2, SoundFxName.Hammer_Hit, CrabAnim.Build, 0.25f),
+                }));
+
+            crab.SoundAnimators.Add(CreateSoundAnimator(crab, CrabAnim.Eat,
+                new SoundPerFrame[]
+                {
+                    CreateSoundFrame(4, SoundFxName.Crunch, CrabAnim.Eat, 0.2f),
+                    CreateSoundFrame(7, SoundFxName.Crunch, CrabAnim.Eat, 0.25f),
+                }));
+
+            crab.SoundAnimators.Add(CreateSoundAnimator(crab, CrabAnim.Walk,
+                new SoundPerFrame[]
+                {
+                    CreateSoundFrame(1, SoundFxName.Walk_1, CrabAnim.Walk, 0.15f),
+                    CreateSoundFrame(4, SoundFxName.Walk_4, CrabAnim.Walk, 0.2f),
                 }));
 
             return crab;

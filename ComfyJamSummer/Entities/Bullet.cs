@@ -1,5 +1,6 @@
 ﻿using ComfyJamSummer.Entities.Base;
 using ComfyJamSummer.Entities.Configs;
+using ComfyJamSummer.Entities.Creatures;
 using ComfyJamSummer.Enums;
 using ComfyJamSummer.Helpers;
 using Microsoft.Xna.Framework;
@@ -14,6 +15,8 @@ namespace ComfyJamSummer.Entities
         public OffensiveEffectCollisionEnum Target { get; set; }
 
         public float Damage { get; set; }
+
+        public float CriticalChance { get; set; }
 
         public float Speed { get; set; }
 
@@ -71,6 +74,7 @@ namespace ComfyJamSummer.Entities
             clone.Target = config.Target;
             clone.Speed = config.Speed;
             clone.Damage = config.Damage;
+            clone.CriticalChance = config.CriticalChance;
             clone.LifeTime = config.LifeTime;
             clone.Rotation = config.Rotation;
             clone.ObjectsHittedByBullet = new List<uint>();
@@ -152,7 +156,7 @@ namespace ComfyJamSummer.Entities
                                     continue;
                                 }
 
-                                wasHit = player.TakeDamage(Damage);
+                                wasHit = player.TakeDamage(Damage, this);
                                 break;
 
                             case Enemy enemy:
@@ -161,7 +165,7 @@ namespace ComfyJamSummer.Entities
                                     continue;
                                 }
 
-                                wasHit = enemy.TakeDamage(Damage);
+                                wasHit = enemy.TakeDamage(Damage, this);
                                 break;
                         }
 

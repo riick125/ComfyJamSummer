@@ -111,7 +111,7 @@ namespace ComfyJamSummer.UI
 
             var bar = _satiationBars?.FirstOrDefault(x => x.BarType == LifeBarType.Bar);
 
-            var color = mob.IsHungry || mob.CantBuild ? Constants.RED_COLOR : Constants.GREEN_COLOR;
+            var color = mob.IsHungry ? Constants.RED_COLOR : Constants.GREEN_COLOR;
 
             ProcessUpdateBar(mob.ActualSatiation, mob.MaxSatiation, _satiationBars, color);
         }

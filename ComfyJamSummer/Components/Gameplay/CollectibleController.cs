@@ -61,6 +61,8 @@ namespace ComfyJamSummer.Components.Gameplay
 
                     if (_player.BodyCollider.Overlaps(_collectible.CatchAreaCollider))
                     {
+                        _prefabs.PlaySoundRandomPitch(Enums.SoundFxName.Item_Collect, 0.15f);
+
                         var shouldDestroy = false;
 
                         switch (_collectible.Type)

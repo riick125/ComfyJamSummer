@@ -38,8 +38,6 @@ namespace ComfyJamSummer.UI
 
         public static Emitter<UIEvent, UIEventData> Emitter;
 
-        CustomFont _customFont;
-
         public PlayerUI(GameManager manager, Prefabs prefabs) : base(manager, prefabs)
         {
             Emitter = new Emitter<UIEvent, UIEventData>();

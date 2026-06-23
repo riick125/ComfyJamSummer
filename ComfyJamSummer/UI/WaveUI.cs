@@ -17,8 +17,6 @@ namespace ComfyJamSummer.UI
 
         Label _lblStarting, _lblSandwich;
 
-        CustomFont _font;
-
         BattleComponent _battleComponent;
 
         public WaveUI(GameManager manager, Prefabs prefabs) : base(manager, prefabs)
@@ -30,15 +28,15 @@ namespace ComfyJamSummer.UI
         {
             base.OnAddedToEntity();
 
-            _font = UtilHelper.CustomFont();
+            _customFont = UtilHelper.CustomFont();
 
-            if (_font != null)
+            if (_customFont != null)
             {
-                _lblStarting = _container.AddElement(new Label(_txtStarting, _font.FontNormal));
+                _lblStarting = _container.AddElement(new Label(_txtStarting, _customFont.FontNormal));
                 UIHelper.CentralizeElementPosXInScreen(_lblStarting, Screen.Height * 0.25f);
                 _lblStarting.SetVisible(false);
 
-                _lblSandwich = _container.AddElement(new Label(_txtMakeASandwich, _font.FontNormal));
+                _lblSandwich = _container.AddElement(new Label(_txtMakeASandwich, _customFont.FontNormal));
                 _lblSandwich.SetVisible(false);
                 UIHelper.CentralizeElementPosXInScreen(_lblSandwich, Screen.Height * 0.25f);
             }

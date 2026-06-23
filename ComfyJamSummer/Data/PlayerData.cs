@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using ComfyJamSummer.Entities;
-using ComfyJamSummer.Entities.Base;
 using ComfyJamSummer.Entities.Configs;
 using ComfyJamSummer.Enums;
 using ComfyJamSummer.Extensions;
@@ -41,8 +40,8 @@ namespace ComfyJamSummer.Data
             player.SoundAnimators.Add(CreateSoundAnimator(player, CreatureAnim.Walk,
                 new SoundPerFrame[]
                 {
-                    CreateSoundFrame(0, SoundFxName.Walk_1, CreatureAnim.Walk),
-                    CreateSoundFrame(2, SoundFxName.Walk_2, CreatureAnim.Walk)
+                    CreateSoundFrame(0, SoundFxName.Walk_1, CreatureAnim.Walk, 0.12f),
+                    CreateSoundFrame(2, SoundFxName.Walk_2, CreatureAnim.Walk, 0.12f)
                 }));
 
             return player;
@@ -59,6 +58,7 @@ namespace ComfyJamSummer.Data
             CreateAnimatorWithEnum(gun, anim, dir, Constants.CREATURE_RENDER_LAYER - 1);
 
             gun.Damage = 33.3f;
+            gun.CriticalChance = PlayerValues.CRITICAL_CHANCE;
             gun.ReloadTime = 1.05f;
             gun.BulletSpeed = 400;
 
@@ -92,6 +92,7 @@ namespace ComfyJamSummer.Data
             {
                 HP = PlayerValues.HP,
                 Speed = PlayerValues.SPEED,
+                CriticalChance = PlayerValues.CRITICAL_CHANCE,
                 ColliderType = ColliderType.Player
             };
         }

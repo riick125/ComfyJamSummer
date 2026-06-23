@@ -1,5 +1,6 @@
 ﻿using ComfyJamSummer.Components.Gameplay;
 using ComfyJamSummer.Components.Visuals;
+using ComfyJamSummer.Configs;
 using ComfyJamSummer.Entities.Configs;
 using ComfyJamSummer.Entities.Creatures;
 using ComfyJamSummer.Enums;
@@ -112,6 +113,20 @@ namespace ComfyJamSummer.Entities
                 }
 
                 TimeLeftToNextAtk = AtkSpeed;
+            }
+        }
+
+
+        public virtual void Buff(BuffConfig config)
+        {
+            if (config != null)
+            {
+                MaxHP *= config.HpModifier;
+                Damage *= config.DamageModifier;
+                Speed *= config.SpeedModifier;
+                BulletSpeed *= config.BulletSpeedModifier;
+                AtkSpeed *= config.AtkSpeedModifier;
+                ActualHP = MaxHP;
             }
         }
     }

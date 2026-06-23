@@ -277,7 +277,7 @@ namespace ComfyJamSummer.Components.Extensions
 
                             _timeLeftToNextBounce = _bounceDelay;
 
-                            prefabs?.PlaySoundRandomPitch(Enums.SoundFxName.Collect_1, 0.1f);
+                            SoundHelper.PlayRandomSound(Enums.SoundFxName.Collect_1);
                         }
                     }
                     else

@@ -1,12 +1,9 @@
-﻿using ComfyJamSummer.Entities.Base;
-using ComfyJamSummer.Enums;
+﻿using ComfyJamSummer.Enums;
 using ComfyJamSummer.Prefab;
 using ComfyJamSummer.Scenes;
 using Nez;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using static ComfyJamSummer.Entities.Base.Animated;
 
 namespace ComfyJamSummer.Helpers
 {
@@ -18,55 +15,29 @@ namespace ComfyJamSummer.Helpers
 
         static SoundFxName[] _tempTransferList;
 
-        public static void CreateSoundFrames(Animated entity, List<SoundPerFrame> sounds, int[] framesThatShouldPlaySound, string animName, SoundFxName soundName, bool allowPitchChange = false)
+        public static bool HaveVariations(SoundFxName listName)
         {
-            if (!ValidateSoundFrames(entity, sounds, framesThatShouldPlaySound))
+            switch (listName)
             {
-                return;
+                case SoundFxName.Bash:
+                    break;
+
+                case SoundFxName.Collect_1:
+                case SoundFxName.Collect_2:
+                case SoundFxName.Collect_3:
+                    return true;
+
+                case SoundFxName.Walk_1:
+                case SoundFxName.Walk_2:
+                case SoundFxName.Walk_3:
+                case SoundFxName.Walk_4:
+                    return true;
             }
 
-            var sprites = entity.Animator.Animations.FirstOrDefault(x => x.Key == animName).Value;
-
-            if (sprites != null)
-            {
-                for (int i = 0; i < sprites.Sprites.Count(); i++)
-                {
-                    var sprite = sprites.Sprites[i];
-
-                    var soundPerFrame = new SoundPerFrame()
-                    {
-                        ActualFrame = i,
-                        SoundName = soundName.ToString(),
-                        AnimationName = animName,
-                        AllowPitchChange = allowPitchChange
-                    };
-
-                    if (framesThatShouldPlaySound.Contains(i))
-                    {
-                        soundPerFrame.ShouldPlay = true;
-                    }
-
-                    sounds.Add(soundPerFrame);
-                }
-            }
+            return false;
         }
 
-        private static bool ValidateSoundFrames(Animated entity, List<SoundPerFrame> sounds, int[] framesThatShouldPlaySound)
-        {
-            if (entity == null) return false;
-
-            if (entity.Animator == null) return false;
-
-            if (!entity.Animator.Animations.Any()) return false;
-
-            if (framesThatShouldPlaySound == null) return false;
-
-            if (!framesThatShouldPlaySound.Any()) return false;
-
-            return true;
-        }
-
-        public static void PlayRandomSound(SoundFxName listName, float volReducePercent = 0.6f)
+        public static void PlayRandomSound(SoundFxName listName, float volReducePercent = 0.6f, float maxPitchValue = 0.05f)
         {
             var prefabs = UtilHelper.Prefabs();
 
@@ -80,11 +51,6 @@ namespace ComfyJamSummer.Helpers
                 return;
             }
 
-            if (_tempTransferList == null)
-            {
-                _tempTransferList = new SoundFxName[10];
-            }
-
             var listSound = new List<SoundFxName>();
 
             switch (listName)
@@ -95,6 +61,7 @@ namespace ComfyJamSummer.Helpers
                 case SoundFxName.Collect_1:
                 case SoundFxName.Collect_2:
                 case SoundFxName.Collect_3:
+                    _tempTransferList = new SoundFxName[_list.Count];
                     _list.CopyTo(_tempTransferList);
                     break;
 
@@ -102,6 +69,7 @@ namespace ComfyJamSummer.Helpers
                 case SoundFxName.Walk_2:
                 case SoundFxName.Walk_3:
                 case SoundFxName.Walk_4:
+                    _tempTransferList = new SoundFxName[_walkSoundList.Count];
                     _walkSoundList.CopyTo(_tempTransferList);
                     break;
             }
@@ -128,7 +96,7 @@ namespace ComfyJamSummer.Helpers
 
             var selected = Nez.Random.Chance(50) ? listSound.FirstOrDefault() : listSound[Nez.Random.Range(0, listSound.Count)];
 
-            prefabs.PlaySoundRandomPitch(selected, 0.05f, volume);
+            prefabs.PlaySoundRandomPitch(selected, maxPitchValue, volume);
         }
 
         private static bool Validate(Prefabs prefabs)

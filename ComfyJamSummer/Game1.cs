@@ -132,10 +132,10 @@ namespace ComfyJamSummer
             //CursorInsideGame?.UpdateWindowBounds(Window.ClientBounds.Width, Window.ClientBounds.Height);
 
 #if DEBUG
-            if (Input.IsKeyPressed(Keys.Escape))
-            {
-                Exit();
-            }
+            //if (Input.IsKeyPressed(Keys.Escape))
+            //{
+            //    Exit();
+            //}
 #endif
 
             base.Update(gameTime);

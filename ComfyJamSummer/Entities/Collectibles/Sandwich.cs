@@ -45,6 +45,7 @@ namespace ComfyJamSummer.Entities.Collectibles
 
                     if (player != null)
                     {
+                        Prefabs?.PlaySoundRandomPitch(Enums.SoundFxName.Crunch, 0.2f);
                         player.Heal(player.MaxHP * _healPercentage);
                         player.DevouredSandwiches++;
                     }

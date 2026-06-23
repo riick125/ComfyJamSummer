@@ -20,6 +20,8 @@ namespace ComfyJamSummer.Entities
 
         public float Damage { get; set; }
 
+        public float CriticalChance { get; set; }
+
         public Vector2 Offset { get; set; }
 
         public float TimeLeftToNextShot { get; set; }
@@ -57,6 +59,7 @@ namespace ComfyJamSummer.Entities
             clone.MaxAngleSpread = MaxAngleSpread;
 
             clone.Damage = Damage;
+            clone.CriticalChance = CriticalChance;
 
             clone.FireRate = FireRate;
             clone.ShootAnimationDuration = clone.FireRate;

@@ -1,5 +1,9 @@
 ﻿using ComfyJamSummer.Components.Cutscenes.Base;
 using ComfyJamSummer.Configs;
+using ComfyJamSummer.Extensions;
+using ComfyJamSummer.Helpers;
+using ComfyJamSummer.Prefab;
+using Microsoft.Xna.Framework.Input;
 using Nez;
 
 namespace ComfyJamSummer.Manager
@@ -31,9 +35,21 @@ namespace ComfyJamSummer.Manager
 
         public BuffConfig ActualBuffConfig => _buffConfig;
 
+        Prefabs _prefabs;
+
         public GameManager()
         {
             _buffConfig = new BuffConfig();
+        }
+
+        public override void OnEnabled()
+        {
+            base.OnEnabled();
+
+            if (_prefabs == null)
+            {
+                _prefabs = UtilHelper.Prefabs();
+            }
         }
 
         public BuffConfig GetBuffConfig()
@@ -47,6 +63,25 @@ namespace ComfyJamSummer.Manager
             _buffConfig.SpeedModifier += BuffEnemyModifierValues.SPEED;
             _buffConfig.DamageModifier += BuffEnemyModifierValues.DMG;
             _buffConfig.AtkSpeedModifier -= BuffEnemyModifierValues.ATK_SPEED;
+            _buffConfig.BulletSpeedModifier += BuffEnemyModifierValues.BULLET_SPEED;
+        }
+
+        public override void Update()
+        {
+            base.Update();
+
+            if (Input.IsKeyPressed(Keys.Escape))
+            {
+                SoundHelper.PlayRandomSound(Enums.SoundFxName.Collect_1);
+
+                IsGamePaused = !IsGamePaused;
+
+                Time.TimeScale = IsGamePaused ? 0 : 1;
+
+                var pauseCanvas = UIHelper.GetCanvas(UINames.PAUSE);
+
+                pauseCanvas?.SetEnabled(IsGamePaused);
+            }
         }
     }
 }

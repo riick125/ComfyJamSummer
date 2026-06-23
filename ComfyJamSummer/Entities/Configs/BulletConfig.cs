@@ -12,6 +12,8 @@ namespace ComfyJamSummer.Entities.Configs
 
         public float Damage { get; set; }
 
+        public float CriticalChance { get; set; }
+
         public float Speed { get; set; }
 
         public float MaxAngleSpread { get; set; }
@@ -28,20 +30,21 @@ namespace ComfyJamSummer.Entities.Configs
 
         public BulletConfig ClonePlayer(Gun gun, OffensiveEffectCollisionEnum target, Vector2 direction, float rotation, bool createImpactEffect = true)
         {
-            return HydrateValues(gun.BulletSpeed, gun.Damage, gun.MaxAngleSpread, gun.MuzzlePosition, target, direction, rotation, createImpactEffect);
+            return HydrateValues(gun.BulletSpeed, gun.Damage, gun.CriticalChance, gun.MaxAngleSpread, gun.MuzzlePosition, target, direction, rotation, createImpactEffect);
         }
 
         public BulletConfig CloneEnemy(Enemy enemy, OffensiveEffectCollisionEnum target, Vector2 direction, float rotation = 0, bool createImpactEffect = true)
         {
-            return HydrateValues(enemy.BulletSpeed, enemy.Damage, enemy.MaxAngleSpread, enemy.Position, target, direction, rotation, createImpactEffect);
+            return HydrateValues(enemy.BulletSpeed, enemy.Damage, enemy.CriticalChance, enemy.MaxAngleSpread, enemy.Position, target, direction, rotation, createImpactEffect);
         }
 
-        BulletConfig HydrateValues(float bulletSpeed, float dmg, float maxAngleSpread, Vector2 pos, OffensiveEffectCollisionEnum target, Vector2 direction, float rotation, bool createImpactEffect)
+        BulletConfig HydrateValues(float bulletSpeed, float dmg, float criticalChance, float maxAngleSpread, Vector2 pos, OffensiveEffectCollisionEnum target, Vector2 direction, float rotation, bool createImpactEffect)
         {
             var clone = Activator.CreateInstance(GetType()) as BulletConfig;
 
             clone.Position = pos;
             clone.Damage = dmg;
+            clone.CriticalChance = criticalChance;
             clone.Speed = bulletSpeed;
             clone.MaxAngleSpread = maxAngleSpread;
             clone.Target = target;

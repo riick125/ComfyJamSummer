@@ -15,6 +15,7 @@
         Item_Collect,
         Piu_1,
         Piu_2,
+        Poof,
         Reloading,
         Smg_Shot,
         Typing_1,

@@ -76,6 +76,7 @@ namespace ComfyJamSummer.Data
                     Type = type,
                     HP = EnemyValues.HP,
                     Damage = EnemyValues.DMG,
+                    CriticalChance = EnemyValues.CRITICAL_CHANCE,
                     Speed = EnemyValues.SPEED,
                     BulletSpeed = EnemyValues.BULLET_SPEED,
                     AtkSpeed = EnemyValues.ATK_SPEED,

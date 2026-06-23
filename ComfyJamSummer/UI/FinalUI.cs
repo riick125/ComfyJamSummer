@@ -16,8 +16,6 @@ namespace ComfyJamSummer.UI
 
         Label _lblPlayAgain;
 
-        CustomFont _font;
-
         bool _restarted;
 
         public FinalUI(GameManager manager, Prefabs prefabs) : base(manager, prefabs)
@@ -28,11 +26,9 @@ namespace ComfyJamSummer.UI
         {
             base.OnAddedToEntity();
 
-            _font = UtilHelper.CustomFont();
-
-            if (_font != null)
+            if (_customFont != null)
             {
-                _lblPlayAgain = _container.AddElement(new Label(_playAgain, _font.FontBig));
+                _lblPlayAgain = _container.AddElement(new Label(_playAgain, _customFont.FontBig));
                 UIHelper.CentralizeElementPosXInScreen(_lblPlayAgain, Screen.Height * 0.9f);
             }
         }

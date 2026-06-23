@@ -21,12 +21,14 @@ namespace ComfyJamSummer.UI.Base
 
         protected GameManager _manager;
 
+        protected CustomFont _customFont;
+
         public BaseUI(GameManager manager, Prefabs prefabs)
         {
             IsFullScreen = true;
             RenderLayer = Game1.ScreenSpaceRenderLayer;
 
-            var customFont = UtilHelper.CustomFont();
+            _customFont = UtilHelper.CustomFont();
 
             _container = Stage.AddElement(new Container() { FillParent = true });
 
@@ -34,15 +36,15 @@ namespace ComfyJamSummer.UI.Base
 
             _manager = manager;
 
-            if (customFont != null)
+            if (_customFont != null)
             {
-                _lblStyleSmall = new LabelStyle(customFont.FontSmall, Constants.WHITE_COLOR);
+                _lblStyleSmall = new LabelStyle(_customFont.FontSmall, Constants.WHITE_COLOR);
 
-                _lblStyleNormal = new LabelStyle(customFont.FontNormal, Constants.WHITE_COLOR);
+                _lblStyleNormal = new LabelStyle(_customFont.FontNormal, Constants.WHITE_COLOR);
 
-                lblStyleBig = new LabelStyle(customFont.FontBig, Constants.WHITE_COLOR);
+                lblStyleBig = new LabelStyle(_customFont.FontBig, Constants.WHITE_COLOR);
 
-                _lblStyleGiant = new LabelStyle(customFont.FontGiant, Constants.WHITE_COLOR);
+                _lblStyleGiant = new LabelStyle(_customFont.FontGiant, Constants.WHITE_COLOR);
             }
         }
 

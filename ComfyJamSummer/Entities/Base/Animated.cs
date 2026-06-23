@@ -92,15 +92,15 @@ namespace ComfyJamSummer.Entities.Base
         {
             public int ActualFrame { get; set; }
 
-            public bool ShouldPlay { get; set; }
-
             public bool AlreadyPlayed { get; set; }
 
             public string SoundName { get; set; }
 
             public string AnimationName { get; set; }
 
-            public bool AllowPitchChange { get; set; }
+            public bool AllowPitchChange => PitchMaxValue != 0;            
+
+            public float PitchMaxValue { get; set; }
         }
 
         public Animated CloneAnimated(Vector2 pos)
