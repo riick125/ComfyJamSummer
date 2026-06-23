@@ -106,6 +106,7 @@ namespace ComfyJamSummer.Entities
                 switch (Type)
                 {
                     case EnemyType.Birb:
+                        Prefabs?.PlaySoundRandomPitch(SoundFxName.Enemy_Shot, 0.065f);
                         BulletHelper.Create(this, target);
                         break;
                 }

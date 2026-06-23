@@ -34,13 +34,13 @@ namespace ComfyJamSummer.UI
 
             if (_font != null)
             {
-                _lblStarting = _container.AddElement(new Label(_txtStarting, _font.FontBig));
-                UIHelper.CentralizeElementPosXInScreen(_lblStarting, Screen.Height * 0.9f);
+                _lblStarting = _container.AddElement(new Label(_txtStarting, _font.FontNormal));
+                UIHelper.CentralizeElementPosXInScreen(_lblStarting, Screen.Height * 0.25f);
                 _lblStarting.SetVisible(false);
 
-                _lblSandwich = _container.AddElement(new Label(_txtMakeASandwich, _font.FontBig));
+                _lblSandwich = _container.AddElement(new Label(_txtMakeASandwich, _font.FontNormal));
                 _lblSandwich.SetVisible(false);
-                UIHelper.CentralizeElementPosXInScreen(_lblSandwich, Screen.Height * 0.9f);
+                UIHelper.CentralizeElementPosXInScreen(_lblSandwich, Screen.Height * 0.25f);
             }
 
             _battleComponent = UtilHelper.GetComponent<BattleComponent>();
@@ -64,8 +64,12 @@ namespace ComfyJamSummer.UI
 
             var seconds = _battleComponent.ActualWave.TimeLeftToStart <= 1 ? 1 : _battleComponent.ActualWave.TimeLeftToStart;
 
+            if (_lblSandwich.IsVisible())
+            {
+
+            }
             _lblStarting.SetText(string.Format(_txtStarting,(int)seconds));
-            _lblStarting.SetVisible(!_battleComponent.ActualWave.Started);
+            _lblStarting.SetVisible(!_battleComponent.ActualWave.Started && !_lblSandwich.IsVisible());
         }
     }
 }

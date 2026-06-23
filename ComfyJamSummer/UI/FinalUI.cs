@@ -32,7 +32,7 @@ namespace ComfyJamSummer.UI
 
             if (_font != null)
             {
-                _lblPlayAgain = _container.AddElement(new Label(_playAgain, _font.FontGiant));
+                _lblPlayAgain = _container.AddElement(new Label(_playAgain, _font.FontBig));
                 UIHelper.CentralizeElementPosXInScreen(_lblPlayAgain, Screen.Height * 0.9f);
             }
         }

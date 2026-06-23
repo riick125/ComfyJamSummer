@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using static ComfyJamSummer.Entities.Base.Animated;
 
 namespace ComfyJamSummer.Data
 {
@@ -66,6 +67,8 @@ namespace ComfyJamSummer.Data
                 animator.AddAnimation(animation.ToString(), sprites);
             }
 
+            entity.SoundAnimators = new List<Animated.SoundAnimator>(animator.Animations.Count);
+
             return animator;
         }
         public T CreateAnimatorWithEnum<T>(int width, int height, List<Enum> animationsNames, string directory, int renderLayer = 0) where T : Animated, new()
@@ -84,6 +87,8 @@ namespace ComfyJamSummer.Data
                 animator.AddAnimation(animation.ToString(), sprites);
             }
 
+            entity.SoundAnimators = new List<Animated.SoundAnimator>(animator.Animations.Count);
+
             return entity;
         }
 
@@ -97,6 +102,8 @@ namespace ComfyJamSummer.Data
             var sprites = SpriteHelper.LoadSpritesFromSheet(directory, width, height);
             animator.AddAnimation(animationName, sprites);
 
+            entity.SoundAnimators = new List<Animated.SoundAnimator>(animator.Animations.Count);
+
             return animator;
         }
 
@@ -109,6 +116,8 @@ namespace ComfyJamSummer.Data
 
             var sprites = SpriteHelper.LoadSpritesFromSheet(directory, entity.SpriteWidth, entity.SpriteHeight);
             animator.AddAnimation(animationName, sprites);
+
+            entity.SoundAnimators = new List<Animated.SoundAnimator>(animator.Animations.Count);
 
             return animator;
         }
@@ -307,6 +316,46 @@ namespace ComfyJamSummer.Data
             }
 
             return null;
+        }
+
+        protected SoundPerFrame CreateSoundFrame(int frame, Enum soundName, Enum animationName, bool allowPitchChange = false)
+        {
+            return new SoundPerFrame()
+            {
+                ActualFrame = frame,
+                SoundName = soundName.ToString(),
+                AnimationName = animationName.ToString(),
+                AllowPitchChange = allowPitchChange,
+                ShouldPlay = true
+            };
+        }
+
+        protected SoundAnimator CreateSoundAnimator(Animated entity, Enum name, SoundPerFrame[] soundFrames)
+        {
+            var animName = name.ToString();
+
+            if (soundFrames == null)
+                return null;
+
+            if (entity == null || entity?.Animator == null)
+                return null;
+
+            if (!entity.Animator.Animations.ContainsKey(animName))
+                return null;
+
+            if (entity.SoundAnimators == null)
+            {
+                entity.SoundAnimators = new List<SoundAnimator>(entity.Animator.Animations.Count);
+            }
+
+            var animation = entity.Animator.Animations[animName];
+
+            var transfer = new SoundPerFrame[soundFrames.Length];
+            soundFrames.CopyTo(transfer, 0);
+
+            var animator = new SoundAnimator(animName, transfer.ToList());
+
+            return animator;
         }
     }
 }

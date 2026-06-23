@@ -129,7 +129,7 @@ namespace ComfyJamSummer
                 return;
             }
 
-            CursorInsideGame?.UpdateWindowBounds(Window.ClientBounds.Width, Window.ClientBounds.Height);
+            //CursorInsideGame?.UpdateWindowBounds(Window.ClientBounds.Width, Window.ClientBounds.Height);
 
 #if DEBUG
             if (Input.IsKeyPressed(Keys.Escape))

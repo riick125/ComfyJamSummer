@@ -46,7 +46,7 @@ namespace ComfyJamSummer.Manager
             _buffConfig.HpModifier += BuffEnemyModifierValues.HP;
             _buffConfig.SpeedModifier += BuffEnemyModifierValues.SPEED;
             _buffConfig.DamageModifier += BuffEnemyModifierValues.DMG;
-            _buffConfig.AtkSpeedModifier += BuffEnemyModifierValues.ATK_SPEED;
+            _buffConfig.AtkSpeedModifier -= BuffEnemyModifierValues.ATK_SPEED;
         }
     }
 }

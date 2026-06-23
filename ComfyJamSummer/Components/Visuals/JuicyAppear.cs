@@ -103,6 +103,7 @@ namespace ComfyJamSummer.Components.Visuals
 
                     if (scale >= _maxInflateValue)
                     {
+                        _prefabs?.PlaySoundRandomPitch(Enums.SoundFxName.Collect_1, 0.1f);
                         _state = JuicyAppearState.Deflating;
                     }
                     break;

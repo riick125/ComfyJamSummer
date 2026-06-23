@@ -5,6 +5,7 @@ using ComfyJamSummer.Helpers;
 using ComfyJamSummer.Manager;
 using ComfyJamSummer.Prefab;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Nez;
 using System;
 
@@ -67,7 +68,7 @@ namespace ComfyJamSummer.Components.Gameplay
             {
                 SetPosition(_gun, offsetX, gunPosition, aimPos, angle2);
 
-                if (Input.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.R))
+                if (Input.IsKeyPressed(Keys.R) && _gun.ActualAmmo < _gun.MagSize)
                 {
                     StartReload();
                 }
@@ -114,18 +115,12 @@ namespace ComfyJamSummer.Components.Gameplay
 
             if (gun.TimeLeftToEndReload <= 0)
             {
-                //prefabs.StopSound(SoundFxName.Reloading);
+                prefabs.StopSound(SoundFxName.Reloading);
 
                 gun.ActualAmmo += gun.MagSize;
                 gun.IsReloading = false;
 
                 gun.ActualAmmo = Math.Clamp(gun.ActualAmmo, 0, gun.MagSize);
-
-                // PlayerUI.Emitter?.Emit(UIEventEnums.UpdateAmmo, new UIEventData() { BitRick = _creature });
-            }
-            else if (gun.TimeLeftToEndReload <= (gun.ReloadTime / 2.4f))
-            {
-                //prefabs.FadeOutSound(SoundFxName.Reloading, 1.5f * Time.DeltaTime);
             }
         }
 
@@ -144,7 +139,7 @@ namespace ComfyJamSummer.Components.Gameplay
 
         void StartReload()
         {
-            //_prefabs.PlaySoundRandomPitch(SoundFxName.Reloading, 0.13f);
+            _prefabs.PlaySoundRandomPitch(SoundFxName.Reloading, 0.13f);
             _gun.TimeLeftToEndReload = _gun.ReloadTime;
             _gun.IsReloading = true;
         }
@@ -167,7 +162,7 @@ namespace ComfyJamSummer.Components.Gameplay
 
                             _gun.LittleShake.Shake();
 
-                            //_prefabs.PlaySoundRandomPitch(SoundFxName.Smg_Shot, 0.075f);
+                            _prefabs.PlaySoundRandomPitch(SoundFxName.Smg_Shot, 0.075f);
 
                             _gun.Animator.Speed = 4;
                             AnimHelper.Play(_gun.Animator, SmgAnim.Shoot);

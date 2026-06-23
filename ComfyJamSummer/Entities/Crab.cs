@@ -30,7 +30,7 @@ namespace ComfyJamSummer.Entities
         public CrabAnim ActualState { get; set; }
 
         float _satiation = 80, _satiationValuePerChange, _satiationLossValuePerChange, _maxSatiation = 100;
-        float _hungryValue = 25, _idleValue = 50;
+        float _hungryValue = 25, _idleValue = 40;
 
         float _patience = 50, _patienceLossPerSlipUp, _maxPatience = 100;
 
@@ -70,8 +70,8 @@ namespace ComfyJamSummer.Entities
             var clone = base.CloneInteractable(config) as Crab;
             clone._satiation = _satiation;
             clone._maxSatiation = _maxSatiation;
-            clone._satiationValuePerChange = _maxSatiation * 0.35f;
-            clone._satiationLossValuePerChange = _maxSatiation * 0.0532f;
+            clone._satiationValuePerChange = _maxSatiation * 0.28f;
+            clone._satiationLossValuePerChange = _maxSatiation * 0.07f;
             clone._hungryValue = _hungryValue;
             clone._idleValue = _idleValue;
 

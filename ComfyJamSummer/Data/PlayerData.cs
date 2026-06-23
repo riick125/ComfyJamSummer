@@ -1,14 +1,15 @@
 ﻿using AutoMapper;
 using ComfyJamSummer.Entities;
+using ComfyJamSummer.Entities.Base;
 using ComfyJamSummer.Entities.Configs;
 using ComfyJamSummer.Enums;
 using ComfyJamSummer.Extensions;
 using ComfyJamSummer.Prefab;
 using Microsoft.Xna.Framework;
-using Nez;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static ComfyJamSummer.Entities.Base.Animated;
 
 namespace ComfyJamSummer.Data
 {
@@ -36,6 +37,13 @@ namespace ComfyJamSummer.Data
             player.CreateCircleCollider(physicsLayer: CollisionLayer.Player, radius: 10, tag: CreatureCollider.Body.ToString(), offset: new Vector2(0, player.SpriteHeight / 8));
 
             player.AddMover();
+
+            player.SoundAnimators.Add(CreateSoundAnimator(player, CreatureAnim.Walk,
+                new SoundPerFrame[]
+                {
+                    CreateSoundFrame(0, SoundFxName.Walk_1, CreatureAnim.Walk),
+                    CreateSoundFrame(2, SoundFxName.Walk_2, CreatureAnim.Walk)
+                }));
 
             return player;
         }

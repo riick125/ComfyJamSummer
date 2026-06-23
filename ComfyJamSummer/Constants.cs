@@ -104,6 +104,10 @@ namespace ComfyJamSummer
 
         public const string ART_DATA_PATH = "art/";
 
+        public const string SFX_DATA_PATH = "sounds/";
+
+        public const string MUSIC_DATA_PATH = "musics/";
+
         public const int CREATURE_RENDER_LAYER = 3;
 
         public const int MAP_RENDER_LAYER = 10;
@@ -153,7 +157,7 @@ namespace ComfyJamSummer
     {
         public const float HP = 75;
 
-        public const float DMG = 9.75f;
+        public const float DMG = 10.75f;
 
         public const float SPEED = 99;
 
@@ -174,12 +178,12 @@ namespace ComfyJamSummer
 
     public static class BuffEnemyModifierValues
     {
-        public const float HP = 0.2f;
+        public const float HP = 0.22f;
 
         public const float DMG = 0.094f;
 
         public const float SPEED = 0.028f;
 
-        public const float ATK_SPEED = 0.035f;
+        public const float ATK_SPEED = 0.05f;
     }
 }

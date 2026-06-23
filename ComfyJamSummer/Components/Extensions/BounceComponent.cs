@@ -3,6 +3,7 @@ using ComfyJamSummer.Entities;
 using ComfyJamSummer.Entities.Base;
 using ComfyJamSummer.Entities.General;
 using ComfyJamSummer.Helpers;
+using ComfyJamSummer.Prefab;
 using Microsoft.Xna.Framework;
 using MonoGame.Extended.ECS;
 using Nez;
@@ -127,6 +128,8 @@ namespace ComfyJamSummer.Components.Extensions
                     return;
                 }
             }
+
+            var prefabs = UtilHelper.Prefabs();
 
             var deltaTime = Time.DeltaTime;
 
@@ -273,6 +276,8 @@ namespace ComfyJamSummer.Components.Extensions
                             }
 
                             _timeLeftToNextBounce = _bounceDelay;
+
+                            prefabs?.PlaySoundRandomPitch(Enums.SoundFxName.Collect_1, 0.1f);
                         }
                     }
                     else

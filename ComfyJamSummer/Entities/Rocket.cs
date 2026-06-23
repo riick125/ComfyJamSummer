@@ -104,8 +104,8 @@ namespace ComfyJamSummer.Entities
 
             clone.BuildPhases = new List<RocketBuildPhase>();
 
-            var hitsPerPhase =  80;
-            var hitsGrowPerPhase =  35;
+            var hitsPerPhase = 80;
+            var hitsGrowPerPhase = 35;
 
             foreach (var item in totalPhases)
             {

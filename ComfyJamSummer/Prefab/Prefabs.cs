@@ -60,6 +60,7 @@ namespace ComfyJamSummer.Prefab
         NpcObjectData _dataNpc;
         MapData _dataMap;
         UIData _dataUI;
+        SoundData _dataSound;
 
         InteractableConfig _interactableConfig;
         WaveConfig _waveConfig;
@@ -143,6 +144,7 @@ namespace ComfyJamSummer.Prefab
             _dataEnemy = new EnemyData(this, _mapper);
             _dataMap = new MapData(this, _mapper);
             _dataUI = new UIData(this, _mapper);
+            _dataSound = new SoundData(this, _mapper);
 
             _creatureConfig = new CreatureConfig();
             _waveConfig = new WaveConfig();
@@ -202,6 +204,7 @@ namespace ComfyJamSummer.Prefab
 
         void CreateGeneral()
         {
+            SoundFXs = _dataSound.CreateAllSFXs();
         }
 
         public Player GetPlayer(uint islandId, Vector2 pos)
@@ -307,9 +310,18 @@ namespace ComfyJamSummer.Prefab
 
             var pitch = overridedPitch;
 
-            //switch (name)
-            //{
-            //}
+            switch (name)
+            {
+                case SoundFxName.Heal:
+                    volume = 0.5f;
+                    break;
+                case SoundFxName.Walk_1:
+                case SoundFxName.Walk_2:
+                case SoundFxName.Walk_3:
+                case SoundFxName.Walk_4:
+                    volume = 0.5f;
+                    break;
+            }
 
             volume = overritedVolume > 0 ? overritedVolume : volume;
 
@@ -394,6 +406,8 @@ namespace ComfyJamSummer.Prefab
 
                 fx.Pitch = Nez.Random.Range(-maxValue, maxValue);
 
+                soundPrefab.Pitch = fx.Pitch;
+
                 PlayFx(soundPrefab);
             }
         }
@@ -407,42 +421,22 @@ namespace ComfyJamSummer.Prefab
 
         public void StopSound(SoundFxName name)
         {
-            if (Game1.GameManager == null)
-            {
-                return;
-            }
-
-            Game1.SoundManager.StopSoundFx(name);
+            Game1.SoundManager?.StopSoundFx(name);
         }
 
         public void StopAllSounds()
         {
-            if (Game1.GameManager == null)
-            {
-                return;
-            }
-
-            Game1.SoundManager.StopAllSoundFxs();
+            Game1.SoundManager?.StopAllSoundFxs();
         }
 
         public void PauseAllSounds(List<SoundFxName> ignoredSounds = null)
         {
-            if (Game1.GameManager == null)
-            {
-                return;
-            }
-
-            Game1.SoundManager.PauseAllSoundFxs(ignoredSounds);
+            Game1.SoundManager?.PauseAllSoundFxs(ignoredSounds);
         }
 
         public void ResumeAllSounds()
         {
-            if (Game1.GameManager == null)
-            {
-                return;
-            }
-
-            Game1.SoundManager.ResumeAllSoundFxs();
+            Game1.SoundManager?.ResumeAllSoundFxs();
         }
 
         public void FadeOutSound(SoundFxName name, float amount)

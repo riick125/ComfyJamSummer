@@ -1,4 +1,5 @@
-﻿using ComfyJamSummer.Components.General;
+﻿using ComfyJamSummer.Components.Extensions;
+using ComfyJamSummer.Components.General;
 using ComfyJamSummer.Configs;
 using ComfyJamSummer.Helpers;
 using ComfyJamSummer.Manager;
@@ -52,7 +53,7 @@ namespace ComfyJamSummer.Scenes.Base
                 UtilHelper.SetResolution(this);
             }
 
-            Game1.CursorInsideGame = AddSceneComponent(new CursorInsideGame(width, height));
+            //Game1.CursorInsideGame = AddSceneComponent(new CursorInsideGame(width, height));
 
             _prefabs = AddSceneComponent(new Prefabs());
             _prefabs.FastLoad();
@@ -61,7 +62,11 @@ namespace ComfyJamSummer.Scenes.Base
 
             AddSceneComponent(new CustomFont(new CustomFontConfig()));
 
+            Game1.SoundManager = AddSceneComponent(new SoundManager());
+
+#if DEBUG
             CreateEntity(UINames.DEBUG).AddComponent(new DebugUI(_gameManager, _prefabs));
+#endif
         }
 
         private Scene _scene;

@@ -10,16 +10,16 @@ namespace ComfyJamSummer.Helpers
             if (Game1.SaveGameComponent != null)
             {
 #if DEBUG
-                if (File.Exists(Constants.SAVE_PATH))
-                {
-                    try
-                    {
-                        File.Delete(Constants.SAVE_PATH);
-                    }
-                    catch (System.Exception)
-                    {
-                    }
-                }
+                //if (File.Exists(Constants.SAVE_PATH))
+                //{
+                //    try
+                //    {
+                //        File.Delete(Constants.SAVE_PATH);
+                //    }
+                //    catch (System.Exception)
+                //    {
+                //    }
+                //}
 
 #endif
 

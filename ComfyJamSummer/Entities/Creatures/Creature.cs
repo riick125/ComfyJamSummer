@@ -380,13 +380,6 @@ namespace ComfyJamSummer.Entities.Creatures
                 return false;
             }
 
-#if DEBUG
-            //if (this is Player)
-            //{
-            //    return false;
-            //}
-#endif
-
             if (dmg < 1)
             {
                 dmg = 1;
@@ -403,6 +396,8 @@ namespace ComfyJamSummer.Entities.Creatures
             var prefabs = UtilHelper.Prefabs();
             if (prefabs != null)
             {
+                prefabs.PlaySoundRandomPitch(SoundFxName.Hit, 0.5f);
+
                 var offset = Vector2.Zero;
 
                 offset.X = Nez.Random.Range(1, SpriteWidth * 0.6f) * Nez.Random.MinusOneToOne();
@@ -422,7 +417,12 @@ namespace ComfyJamSummer.Entities.Creatures
             var config = new BesideTextConfig(this, $"-{dmg}", offset: textOffset, color: Color.Red);
             TextHelper.CreateGoingUpBesideText(config);
 
-            AnimHelper.Play(Animator, CreatureAnim.Dying);
+            if (!IsAlive)
+            {
+                AnimHelper.Play(Animator, CreatureAnim.Dying);
+
+                prefabs?.PlaySoundRandomPitch(SoundFxName.Flesh, 0.04f);
+            }
 
             CrazyScaleComponent?.SqueezeByDirection(ComfyJamSummer.Components.General.CrazyScaleComponent.SqueezeDirection.Horizontal);
 

@@ -9,6 +9,7 @@ using Nez;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static ComfyJamSummer.Entities.Base.Animated;
 
 namespace ComfyJamSummer.Data
 {
@@ -26,6 +27,8 @@ namespace ComfyJamSummer.Data
 
             var crab = CreateAnimatorWithEnum<Crab>(32, 28, anims, dir, Constants.CREATURE_RENDER_LAYER);
 
+            crab.Animator.Speed = 1.25f;
+
             crab.PhrasesAskingForSandwich = new string[] { "ok, nice! now bring it to me!", "bring to me!", "hurry up!", "I'm starving here!" };
 
             crab.PhrasesReactToSandwichEating = new string[] {
@@ -41,6 +44,12 @@ namespace ComfyJamSummer.Data
                 "die.",
                 "run."
             };
+
+            crab.SoundAnimators.Add(CreateSoundAnimator(crab, CrabAnim.Build,
+                new SoundPerFrame[]
+                {
+                    CreateSoundFrame(2, SoundFxName.Hammer_Hit, CrabAnim.Build, true),
+                }));
 
             return crab;
         }

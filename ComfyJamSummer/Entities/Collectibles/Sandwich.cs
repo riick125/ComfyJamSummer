@@ -9,7 +9,7 @@ namespace ComfyJamSummer.Entities.Collectibles
 {
     public class Sandwich : Collectible
     {
-        float _healPercentage = 0.15f;
+        float _healPercentage = 0.25f;
 
         public Sandwich CloneSandwich(InteractableConfig config, Vector2 fallDestination)
         {

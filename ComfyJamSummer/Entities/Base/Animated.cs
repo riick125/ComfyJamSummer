@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Nez;
 using Nez.Sprites;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ComfyJamSummer.Entities.Base
 {
@@ -72,7 +73,20 @@ namespace ComfyJamSummer.Entities.Base
 
         public float AlmostDisappearingAlpha { get; private set; }
 
-        public List<SoundPerFrame> WalkSoundPerFrame { get; set; }
+        public List<SoundAnimator> SoundAnimators { get; set; }
+
+        public class SoundAnimator
+        {
+            public string AnimationName { get; set; }
+
+            public List<SoundPerFrame> SoundFrames { get; set; }
+
+            public SoundAnimator(string animationName, List<SoundPerFrame> soundFrames)
+            {
+                AnimationName = animationName;
+                SoundFrames = soundFrames;
+            }
+        }
 
         public class SoundPerFrame
         {
@@ -99,6 +113,14 @@ namespace ComfyJamSummer.Entities.Base
             clone.AlmostDisappearingAlpha = 0.05f;
             clone.Shadow = new Shadow();
 
+            if (SoundAnimators != null && SoundAnimators.Count > 0)
+            {
+                var transfer = new SoundAnimator[SoundAnimators.Count];
+                SoundAnimators.CopyTo(0, transfer, 0, SoundAnimators.Count);
+
+                clone.SoundAnimators = transfer.ToList();
+            }
+
             return clone;
         }
 
@@ -114,6 +136,11 @@ namespace ComfyJamSummer.Entities.Base
             AddComponent(new ShakeComponent());
 
             AddComponent(new CrazyScaleComponent());
+
+            if (SoundAnimators != null)
+            {
+                AddComponent(new SoundAnimation(GameManager, Prefabs));
+            }
         }
 
         public override void OnRemovedFromScene()
