@@ -7,6 +7,7 @@ using ComfyJamSummer.Manager;
 using ComfyJamSummer.Prefab;
 using ComfyJamSummer.UI.Base;
 using ComfyJamSummer.UI.CustomImages;
+using ComfyJamSummer.UI.CustomLabels;
 using ComfyJamSummer.UI.Enums;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -36,7 +37,15 @@ namespace ComfyJamSummer.UI
 
         Label _lblAmmo;
 
+        Image _imgAim;
+
+        Label _lblPoints;
+
+        List<FloatingLabel> _listLblFloatingPoints;
+
         public static Emitter<UIEvent, UIEventData> Emitter;
+
+        public Label LblPoints { get => _lblPoints; }
 
         public PlayerUI(GameManager manager, Prefabs prefabs) : base(manager, prefabs)
         {
@@ -44,6 +53,7 @@ namespace ComfyJamSummer.UI
 
             Emitter.AddObserver(UIEvent.ReduceBar, OnHit);
             Emitter.AddObserver(UIEvent.HealBar, OnHeal);
+            Emitter.AddObserver(UIEvent.SendFloatingPoints, OnSendFloatingPoints);
 
             _customFont = UtilHelper.CustomFont();
 
@@ -75,16 +85,22 @@ namespace ComfyJamSummer.UI
             CreateHealth();
 
             CreateAmmo();
+
+            CreatePoints();
+
+            CreateAim();
         }
 
         public override void Update()
         {
             base.Update();
 
+            _container.SetVisible(_manager.IsGameStarted);
+
             if (!ValidatePlayer())
             {
                 return;
-            }
+            }            
 
             _lblRestart.SetVisible(!_player.IsAlive);
 
@@ -111,6 +127,28 @@ namespace ComfyJamSummer.UI
             var spacing = Screen.Width * 0.985f;
 
             _lblAmmo.SetPosition(spacing - _lblAmmo.Width(), _imgHeart.GetY() + _lblAmmo.Height() / 2);
+
+            SetAimPosition();
+
+            SetPointsPosition();
+
+            if (_listLblFloatingPoints != null)
+            {
+                for (int i = 0; i < _listLblFloatingPoints.Count; i++)
+                {
+                    var lbl = _listLblFloatingPoints[i];
+
+                    lbl.Process();
+
+                    if (lbl.IsDone)
+                    {
+                        UIHelper.RemoveFromContainer(_container, lbl);
+
+                        _listLblFloatingPoints.RemoveAt(i);
+                        i--;
+                    }
+                }
+            }
         }
 
         void CreateAmmo()
@@ -127,11 +165,68 @@ namespace ComfyJamSummer.UI
             _lblAmmo.SetPosition(spacing - _lblAmmo.Width(), _imgHeart.GetY() + _lblAmmo.Height() / 2);
         }
 
+        void CreatePoints()
+        {
+            if (_player?.Gun == null)
+            {
+                return;
+            }
+
+            _listLblFloatingPoints = new List<FloatingLabel>();
+
+            _lblPoints = _container.AddElement(new Label($"Points: {_player.Points}", new LabelStyle(_customFont.FontNormal, Constants.YELLOW_COLOR)));
+        }
+
+        void SetPointsPosition()
+        {
+            if (_lblPoints == null)
+            {
+                return;
+            }
+
+            _lblPoints.SetText($"Points: {_player.Points}");
+
+            var position = new Vector2(_imgHeart.GetX(), _imgHeart.GetY() + (_imgHeart.Height() * 1.5f));
+
+            _lblPoints.SetPosition((position.X + _imgHeart.Width() / 2) - _lblPoints.PreferredHeight / 2, position.Y + _lblPoints.Height() / 2);
+        }
+
+        void CreateAim()
+        {
+            try
+            {
+                var texture = _prefabs.GetUITexture(UISprite.aim);
+
+                _imgAim = _container.AddElement(new Image(texture));
+                UIHelper.RescaleUIElementSize(_imgAim);
+            }
+            catch (System.Exception)
+            {
+            }
+        }
+
+        void SetAimPosition()
+        {
+            if (_imgAim == null)
+            {
+                return;
+            }
+
+            if (!Validate())
+            {
+                return;
+            }
+
+            var mousePos = Input.RawMousePosition;
+
+            _imgAim.SetPosition(mousePos.X - _imgAim.Width() / 2, mousePos.Y - _imgAim.Height() / 2);
+        }
+
         void CreateHealth()
         {
             _healthBars = new List<HealthBarImage>();
 
-            if (!ValidatePlayer())
+            if (!ValidatePlayer(true))
             {
                 return;
             }
@@ -195,9 +290,9 @@ namespace ComfyJamSummer.UI
             UpdateLabelHealth();
         }
 
-        bool ValidatePlayer()
+        bool ValidatePlayer(bool ignoreManager = false)
         {
-            if (!Validate())
+            if (!Validate(ignoreManager))
             {
                 return false;
             }
@@ -243,9 +338,42 @@ namespace ComfyJamSummer.UI
             }
         }
 
+        void OnSendFloatingPoints(UIEventData data)
+        {
+            if (data?.Target == null)
+            {
+                return;
+            }
+
+            if (_listLblFloatingPoints == null)
+            {
+                return;
+            }
+
+            if (data.Target.GetType() != typeof(Player))
+            {
+                return;
+            }
+
+            var player = data.Target as Player;
+
+            var lbl = new FloatingLabel($"+{data.FloatingPoints}!", new LabelStyle(_customFont.FontNormal, Constants.YELLOW_COLOR));
+
+            var offset = new Vector2(Nez.Random.Range(0, Screen.Width * 0.011f), Nez.Random.Range(0, Screen.Height * 0.011f));
+
+            offset.X *= Nez.Random.Chance(50) ? -1 : 1;
+            offset.Y *= Nez.Random.Chance(50) ? -1 : 1;
+
+            lbl.SetPosition(_lblPoints.GetX() + _lblPoints.Width(), _lblPoints.GetY());
+
+            _container.AddElement(lbl);
+
+            _listLblFloatingPoints.Add(lbl);
+        }
+
         void UpdateLabelHealth()
         {
-            var anyBar = _healthBars.FirstOrDefault(x=> x.BarType == LifeBarType.Border);
+            var anyBar = _healthBars.FirstOrDefault(x => x.BarType == LifeBarType.Border);
 
             if (anyBar != null)
             {

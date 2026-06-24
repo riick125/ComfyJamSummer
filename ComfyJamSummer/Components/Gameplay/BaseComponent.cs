@@ -27,7 +27,7 @@ namespace ComfyJamSummer.Components.Gameplay
             _camera = this.Entity?.Scene?.Camera;
         }
 
-        protected bool Validate(Entity entity)
+        protected bool Validate(Entity entity, bool ignoreManager = false)
         {
             if (!Enabled)
                 return false;
@@ -53,7 +53,12 @@ namespace ComfyJamSummer.Components.Gameplay
                 }
             }
 
-            return !_manager.CantDoAnyAction;
+            if (!ignoreManager)
+            {
+                return !_manager.CantDoAnyAction;
+            }
+
+            return true;
         }
     }
 }

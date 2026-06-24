@@ -5,6 +5,8 @@ namespace ComfyJamSummer.EventDatas
     public class UIEventData
     {
         public Actor Target { get; set; }
+
+        public float FloatingPoints { get; set; }
     }
 
     public enum UIEvent
@@ -13,6 +15,7 @@ namespace ComfyJamSummer.EventDatas
         HealBar,
         UpdatePatienceBar,
         UpdateSatiationBar,
-        UpdateBuildBar
+        UpdateBuildBar,
+        SendFloatingPoints
     }
 }

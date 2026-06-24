@@ -8,6 +8,8 @@ using ComfyJamSummer.Enums;
 using ComfyJamSummer.Helpers;
 using Microsoft.Xna.Framework;
 using Nez;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ComfyJamSummer.Entities
@@ -22,6 +24,10 @@ namespace ComfyJamSummer.Entities
 
         public int DevouredSandwiches { get; set; }
 
+        public int Points { get; set; }
+
+        public Queue<int> PendingPoints { get; set; }
+
         public Vector2 OffsetCollectible { get; set; }
 
         public CircleCollider InteractAreaCollider { get { return this.GetComponents<CircleCollider>().FirstOrDefault(x => x.Tag == CreatureCollider.InteractArea.ToString()); } }
@@ -29,9 +35,13 @@ namespace ComfyJamSummer.Entities
 
         float _collectibleFollowSpeed;
 
+        float _pendingPointsProcessCd = 0.004f, _timeLeftToNextProcess;
+
         public Player ClonePlayer(PlayerConfig config)
         {
             var clone = base.CloneCreature(config) as Player;
+            clone.PendingPoints = new Queue<int>();
+            clone._pendingPointsProcessCd = _pendingPointsProcessCd;
             clone.Name = EntityNames.PLAYER;
 
             clone.AddComponent(new PlayerController(UtilHelper.GameManager(), UtilHelper.Prefabs()));
@@ -74,6 +84,39 @@ namespace ComfyJamSummer.Entities
             DragCollectible(FriedChicken);
 
             DragCollectible(Sandwich);
+
+            ProcessPendingPoints();
+        }
+        void ProcessPendingPoints()
+        {
+            if (_timeLeftToNextProcess > 0)
+            {
+                _timeLeftToNextProcess -= Time.DeltaTime;
+                return;
+            }
+
+            if (!PendingPoints.Any())
+                return;
+
+            var pendingPoint = PendingPoints.Peek();
+
+            var portion = Math.Max(1, pendingPoint / 10);
+
+            _timeLeftToNextProcess = _pendingPointsProcessCd;
+
+            if (portion >= pendingPoint)
+            {
+                Points += pendingPoint;
+                PendingPoints.Dequeue();
+            }
+            else
+            {
+                var remaining = pendingPoint - portion;
+                Points += portion;
+
+                PendingPoints.Dequeue();
+                PendingPoints.Enqueue(remaining);
+            }
         }
 
         void DragCollectible(Collectible collectible)

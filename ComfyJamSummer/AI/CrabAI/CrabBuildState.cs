@@ -92,16 +92,16 @@ namespace ComfyJamSummer.AI.Enemies
             {
                 if (_timeLeftToNextHammer <= 0)
                 {
+                    var isSatiated = _context.ActualSatiation > (_context.MaxSatiation * 0.6f);
+
                     if (rocket != null)
                     {
-                        rocket.ProgressBuild();
+                        rocket.ProgressBuild(isSatiated);
                     }
 
                     _actualHammerHits++;
 
-                    var isSatiated = _context.ActualSatiation > (_context.MaxSatiation * 0.6f);
-
-                    _timeLeftToNextHammer = isSatiated ? _hammerCd * 0.85f : _hammerCd;
+                    _timeLeftToNextHammer = isSatiated ? _hammerCd * 0.82f : _hammerCd;
 
                     if (_actualHammerHits >= _hammerHitsToLoseSatiation)
                     {

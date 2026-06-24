@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Nez;
 using System;
 using System.Linq;
+using static Nez.Tweens.Easing;
 
 namespace ComfyJamSummer.Entities.Base
 {
@@ -97,6 +98,11 @@ namespace ComfyJamSummer.Entities.Base
             else
             {
                 _timeToAppear -= Time.DeltaTime;
+            }
+
+            if (TalkAreaCollider != null)
+            {
+                TalkAreaCollider.SetRadius(30);
             }
         }
     }

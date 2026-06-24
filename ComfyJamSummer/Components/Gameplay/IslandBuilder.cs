@@ -31,7 +31,7 @@ namespace ComfyJamSummer.Components.Gameplay
         {
             base.OnAddedToEntity();
 
-            if (!Validate(this.Entity))
+            if (!Validate(this.Entity, true))
             {
                 this.RemoveComponent();
 

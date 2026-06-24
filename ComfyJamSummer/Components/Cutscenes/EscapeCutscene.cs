@@ -167,6 +167,8 @@ namespace ComfyJamSummer.Components.Cutscenes
 
                     if (!_player.Enabled && !_crab.Enabled)
                     {
+                        _prefabs?.PlaySound(SoundFxName.Rocket_Launch);
+
                         part.Finish();
                     }
                     break;

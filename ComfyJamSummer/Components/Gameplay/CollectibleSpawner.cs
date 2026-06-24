@@ -42,7 +42,7 @@ namespace ComfyJamSummer.Components.Gameplay
 
                 offset.Y -= Math.Abs(Mathf.Sin(i)) * 8f;
 
-                _scene.AddEntity(_prefabs.GetCollectible(_prefabs.InteractableConfig.CloneNpc(island.Id, position + offset), type, fallDestination + offset));
+                _scene.AddEntity(_prefabs.GetCollectible(_prefabs.InteractableConfig.CloneNpc(island.Id, position + offset, talkAreaRadius: 28), type, fallDestination + offset));
 
                 offset = default;
             }

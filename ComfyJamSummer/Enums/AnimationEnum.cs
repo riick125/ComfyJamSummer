@@ -53,6 +53,7 @@
 
     public enum UISprite
     {
+        aim,
         build,
         health_bar,
         health_bg,

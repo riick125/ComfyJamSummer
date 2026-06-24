@@ -10,6 +10,7 @@ namespace ComfyJamSummer
         public const string PLAYER = "PlayerUI";
         public const string CRAB = "CrabUI";
         public const string WAVE = "WaveUI";
+        public const string MENU = "MenuUI";
         public const string PAUSE = "PauseUI";
     }
 
@@ -51,7 +52,7 @@ namespace ComfyJamSummer
 
         public const float ALIVE_ENEMIES_GROW_PERCENT = 1f;
 
-        public const float ALIVE_ENEMIES_MODIFIER_VALUE = 0.15f;
+        public const float ALIVE_ENEMIES_MODIFIER_VALUE = 0.18f;
 
         public const float START_COOLDOWN = 5f;
 
@@ -135,7 +136,7 @@ namespace ComfyJamSummer
 
     public static class PlayerValues
     {
-        public static float HP = 300;
+        public static float HP = 250;
 
         public static float SPEED = 100;
 
@@ -160,19 +161,21 @@ namespace ComfyJamSummer
 
     public static class EnemyValues
     {
-        public const float HP = 75;
+        public const float HP = 70;
 
-        public const float DMG = 10.75f;
+        public const float DMG = 8.75f;
 
         public const float CRITICAL_CHANCE = 0.01f;
 
-        public const float SPEED = 99;
+        public const float SPEED = 90;
 
-        public const float BULLET_SPEED = 123;
+        public const float BULLET_SPEED = 122;
 
-        public const float ATK_SPEED = 3f;
+        public const float MAX_ANGLE_SPREAD = 7f;
 
-        public const float IDLE_TIME_STATE = 0.5f;
+        public const float ATK_SPEED = 3.25f;
+
+        public const float IDLE_TIME_STATE = 0.75f;
 
         public const float MOVE_TIME_STATE = 10f;
 
@@ -185,14 +188,14 @@ namespace ComfyJamSummer
 
     public static class BuffEnemyModifierValues
     {
-        public const float HP = 0.15f;
+        public const float HP = 0.135f;
 
-        public const float DMG = 0.12f;
+        public const float DMG = 0.1f;
 
         public const float SPEED = 0.028f;
 
-        public const float ATK_SPEED = 0.065f;
+        public const float ATK_SPEED = 0.019f;
 
-        public const float BULLET_SPEED = 0.012f;
+        public const float BULLET_SPEED = 0.015f;
     }
 }

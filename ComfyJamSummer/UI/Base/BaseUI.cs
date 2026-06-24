@@ -57,15 +57,15 @@ namespace ComfyJamSummer.UI.Base
             _camera = _scene.Camera;
         }
 
-        protected bool Validate()
+        protected bool Validate(bool ignoreManager = false)
         {
             if (_prefabs == null || _manager == null || _scene == null || _camera == null)
             {
                 return false;
             }
 
-            if (_manager.CantDoAnyAction)
-            {                
+            if (!ignoreManager && _manager.CantDoAnyAction)
+            {
                 return false;
             }
 

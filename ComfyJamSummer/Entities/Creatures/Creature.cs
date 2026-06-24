@@ -400,7 +400,14 @@ namespace ComfyJamSummer.Entities.Creatures
             {
                 isCritical = Nez.Random.Chance(bullet.CriticalChance);
 
-                dmg *= isCritical ? 1.5f : 1f; 
+                dmg *= isCritical ? 1.5f : 1f;
+            }
+
+            var cameraShake = Scene?.Camera?.GetComponent<CameraShake>();
+
+            if (cameraShake != null)
+            {
+                cameraShake.Shake(isCritical ? 2f : 1f);
             }
 
             dmg = float.Round(dmg);
@@ -452,6 +459,20 @@ namespace ComfyJamSummer.Entities.Creatures
 
             if (!IsAlive)
             {
+                if (this is Enemy)
+                {
+                    var player = UtilHelper.Player();
+
+                    if (player != null)
+                    {
+                        var points = 25 * (isCritical ? 2 : 1);
+
+                        player.PendingPoints.Enqueue(points);
+
+                        PlayerUI.Emitter?.Emit(UIEvent.SendFloatingPoints, new UIEventData() { Target = player, FloatingPoints = points });
+                    }
+                }
+
                 AnimHelper.Play(Animator, CreatureAnim.Dying);
 
                 prefabs?.PlaySoundRandomPitch(SoundFxName.Flesh, 0.04f);

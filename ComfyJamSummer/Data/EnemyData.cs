@@ -79,6 +79,7 @@ namespace ComfyJamSummer.Data
                     CriticalChance = EnemyValues.CRITICAL_CHANCE,
                     Speed = EnemyValues.SPEED,
                     BulletSpeed = EnemyValues.BULLET_SPEED,
+                    MaxAngleSpread = EnemyValues.MAX_ANGLE_SPREAD,
                     AtkSpeed = EnemyValues.ATK_SPEED,
                     IdleTimeState = EnemyValues.IDLE_TIME_STATE,
                     MoveTimeState = EnemyValues.MOVE_TIME_STATE,

@@ -126,6 +126,9 @@ namespace ComfyJamSummer.Entities
                 Speed *= config.SpeedModifier;
                 BulletSpeed *= config.BulletSpeedModifier;
                 AtkSpeed *= config.AtkSpeedModifier;
+                IdleTimeState *= config.AtkSpeedModifier;
+                PatrolTimeState *= config.AtkSpeedModifier;
+                MoveTimeState *= config.AtkSpeedModifier;
                 ActualHP = MaxHP;
             }
         }

@@ -10,6 +10,8 @@ namespace ComfyJamSummer.Manager
 {
     public class GameManager : SceneComponent
     {
+        public bool IsGameStarted { get; set; }
+
         public bool IsGamePaused { get; set; }
 
         public bool IsGameOver { get; set; }
@@ -27,7 +29,7 @@ namespace ComfyJamSummer.Manager
             }
         }
 
-        public bool CantDoAnyAction { get { return TimeLeftToEndGameStartDelay > 0 || IsGameOver || IsAnyCutSceneRunning || IsGamePaused; } }
+        public bool CantDoAnyAction { get { return TimeLeftToEndGameStartDelay > 0 || IsGameOver || IsAnyCutSceneRunning || IsGamePaused || !IsGameStarted; } }
 
         public float TimeLeftToEndGameStartDelay { get; set; }
 
@@ -81,6 +83,19 @@ namespace ComfyJamSummer.Manager
                 var pauseCanvas = UIHelper.GetCanvas(UINames.PAUSE);
 
                 pauseCanvas?.SetEnabled(IsGamePaused);
+            }
+
+            IsGameStarted = UIHelper.GetCanvas(UINames.MENU) == null;
+
+            if (Input.CurrentKeyboardState.GetPressedKeyCount() > 0 && !IsGameStarted)
+            {
+                SoundHelper.PlayRandomSound(Enums.SoundFxName.Collect_1);
+
+                Time.TimeScale = 1;
+
+                var menuCanvas = UIHelper.GetCanvas(UINames.MENU);
+
+                menuCanvas?.Entity?.Destroy();
             }
         }
     }

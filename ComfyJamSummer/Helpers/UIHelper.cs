@@ -220,6 +220,27 @@ namespace ComfyJamSummer.Extensions
             }
         }
 
+        public static void RemoveFromContainer(Container container, Element element)
+        {
+            if (container == null)
+            {
+                return;
+            }
+
+            var children = container.GetChildren();
+
+            for (int i = children.Count - 1; i >= 0; i--)
+            {
+                var child = children[i];
+
+                if (child == element)
+                {
+                    children.RemoveAt(i);
+                    child.Remove();
+                }
+            }
+        }
+
         public static void RemoveFromContainer(Group container, Element element)
         {
             if (container == null || element == null)

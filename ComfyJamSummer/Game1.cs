@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using ComfyJamSummer.Components.Extensions;
+﻿using ComfyJamSummer.Components.Extensions;
 using ComfyJamSummer.Components.General;
 using ComfyJamSummer.Enums;
 using ComfyJamSummer.Helpers;
@@ -11,8 +8,10 @@ using ComfyJamSummer.Scenes;
 using ComfyJamSummer.Scenes.Base;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using Nez;
+using System;
+using System.Diagnostics;
+using System.IO;
 
 namespace ComfyJamSummer
 {
@@ -38,10 +37,6 @@ namespace ComfyJamSummer
         public static GameResolution ChosenResolution;
 
         static float _minGameZoom = Constants.MIN_GAME_ZOOM;
-
-        static float _gameZoom = 2;
-
-        static float _gameMaxZoom = 3;
 
         public static float GameZoom { get; private set; }
         public static float GameMaxZoom { get; private set; }
@@ -85,9 +80,6 @@ namespace ComfyJamSummer
             }
             catch (Exception ex)
             {
-#if DEBUG
-                throw ex;
-#endif
             }
         }
 
@@ -129,14 +121,7 @@ namespace ComfyJamSummer
                 return;
             }
 
-            //CursorInsideGame?.UpdateWindowBounds(Window.ClientBounds.Width, Window.ClientBounds.Height);
-
-#if DEBUG
-            //if (Input.IsKeyPressed(Keys.Escape))
-            //{
-            //    Exit();
-            //}
-#endif
+            CursorInsideGame?.UpdateWindowBounds(Window.ClientBounds.Width, Window.ClientBounds.Height);
 
             base.Update(gameTime);
         }
@@ -165,11 +150,11 @@ namespace ComfyJamSummer
             };
 
             _fps = fps;
-            Window.IsBorderless = false;
+            Window.IsBorderless = true;
             PauseOnFocusLost = false;
             ChosenResolution = chosenResolution;
 
-            IsMouseVisible = true;
+            IsMouseVisible = false;
             ExitOnEscapeKeypress = false;
             Batcher.UseFnaHalfPixelMatrix = false;
             Core.DefaultSamplerState = SamplerState.PointClamp;

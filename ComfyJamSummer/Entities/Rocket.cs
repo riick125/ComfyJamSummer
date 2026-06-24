@@ -104,8 +104,8 @@ namespace ComfyJamSummer.Entities
 
             clone.BuildPhases = new List<RocketBuildPhase>();
 
-            var hitsPerPhase = 85;
-            var hitsGrowPerPhase = 40;
+            var hitsPerPhase = 115;
+            var hitsGrowPerPhase = 60;
 
             foreach (var item in totalPhases)
             {
@@ -123,7 +123,7 @@ namespace ComfyJamSummer.Entities
             InteractText.SetEnabled(BuildPhases.All(x => x.IsDone));
         }
 
-        public void ProgressBuild()
+        public void ProgressBuild(bool isSatiated)
         {
             if (BuildPhases == null)
             {
@@ -147,7 +147,30 @@ namespace ComfyJamSummer.Entities
             }
             else
             {
-                _actualPhase.ActualHits++;
+                var points = 5;
+
+                var hitsValue = 1;
+
+                var player = UtilHelper.Player();
+
+                if (Nez.Random.Chance(5) && isSatiated)
+                {
+                    var textOffset = new Vector2(SpriteWidth / 4 * (Nez.Random.Chance(50) ? 1 : -1), -SpriteHeight / 8);
+
+                    var config = new BesideTextConfig(this, $"Fast building!", offset: textOffset, smallText: true, color: Constants.YELLOW_COLOR, duration: 1.1f);
+                    TextHelper.CreateGoingUpBesideText(config);
+
+                    Prefabs?.PlaySoundRandomPitch(SoundFxName.Bash, 0.25f);
+
+                    points = 10;
+                    hitsValue = (int)(MaxProgress * 0.032f);
+                }
+
+                player?.PendingPoints.Enqueue(points);
+
+                PlayerUI.Emitter?.Emit(UIEvent.SendFloatingPoints, new UIEventData() { Target = player, FloatingPoints = points });
+
+                _actualPhase.ActualHits += hitsValue;
 
                 CrabUI.Emitter?.Emit(UIEvent.UpdateBuildBar, new UIEventData() { Target = this });
 

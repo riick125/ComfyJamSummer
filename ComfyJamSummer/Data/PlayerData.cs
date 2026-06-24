@@ -68,7 +68,7 @@ namespace ComfyJamSummer.Data
             gun.MagSize = 32;
             gun.ActualAmmo = gun.MagSize;
             gun.ActualAngleSpread = 2.2f;
-            gun.MaxAngleSpread = 4f;
+            gun.MaxAngleSpread = 5f;
 
             return gun;
         }

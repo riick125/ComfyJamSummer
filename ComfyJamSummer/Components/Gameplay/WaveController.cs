@@ -21,10 +21,10 @@ namespace ComfyJamSummer.Components.Gameplay
 
         public WaveController(GameManager manager, Prefabs prefabs) : base(manager, prefabs)
         {
-            _maxEnemyQtyPerSpawn = 6;
+            _maxEnemyQtyPerSpawn = 8;
             _minEnemyQtyPerSpawn = _maxEnemyQtyPerSpawn / 2;
 
-            _spawnCooldown = 4;
+            _spawnCooldown = 2.75f;
         }
 
         public override void OnAddedToEntity()
@@ -70,7 +70,7 @@ namespace ComfyJamSummer.Components.Gameplay
                             count++;
                         }
 
-                        _timeLeftToNextSpawn = _spawnCooldown;
+                        _timeLeftToNextSpawn = _spawnCooldown * Nez.Random.Range(0.75f, 1f);
                     }
                     else
                     {

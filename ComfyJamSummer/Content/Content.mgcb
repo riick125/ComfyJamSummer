@@ -21,29 +21,11 @@
 /processorParam:Quality=Best
 /build:sounds/bash.wav
 
-#begin sounds/bash.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/bash.wav
-
 #begin sounds/collect_1.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:sounds/collect_1.wav
-
-#begin sounds/collect_1.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/collect_1.wav
-
-#begin sounds/collect_2.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/collect_2.wav
 
 #begin sounds/collect_2.wav
 /importer:WavImporter
@@ -57,29 +39,11 @@
 /processorParam:Quality=Best
 /build:sounds/collect_3.wav
 
-#begin sounds/collect_3.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/collect_3.wav
-
 #begin sounds/crunch.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:sounds/crunch.wav
-
-#begin sounds/crunch.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/crunch.wav
-
-#begin sounds/enemy_shot.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/enemy_shot.wav
 
 #begin sounds/enemy_shot.wav
 /importer:WavImporter
@@ -93,18 +57,6 @@
 /processorParam:Quality=Best
 /build:sounds/flesh.wav
 
-#begin sounds/flesh.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/flesh.wav
-
-#begin sounds/hammer_hit.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/hammer_hit.wav
-
 #begin sounds/hammer_hit.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -117,29 +69,11 @@
 /processorParam:Quality=Best
 /build:sounds/heal.wav
 
-#begin sounds/heal.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/heal.wav
-
 #begin sounds/hit.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:sounds/hit.wav
-
-#begin sounds/hit.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/hit.wav
-
-#begin sounds/item_collect.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/item_collect.wav
 
 #begin sounds/item_collect.wav
 /importer:WavImporter
@@ -159,29 +93,11 @@
 /processorParam:Quality=Best
 /build:sounds/reloading.wav
 
-#begin sounds/reloading.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/reloading.wav
-
 #begin sounds/rocket_launch.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:sounds/rocket_launch.wav
-
-#begin sounds/rocket_launch.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/rocket_launch.wav
-
-#begin sounds/smg_shot.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/smg_shot.wav
 
 #begin sounds/smg_shot.wav
 /importer:WavImporter
@@ -195,29 +111,11 @@
 /processorParam:Quality=Best
 /build:sounds/typing_1.wav
 
-#begin sounds/typing_1.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/typing_1.wav
-
 #begin sounds/typing_2.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:sounds/typing_2.wav
-
-#begin sounds/typing_2.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/typing_2.wav
-
-#begin sounds/typing_3.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/typing_3.wav
 
 #begin sounds/typing_3.wav
 /importer:WavImporter
@@ -231,29 +129,11 @@
 /processorParam:Quality=Best
 /build:sounds/typing_4.wav
 
-#begin sounds/typing_4.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/typing_4.wav
-
 #begin sounds/typing_5.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:sounds/typing_5.wav
-
-#begin sounds/typing_5.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/typing_5.wav
-
-#begin sounds/typing_6.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/typing_6.wav
 
 #begin sounds/typing_6.wav
 /importer:WavImporter
@@ -267,29 +147,11 @@
 /processorParam:Quality=Best
 /build:sounds/walk_1.wav
 
-#begin sounds/walk_1.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/walk_1.wav
-
 #begin sounds/walk_2.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:sounds/walk_2.wav
-
-#begin sounds/walk_2.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/walk_2.wav
-
-#begin sounds/walk_3.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/walk_3.wav
 
 #begin sounds/walk_3.wav
 /importer:WavImporter
@@ -303,11 +165,17 @@
 /processorParam:Quality=Best
 /build:sounds/walk_4.wav
 
-#begin sounds/walk_4.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/walk_4.wav
+#begin sprites/gameplay/bullets/enemy_bullet_collision.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/bullets/enemy_bullet_collision.png
 
 #begin sprites/gameplay/bullets/enemy_bullet_collision.png
 /importer:TextureImporter
@@ -333,6 +201,18 @@
 /processorParam:TextureFormat=Color
 /build:sprites/gameplay/bullets/enemy_bullet_idle.png
 
+#begin sprites/gameplay/bullets/enemy_bullet_idle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/bullets/enemy_bullet_idle.png
+
 #begin sprites/gameplay/bullets/friendly_bullet_collision.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -344,6 +224,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sprites/gameplay/bullets/friendly_bullet_collision.png
+
+#begin sprites/gameplay/bullets/friendly_bullet_collision.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/bullets/friendly_bullet_collision.png
+
+#begin sprites/gameplay/bullets/friendly_bullet_idle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/bullets/friendly_bullet_idle.png
 
 #begin sprites/gameplay/bullets/friendly_bullet_idle.png
 /importer:TextureImporter
@@ -369,6 +273,18 @@
 /processorParam:TextureFormat=Color
 /build:sprites/gameplay/collectibles/fried_chicken.png
 
+#begin sprites/gameplay/collectibles/fried_chicken.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/collectibles/fried_chicken.png
+
 #begin sprites/gameplay/collectibles/sandwich.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -380,6 +296,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sprites/gameplay/collectibles/sandwich.png
+
+#begin sprites/gameplay/collectibles/sandwich.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/collectibles/sandwich.png
+
+#begin sprites/gameplay/collectibles/sliced_bread.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/collectibles/sliced_bread.png
 
 #begin sprites/gameplay/collectibles/sliced_bread.png
 /importer:TextureImporter
@@ -405,6 +345,18 @@
 /processorParam:TextureFormat=Color
 /build:sprites/gameplay/effects/poof.png
 
+#begin sprites/gameplay/effects/poof.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/effects/poof.png
+
 #begin sprites/gameplay/enemies/birb_atk.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -416,6 +368,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sprites/gameplay/enemies/birb_atk.png
+
+#begin sprites/gameplay/enemies/birb_atk.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/enemies/birb_atk.png
+
+#begin sprites/gameplay/enemies/birb_idle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/enemies/birb_idle.png
 
 #begin sprites/gameplay/enemies/birb_idle.png
 /importer:TextureImporter
@@ -441,6 +417,18 @@
 /processorParam:TextureFormat=Color
 /build:sprites/gameplay/guns/smg_idle.png
 
+#begin sprites/gameplay/guns/smg_idle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/guns/smg_idle.png
+
 #begin sprites/gameplay/guns/smg_shoot.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -452,6 +440,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sprites/gameplay/guns/smg_shoot.png
+
+#begin sprites/gameplay/guns/smg_shoot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/guns/smg_shoot.png
+
+#begin sprites/gameplay/map/bread_bag.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/map/bread_bag.png
 
 #begin sprites/gameplay/map/bread_bag.png
 /importer:TextureImporter
@@ -477,6 +489,18 @@
 /processorParam:TextureFormat=Color
 /build:sprites/gameplay/map/rocket/rocket_build_1.png
 
+#begin sprites/gameplay/map/rocket/rocket_build_1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/map/rocket/rocket_build_1.png
+
 #begin sprites/gameplay/map/rocket/rocket_build_2.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -488,6 +512,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sprites/gameplay/map/rocket/rocket_build_2.png
+
+#begin sprites/gameplay/map/rocket/rocket_build_2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/map/rocket/rocket_build_2.png
+
+#begin sprites/gameplay/map/rocket/rocket_build_3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/map/rocket/rocket_build_3.png
 
 #begin sprites/gameplay/map/rocket/rocket_build_3.png
 /importer:TextureImporter
@@ -513,6 +561,18 @@
 /processorParam:TextureFormat=Color
 /build:sprites/gameplay/map/rocket/rocket_done.png
 
+#begin sprites/gameplay/map/rocket/rocket_done.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/map/rocket/rocket_done.png
+
 #begin sprites/gameplay/map/rocket/rocket_flying.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -524,6 +584,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sprites/gameplay/map/rocket/rocket_flying.png
+
+#begin sprites/gameplay/map/rocket/rocket_flying.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/map/rocket/rocket_flying.png
+
+#begin sprites/gameplay/map/stone.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/map/stone.png
 
 #begin sprites/gameplay/map/stone.png
 /importer:TextureImporter
@@ -549,6 +633,18 @@
 /processorParam:TextureFormat=Color
 /build:sprites/gameplay/map/water.png
 
+#begin sprites/gameplay/map/water.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/map/water.png
+
 #begin sprites/gameplay/npcs/crab/crab_build.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -560,6 +656,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sprites/gameplay/npcs/crab/crab_build.png
+
+#begin sprites/gameplay/npcs/crab/crab_build.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/npcs/crab/crab_build.png
+
+#begin sprites/gameplay/npcs/crab/crab_eat.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/npcs/crab/crab_eat.png
 
 #begin sprites/gameplay/npcs/crab/crab_eat.png
 /importer:TextureImporter
@@ -585,6 +705,18 @@
 /processorParam:TextureFormat=Color
 /build:sprites/gameplay/npcs/crab/crab_hungry.png
 
+#begin sprites/gameplay/npcs/crab/crab_hungry.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/npcs/crab/crab_hungry.png
+
 #begin sprites/gameplay/npcs/crab/crab_idle.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -596,6 +728,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sprites/gameplay/npcs/crab/crab_idle.png
+
+#begin sprites/gameplay/npcs/crab/crab_idle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/npcs/crab/crab_idle.png
+
+#begin sprites/gameplay/npcs/crab/crab_talk.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/npcs/crab/crab_talk.png
 
 #begin sprites/gameplay/npcs/crab/crab_talk.png
 /importer:TextureImporter
@@ -621,6 +777,18 @@
 /processorParam:TextureFormat=Color
 /build:sprites/gameplay/npcs/crab/crab_walk.png
 
+#begin sprites/gameplay/npcs/crab/crab_walk.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/npcs/crab/crab_walk.png
+
 #begin sprites/gameplay/npcs/raisin/raisin-idle.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -632,6 +800,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sprites/gameplay/npcs/raisin/raisin-idle.png
+
+#begin sprites/gameplay/npcs/raisin/raisin-idle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/npcs/raisin/raisin-idle.png
+
+#begin sprites/gameplay/npcs/raisin/raisin-talk.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/npcs/raisin/raisin-talk.png
 
 #begin sprites/gameplay/npcs/raisin/raisin-talk.png
 /importer:TextureImporter
@@ -657,6 +849,18 @@
 /processorParam:TextureFormat=Color
 /build:sprites/gameplay/player/player_idle.png
 
+#begin sprites/gameplay/player/player_idle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/player/player_idle.png
+
 #begin sprites/gameplay/player/player_walk.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -668,6 +872,42 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sprites/gameplay/player/player_walk.png
+
+#begin sprites/gameplay/player/player_walk.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/player/player_walk.png
+
+#begin sprites/gameplay/ui/aim.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/ui/aim.png
+
+#begin sprites/gameplay/ui/build.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/ui/build.png
 
 #begin sprites/gameplay/ui/build.png
 /importer:TextureImporter
@@ -693,6 +933,18 @@
 /processorParam:TextureFormat=Color
 /build:sprites/gameplay/ui/health_bar.png
 
+#begin sprites/gameplay/ui/health_bar.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/ui/health_bar.png
+
 #begin sprites/gameplay/ui/health_bg.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -704,6 +956,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sprites/gameplay/ui/health_bg.png
+
+#begin sprites/gameplay/ui/health_bg.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/ui/health_bg.png
+
+#begin sprites/gameplay/ui/health_border.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/ui/health_border.png
 
 #begin sprites/gameplay/ui/health_border.png
 /importer:TextureImporter
@@ -729,6 +1005,18 @@
 /processorParam:TextureFormat=Color
 /build:sprites/gameplay/ui/heart.png
 
+#begin sprites/gameplay/ui/heart.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/ui/heart.png
+
 #begin sprites/gameplay/ui/mini_bar_bar.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -740,6 +1028,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sprites/gameplay/ui/mini_bar_bar.png
+
+#begin sprites/gameplay/ui/mini_bar_bar.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/ui/mini_bar_bar.png
+
+#begin sprites/gameplay/ui/mini_bar_bg.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/ui/mini_bar_bg.png
 
 #begin sprites/gameplay/ui/mini_bar_bg.png
 /importer:TextureImporter
@@ -765,6 +1077,18 @@
 /processorParam:TextureFormat=Color
 /build:sprites/gameplay/ui/mini_bar_border.png
 
+#begin sprites/gameplay/ui/mini_bar_border.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/ui/mini_bar_border.png
+
 #begin sprites/gameplay/ui/patience.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -776,6 +1100,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sprites/gameplay/ui/patience.png
+
+#begin sprites/gameplay/ui/patience.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/ui/patience.png
+
+#begin sprites/gameplay/ui/satiation.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/gameplay/ui/satiation.png
 
 #begin sprites/gameplay/ui/satiation.png
 /importer:TextureImporter

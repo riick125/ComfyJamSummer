@@ -27,6 +27,9 @@ namespace ComfyJamSummer.Entities
         public Vector2 Direction { get; set; }
 
         public List<uint> ObjectsHittedByBullet { get; set; }
+
+        int _bodyPenetrationLimit = 2;
+
         public bool CreateImpactEffect { get; set; }
 
         float _losingColorSpeed = 8f;
@@ -44,6 +47,8 @@ namespace ComfyJamSummer.Entities
             {
                 clone.Animator.FlipX = config.Direction.X < 0;
             }
+
+            clone._bodyPenetrationLimit = _bodyPenetrationLimit;
 
             HydrateValues(clone, config);
 
@@ -133,7 +138,7 @@ namespace ComfyJamSummer.Entities
 
                     var hits = new Collider[8];
 
-                    Physics.OverlapCircleAll(this.Position, 5, hits);
+                    Physics.OverlapCircleAll(this.Position, 4, hits);
 
                     hits = hits.Where(x => x != null && x.Entity != null && x.Entity.Id != Id).ToArray();
 
@@ -169,7 +174,13 @@ namespace ComfyJamSummer.Entities
                                 break;
                         }
 
-                        Collided = wasHit;
+                        if (wasHit)
+                        {
+                            _bodyPenetrationLimit--;
+                            Damage *= 0.75f;
+                        }
+
+                        Collided = wasHit && _bodyPenetrationLimit <= 0;
                     }
                 }
             }

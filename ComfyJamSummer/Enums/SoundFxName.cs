@@ -17,6 +17,7 @@
         Piu_2,
         Poof,
         Reloading,
+        Rocket_Launch,
         Smg_Shot,
         Typing_1,
         Typing_2,

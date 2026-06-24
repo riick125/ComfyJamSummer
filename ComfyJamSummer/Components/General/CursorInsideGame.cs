@@ -1,4 +1,5 @@
 ﻿using ComfyJamSummer.Helpers;
+using ComfyJamSummer.Manager;
 using ComfyJamSummer.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -10,19 +11,41 @@ namespace ComfyJamSummer.Components.General
     {
         int _windowWidth, _windowHeight;
 
+        int _safeDistanceX, _safeDistanceY;
+
+        GameManager _manager;
+
         public CursorInsideGame(int windowWidth, int windowHeight)
         {
             _windowWidth = windowWidth;
             _windowHeight = windowHeight;
+
+            SetSafeDistance();
+        }
+
+        public override void OnEnabled()
+        {
+            base.OnEnabled();
+
+            _manager = UtilHelper.GameManager();
         }
 
         public override void Update()
         {
             base.Update();
 
-#if DEBUG
-            return;
-#endif
+            if(!Core.Instance.IsActive)
+            {
+                return;
+            }
+
+            if (_manager != null && _manager.IsGamePaused)
+            {
+                Core.Instance.IsMouseVisible = true;
+                return;
+            }
+
+            Core.Instance.IsMouseVisible = false;
 
             var gameManager = UtilHelper.GameManager();
 
@@ -47,15 +70,15 @@ namespace ComfyJamSummer.Components.General
                     Point relativeCursorPos = new Point(mouseState.X, mouseState.Y);
                     Point relativeCursorPosCache = relativeCursorPos;
 
-                    if (relativeCursorPos.X < 0)
+                    if (relativeCursorPos.X < _safeDistanceX)
                         relativeCursorPos.X = 1;
-                    else if (relativeCursorPos.X > _windowWidth)
-                        relativeCursorPos.X = _windowWidth - 1;
+                    else if (relativeCursorPos.X > _windowWidth - _safeDistanceX)
+                        relativeCursorPos.X = _windowWidth - _safeDistanceX;
 
-                    if (relativeCursorPos.Y < 0)
+                    if (relativeCursorPos.Y < _safeDistanceY)
                         relativeCursorPos.Y = 1;
-                    else if (relativeCursorPos.Y > _windowHeight)
-                        relativeCursorPos.Y = _windowHeight - 1;
+                    else if (relativeCursorPos.Y > _windowHeight - _safeDistanceY)
+                        relativeCursorPos.Y = _windowHeight - _safeDistanceY;
 
                     if (relativeCursorPos != relativeCursorPosCache)
                         Mouse.SetPosition(relativeCursorPos.X, relativeCursorPos.Y);
@@ -72,6 +95,14 @@ namespace ComfyJamSummer.Components.General
 
             _windowWidth = width;
             _windowHeight = height;
+
+            SetSafeDistance();
+        }
+
+        void SetSafeDistance()
+        {
+            _safeDistanceX = (int)(_windowWidth * 0.005f);
+            _safeDistanceY = (int)(_windowHeight * 0.005f);
         }
     }
 }

@@ -55,7 +55,7 @@ namespace ComfyJamSummer.UI
 
             _rocket = UtilHelper.GetEntity<Rocket>();
 
-            if (!ValidateCrab())
+            if (!ValidateCrab(true))
             {
                 this.RemoveComponent();
 
@@ -262,9 +262,9 @@ namespace ComfyJamSummer.UI
             return imgIcon;
         }
 
-        bool ValidateCrab()
+        bool ValidateCrab(bool ignoreManager = false)
         {
-            if (!Validate())
+            if (!Validate(ignoreManager))
             {
                 return false;
             }

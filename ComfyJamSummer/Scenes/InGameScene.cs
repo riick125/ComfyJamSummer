@@ -1,11 +1,13 @@
 ﻿using ComfyJamSummer.Components.Extensions;
 using ComfyJamSummer.Components.Gameplay;
+using ComfyJamSummer.Components.General;
 using ComfyJamSummer.Components.Visuals;
 using ComfyJamSummer.CustomPostProcessors;
 using ComfyJamSummer.Entities;
 using ComfyJamSummer.Helpers;
 using ComfyJamSummer.Scenes.Base;
 using ComfyJamSummer.UI;
+using ComfyJamSummer.UI.Screens;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Nez;
@@ -58,7 +60,11 @@ namespace ComfyJamSummer.Scenes
 
                 CreateEntity(UINames.PAUSE).AddComponent(new PauseUI(_gameManager, _prefabs));
 
+                CreateEntity(UINames.MENU).AddComponent(new MenuUI(_gameManager, _prefabs));
+
                 Camera.AddComponent(new CameraShake());
+
+                AddSceneComponent(new CursorInsideGame(Screen.Width, Screen.Height));
             }
         }
 

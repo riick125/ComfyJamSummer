@@ -75,6 +75,8 @@ namespace ComfyJamSummer.Components.Gameplay
             {
                 crab.EatSandwich();
 
+                _player.Heal(_player.MaxHP * Nez.Random.Range(0.1f, 0.12f));
+
                 _player.Sandwich.Destroy();
                 _player.Sandwich = null;
             }
