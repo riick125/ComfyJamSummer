@@ -156,7 +156,7 @@ namespace ComfyJamSummer.Entities
 
             if (reduce)
             {
-                if (Nez.Random.Chance(0.35f))
+                if (Nez.Random.Chance(0.3f))
                 {
                     var lowValue = _maxSatiation * _satiationLowPercent;
 
@@ -165,9 +165,9 @@ namespace ComfyJamSummer.Entities
                     value += extraLossValue;
                 }
             }
-            else if (Nez.Random.Chance(0.2f))
+            else if (Nez.Random.Chance(0.2275f))
             {
-                value *= 1.2f;
+                value *= IsHungry ? Nez.Random.Range(1.3f, 1.337f) : Nez.Random.Range(1.2f, 1.23f);
             }
 
             _satiation += reduce ? -value : value;
