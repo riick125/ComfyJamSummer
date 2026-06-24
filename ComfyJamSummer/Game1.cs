@@ -70,7 +70,7 @@ namespace ComfyJamSummer
         private Stopwatch stopwatch;
         private static double targetFrameTime;
 
-        public Game1(GameResolution chosenResolution, int width = 1280, int height = 720, uint fps = 60, bool isFullScreen = false) : base(width, height, isFullScreen)
+        public Game1(GameResolution chosenResolution, int width = 1280, int height = 720, uint fps = 69, bool isFullScreen = false) : base(width, height, isFullScreen)
         {
             try
             {
