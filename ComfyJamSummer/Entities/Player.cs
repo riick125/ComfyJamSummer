@@ -16,6 +16,12 @@ namespace ComfyJamSummer.Entities
 {
     public class Player : Creature
     {
+        public float TimeLeftToBeAttackable { get; set; }
+
+        public float ImmuneTime { get; set; }
+
+        public bool IsImmune => TimeLeftToBeAttackable > 0;
+
         public Gun Gun { get; set; }
 
         public FriedChicken FriedChicken { get; set; }
@@ -40,6 +46,7 @@ namespace ComfyJamSummer.Entities
         public Player ClonePlayer(PlayerConfig config)
         {
             var clone = base.CloneCreature(config) as Player;
+            clone.ImmuneTime = 0.3f;
             clone.PendingPoints = new Queue<int>();
             clone._pendingPointsProcessCd = _pendingPointsProcessCd;
             clone.Name = EntityNames.PLAYER;
@@ -74,6 +81,13 @@ namespace ComfyJamSummer.Entities
             if (!IsAlive)
             {
                 SpiralDisappear(false);
+            }
+            else
+            {
+                if (TimeLeftToBeAttackable > 0)
+                {
+                    TimeLeftToBeAttackable -= Time.DeltaTime;
+                }
             }
 
             if (!Validate())

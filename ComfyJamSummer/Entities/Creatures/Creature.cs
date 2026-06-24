@@ -394,6 +394,18 @@ namespace ComfyJamSummer.Entities.Creatures
                 dmg = 1;
             }
 
+            Player player = null;
+
+            if (this is Player)
+            {
+                player = this as Player;
+
+                if (player.IsImmune)
+                {
+                    return false;
+                }
+            }
+
             var isCritical = false;
 
             if (bullet != null)
@@ -418,6 +430,11 @@ namespace ComfyJamSummer.Entities.Creatures
             ActualHP = Mathf.Clamp(ActualHP, 0, MaxHP);
             LastReduceValueTaken = dmg;
 
+            if (player != null)
+            {
+                player.TimeLeftToBeAttackable = player.ImmuneTime;
+            }
+
             var prefabs = UtilHelper.Prefabs();
             if (prefabs != null)
             {
@@ -434,7 +451,7 @@ namespace ComfyJamSummer.Entities.Creatures
                 this.Scene.AddEntity(poof);
             }
 
-            if (this is Player)
+            if (player != null)
                 PlayerUI.Emitter.Emit(UIEvent.ReduceBar, new UIEventData() { Target = this });
 
             var textOffset = new Vector2(SpriteWidth * (Nez.Random.Chance(50) ? 1 : -1), -SpriteHeight / 4);
@@ -461,8 +478,6 @@ namespace ComfyJamSummer.Entities.Creatures
             {
                 if (this is Enemy)
                 {
-                    var player = UtilHelper.Player();
-
                     if (player != null)
                     {
                         var points = 25 * (isCritical ? 2 : 1);
